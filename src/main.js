@@ -1,6 +1,11 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
+// BootstrapVue
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 
 // Vuetify
 import 'vuetify/styles'
@@ -14,4 +19,8 @@ const vuetify = createVuetify({
 
 })
 
-createApp(App).use(vuetify).mount('#app')
+createApp(App)
+    .use(vuetify)
+    .use(BootstrapVue)
+    .use(IconsPlugin)
+    .mount('#app')

@@ -1,12 +1,14 @@
 <script setup>
-
+import NavMenu from "./components/NavMenu.vue";
 </script>
 
 <template>
-  <h4>Em desenvolvimento...</h4>
-  <v-btn>Button</v-btn>
+  <div id="app">
+    <NavMenu />
+    <router-view />
+  </div>
 </template>
 
-<style scoped>
 
+<style scoped>
 </style>
