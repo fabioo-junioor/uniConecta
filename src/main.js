@@ -1,6 +1,9 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
+// VueRouter
+import router from './config/router.js'
+
 // BootstrapVue
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -23,4 +26,5 @@ createApp(App)
     .use(vuetify)
     .use(BootstrapVue)
     .use(IconsPlugin)
+    .use(router)
     .mount('#app')

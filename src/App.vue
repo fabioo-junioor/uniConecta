@@ -1,5 +1,5 @@
 <script setup>
-import NavMenu from "./components/NavMenu.vue";
+import NavMenu from "./components/NavMenu.vue"
 </script>
 
 <template>
@@ -10,5 +10,9 @@ import NavMenu from "./components/NavMenu.vue";
 </template>
 
 
-<style scoped>
+<style lang="scss" scoped>
+#app{
+  height: 100vh;  
+  
+}
 </style>
