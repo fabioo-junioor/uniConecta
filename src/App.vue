@@ -9,10 +9,9 @@ import NavMenu from "./components/NavMenu.vue"
   </div>
 </template>
 
-
 <style lang="scss" scoped>
 #app{
-  height: 100vh;  
-  
+  height: 100vh;
+
 }
 </style>

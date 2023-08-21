@@ -12,7 +12,6 @@
 <style lang="scss" scoped>
 #sobre{
   background-color: green;
-  height: 92%;
   
 }
 </style>

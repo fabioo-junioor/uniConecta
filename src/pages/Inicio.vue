@@ -12,7 +12,6 @@
 <style lang="scss" scoped>
 #inicio{
   background-color: yellow;
-  height: 92%;
   
 }
 </style>
