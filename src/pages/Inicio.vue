@@ -6,7 +6,7 @@
     <div class="inicio-img-draw">
       <img src="../assets/draw/sharing_knowledge.svg" />
     </div>
-    <div class="inicio-ranking">
+    <div class="inicio-ranking" v-if="false">
       <p>
         There are many variations of passages of Lorem Ipsum available, but the
         majority have suffered alteration in some form, by injected humour, or

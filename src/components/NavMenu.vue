@@ -61,12 +61,12 @@ export default{
     padding: 1rem;
 
     .navbar-brand{
-      border: 2px solid rgba(255, 255, 255, 0.7);
+      border: 1px solid #6C63FF;
       border-radius: 5px;
 
     }
     .navbar-brand:hover{
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: #6b63ff23;
     }
 
     #nav-collapse{
@@ -80,16 +80,16 @@ export default{
         font-size: 1.2rem;
         padding: .5rem;
         background-color: transparent;
-        
 
       }
       a:hover{
-        text-decoration: underline;
+        color: #6C63FF;
+        //text-decoration: underline;
 
       }
     }
     a{
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(255, 255, 255, 0.7);
       text-decoration: none;
       font-size: 1.5rem;
       font-weight: 500;
@@ -99,6 +99,10 @@ export default{
 
     }
   
+  }
+  .navbar-toggler{
+    border: 1px solid #6C63FF;
+
   }
 }
 </style>

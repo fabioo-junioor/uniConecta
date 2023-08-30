@@ -48,7 +48,7 @@ export default {
     <div id="loginUser">
       <b-form>
         <div>
-          <img src="../assets/icons/add_person.svg" />
+          <img src="../assets/draw/my_password.svg" />
         </div>
         <div v-if="logar">
           <b-form-input
@@ -107,30 +107,35 @@ export default {
 </template>
 <style lang="scss">
 .modal-content {
-  box-shadow: 1px 1px 5px #252525;
-  border-radius: 10px !important;
+  border-radius: 5px !important;
+  border: none !important;
 
-  .modal-header h5 {
-    color: #252525;
-    font-size: 1.4rem;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  .modal-header{
+    background-color: #232526;
+    border: none !important;
+  
+    h5 {
+      color: #252525;
+      font-size: 1.4rem;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
 
+    }
   }
   .modal-header .close {
-    background-color: rgb(134, 134, 134);
+    background-color: rgba(255, 255, 255, 0.8);
     padding: 0.2rem 0.5rem;
     border: none;
     border-radius: 5px;
-    color: #fff;
+    color: black;
 
   }
   .modal-header .close:hover {
-    background-color: rgb(90, 90, 90);
+    background-color: rgba(255, 255, 255, 0.7);
 
   }
   .modal-body {
     padding: 0;
-    background-color: #fff !important;
+    background-color: #232526 !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
@@ -149,30 +154,32 @@ export default {
   justify-content: center;
   align-items: center;
   width: 100%;
+
 }
 #loginUser form {
-  background-color: #fff;
   width: 100% !important;
   padding: 1rem 1rem;
   border-radius: 5px;
+
 }
 #loginUser form div {
   width: 100% !important;
   display: flex;
   flex-direction: column;
   align-items: center;
+
 }
 #loginUser form img {
-  height: 8rem;
-  margin-bottom: 0.8rem;
+  height: 7rem;
+  margin-bottom: 1rem;
   filter: drop-shadow(1px 1px 3px #252525);
 }
 #loginUser form input {
   margin: 5px 0px;
-  border: none;
+  border: .5px solid white;
   height: 3.5rem;
   border-radius: 5px;
-  background: #232526;
+  background-color: #3e3e3e;
   box-shadow: 2px 2px 5px #252525;
   color: #fff;
 }
@@ -198,19 +205,20 @@ export default {
 }
 #loginUser .link-esqueceu-senha-user {
   margin: 1rem 0;
+
 }
 #loginUser .link-esqueceu-senha-user button {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 0.8rem;
   padding: 0.8rem 2rem;
-  color: #232526;
+  color: rgba(255, 255, 255, 0.8);
   font-weight: bold;
   background-color: transparent;
   border: none;
   border-radius: 10px;
 }
 #loginUser .link-esqueceu-senha-user button:hover {
-  color: red;
+  color: rgba(255, 0, 0, 0.7);
   font-weight: bold;
 }
 </style>
