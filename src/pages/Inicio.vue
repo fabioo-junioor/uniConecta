@@ -38,6 +38,11 @@
     align-items: center;
     justify-content: center;
 
+    img{
+      width: 100%;
+      
+    }
+
   }
   .inicio-ranking{
     width: 40%;

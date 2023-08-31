@@ -109,6 +109,7 @@ export default {
 .modal-content {
   border-radius: 5px !important;
   border: none !important;
+  background-color: transparent !important;
 
   .modal-header{
     background-color: #232526;

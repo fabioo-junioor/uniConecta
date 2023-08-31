@@ -58,7 +58,7 @@ export default{
     background: -webkit-linear-gradient(to right, #414345, #232526);
     background: linear-gradient(to right, #414345, #232526);
 
-    padding: 1rem;
+    padding: .5rem;
 
     .navbar-brand{
       border: 1px solid #6C63FF;
@@ -84,7 +84,8 @@ export default{
       }
       a:hover{
         color: #6C63FF;
-        //text-decoration: underline;
+        text-decoration: underline 3px;
+        text-underline-offset: 95%;
 
       }
     }
