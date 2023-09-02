@@ -35,6 +35,7 @@ export default {
       this.form.senha = "";
       this.form.telefone = null;
       console.log("Resetou");
+    
     },
   },
 };
@@ -51,16 +52,24 @@ export default {
           <img src="../assets/draw/my_password.svg" />
         </div>
         <div v-if="logar">
-          <b-form-input
-            v-model="form.email"
-            type="email"
-            placeholder="Informe seu email: "
-          ></b-form-input>
-          <b-form-input
-            v-model="form.senha"
-            type="password"
-            placeholder="Informe sua senha: "
-          ></b-form-input>
+          <div class="form-floating">
+            <b-form-input
+              id="floatingInput"
+              v-model="form.email"
+              type="email"
+              placeholder="Informe seu email: "
+            ></b-form-input>
+            <label for="floatingInput">Informe seu email:</label>
+          </div>
+          <div class="form-floating">
+            <b-form-input
+              id="floatingInput"
+              v-model="form.senha"
+              type="password"
+              placeholder="Informe sua senha: "
+            ></b-form-input>
+            <label for="floatingInput">Informe sua senha:</label>
+          </div>
           <div class="buttons-login-user">
             <b-button @click="logarUser()" variant="primary">Acessar</b-button>
             <b-button @click="(logar = !logar), reset()" variant="secondary"
@@ -69,26 +78,39 @@ export default {
           </div>
         </div>
         <div v-else>
-          <b-form-input
-            v-model="form.nome"
-            type="text"
-            placeholder="Informe seu nome: "
-          ></b-form-input>
-          <b-form-input
-            v-model="form.email"
-            type="email"
-            placeholder="Informe seu email: "
-          ></b-form-input>
-          <b-form-input
-            v-model="form.telefone"
-            type="number"
-            placeholder="Informe seu telefone: "
-          ></b-form-input>
-          <b-form-input
-            v-model="form.senha"
-            type="password"
-            placeholder="Informe sua senha: "
-          ></b-form-input>
+          <div class="form-floating">
+            <b-form-input
+              id=""
+              v-model="form.nome"
+              type="text"
+              placeholder="Informe seu nome: "
+            ></b-form-input>
+            <label for="floatingInput">Informe seu nome:</label>
+          </div>
+          <div class="form-floating">
+            <b-form-input
+              v-model="form.email"
+              type="email"
+              placeholder="Informe seu email: "
+            ></b-form-input>
+            <label for="floatingInput">Informe seu email:</label>
+          </div>
+          <div class="form-floating">
+            <b-form-input
+              v-model="form.telefone"
+              type="tel"
+              placeholder="Informe seu telefone: "
+            ></b-form-input>
+            <label for="floatingInput">Informe seu telefone:</label>
+          </div>
+          <div class="form-floating">
+            <b-form-input
+              v-model="form.senha"
+              type="password"
+              placeholder="Informe sua senha: "
+            ></b-form-input>
+            <label for="floatingInput">Informe sua senha:</label>
+          </div>
           <div class="buttons-login-user">
             <b-button @click="cadastrarUser()" variant="primary"
               >Salvar</b-button
@@ -184,10 +206,13 @@ export default {
   box-shadow: 2px 2px 5px #252525;
   color: #fff;
 }
-#loginUser form input::placeholder {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 1rem;
+#loginUser form label{
+  color: white;
+  
+}
+#loginUser form label::after{
+  background-color: transparent;
+
 }
 #loginUser div .buttons-login-user {
   display: flex;

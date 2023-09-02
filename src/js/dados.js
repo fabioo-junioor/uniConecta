@@ -1,32 +1,35 @@
+import img from '../assets/draw/education.svg'
 const cursos = [
     {
         "codigo": 1,
         "nome": "nome 1",
-        "criador": "Fabio",
-        "pontos": 5115112
+        "autor": "Fabio",
+        "pontos": 51151,
+        "src": img
     },
     {
         "codigo": 2,
         "nome": "nome 2",
-        "criador": "Fabio",
+        "autor": "Fabio Junior",
         "pontos": 512315
     },
     {
         "codigo": 3,
         "nome": "nome 3",
-        "criador": "Fabio",
-        "pontos": 5115
+        "autor": "Fabio",
+        "pontos": 5115,
+        "src": img
     },
     {
         "codigo": 4,
         "nome": "nome 4",
-        "criador": "Fabio",
+        "autor": "Fabio",
         "pontos": 5554
     },
     {
         "codigo": 5,
         "nome": "nome 5",
-        "criador": "Fabio",
+        "autor": "Fabio",
         "pontos": 51
     }
 ]

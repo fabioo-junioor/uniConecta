@@ -1,15 +1,70 @@
-<script setup>
+<script>
 import ListRanking from '../components/ListRanking.vue'
+import cursos from '../js/dados.js'
 
+export default{
+  name: 'Inicio',
+  components:{ListRanking},
+  data(){
+    return{
+      configRanking: {
+        cursos,
+        titulo: "MAIS CURTIDOS",
+        tituloTipo: "TOTAL LIKES",
+        tipoRanking: false
+
+      },
+      tituloButton: "MAIS COMPRADOS"
+
+    }
+  },
+  methods: {
+    alternaRanking(){
+      console.log("clicou")
+      this.tipoRanking = !this.tipoRanking
+      if(this.configRanking.titulo === "MAIS CURTIDOS"){
+        this.configRanking.titulo = "MAIS COMPRADOS"
+        this.configRanking.tituloTipo = "TOTAL COMPRAS"
+        this.configRanking.tipoRanking = !this.configRanking.tipoRanking
+        this.tituloButton = "MAIS CURTIDOS"
+
+      }else{
+        this.configRanking.titulo = "MAIS CURTIDOS"
+        this.configRanking.tituloTipo = "TOTAL LIKES"
+        this.configRanking.tipoRanking = !this.configRanking.tipoRanking
+        this.tituloButton = "MAIS COMPRADOS"
+
+      }
+    }
+  }
+}
 </script>
 
 <template>
   <div id="inicio">
-    <div class="inicio-ranking-likes">
-      <ListRanking />      
+    <div class="inicio-img-draw">
+      <img src="../assets/draw/sharing_knowledge.svg">
     </div>
-    <div class="inicio-ranking-best-sellers">
-      <ListRanking />      
+    <div class="inicio-ranking">
+      <b-button
+        variant="success"
+        v-on:click="alternaRanking()">{{tituloButton}}</b-button>
+      <div
+        v-if="tipoRanking"
+        class="inicio-ranking-likes">
+        <ListRanking
+          :cursos=configRanking.cursos
+          :titulo=configRanking.titulo
+          :tituloTipo=configRanking.tituloTipo />      
+      </div>
+      <div 
+        v-else
+        class="inicio-ranking-best-sellers">
+        <ListRanking
+          :cursos=configRanking.cursos
+          :titulo=configRanking.titulo 
+          :tituloTipo=configRanking.tituloTipo />     
+      </div>
     </div>
   </div>
 </template>
@@ -22,19 +77,39 @@ import ListRanking from '../components/ListRanking.vue'
   align-items: center;
   padding: 3rem .5rem 0 .5rem;
 
-  .inicio-ranking-likes{
+  .inicio-img-draw{
     width: 40%;
     display: flex;
     align-items: center;
     justify-content: center;
 
   }
-  .inicio-ranking-best-sellers{
+  .inicio-ranking{
     width: 40%;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-end;
     justify-content: center;
 
+    .btn{
+      margin-bottom: .3rem;
+      color: white;
+      font-size: .8rem;
+      font-weight: 500;
+      border: none;
+      padding: .5rem .4rem;
+      background-color: #6C63FF;
+
+    }
+    .btn:hover{
+      background-color: #6b63ffcc;
+
+    }
+    .inicio-ranking-likes,
+    .inicio-ranking-best-sellers{
+      width: 100%;
+
+    }
   }
 }
 </style>

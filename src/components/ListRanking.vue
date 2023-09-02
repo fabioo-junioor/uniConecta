@@ -1,100 +1,71 @@
 <script>
-import cursos from '../js/dados.js'
-
-export default{
-  name: 'ListRanking',
-  data(){
-    return{
-      tituloList: "sdas"
-
-    }
-  }
-}
+export default {
+  name: "ListRanking",
+  data() {
+    return {};
+  },
+  props: {
+    titulo: String,
+    tituloTipo: String,
+    cursos: Array,
+  },
+};
 </script>
 
 <template>
   <div id="list-ranking">
-    <b-list-group>
-      <h3>{{tituloList}}</h3>
-      <b-list-group-item v-for="curso in cursos" :key="curso">
-        <div>
-          <b-card no-body class="overflow-hidden">
-            <b-row no-gutters>
-              <b-col md="2" class="img-logo">
-                <b-card-img
-                  src="https://picsum.photos/400/400/?image=20"
-                  alt="Image"
-                  class="rounded-0"
-                ></b-card-img>
-              </b-col>
-              <b-col md="8" class="nome-criador">
-                <b-card-body :title="curso.nome">
-                  <b-card-text>
-                    {{curso.criador}}
-                  </b-card-text>
-                </b-card-body>
-              </b-col>
-              <b-col md="2" class="posicao">
-                {{curso.pontos}}
-              </b-col>
-            </b-row>
-          </b-card>
-        </div>
-      </b-list-group-item>
-    </b-list-group>
+    <h3>{{ titulo }}</h3>
+    <v-table>
+      <thead>
+        <tr>
+          <th class="text-left">#</th>
+          <th class="text-left">NOME CURSO</th>
+          <th class="text-left">AUTOR</th>
+          <th class="text-left">{{ tituloTipo }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="curso in cursos" :key="curso.codigo">
+          <td>
+            <b-avatar
+              variant="info"
+              size="50"
+              :src="curso.src"
+              ></b-avatar>
+          </td>
+          <td>{{ curso.nome }}</td>
+          <td>{{ curso.autor }}</td>
+          <td>{{ curso.pontos }}</td>
+        </tr>
+      </tbody>
+    </v-table>
   </div>
 </template>
 
 
 <style lang="scss" scoped>
 #list-ranking {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
   box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
 
-  .list-group-item{
-    padding: .1rem;
-    border: none;
-
-    .img-logo{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      
-      img{
-        width: 100%;
-        border-radius: 50px !important;
-
-      }
-    }
-    .nome-criador{
-      display: flex;
-      align-items: center;
-      padding: 0;
-
-      .card-body{
-        padding: 0;
-
-        h4{
-          color: blue !important;
-          font-size: 1rem;
-          background-color: aquamarine;
-
-        }
-
-      }
-    }
-    .posicao{
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 1px;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      font-size: .8rem;
-      background-color: red;
-      color: black;
+  h3 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 1rem 0;
+    text-align: center;
+  
+  }
+  table{
+    th, td{
+      padding: .7rem .5rem;
 
     }
   }
-
 }
 </style>
