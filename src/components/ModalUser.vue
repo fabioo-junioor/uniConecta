@@ -10,6 +10,7 @@ export default {
         senha: "",
       },
       logar: true,
+      buttonAcessar: false
     };
   },
   methods: {
@@ -37,6 +38,15 @@ export default {
       console.log("Resetou");
     
     },
+    enableButtonAcessar(){
+      if((this.form.email != "") && (this.form.senha != "")){
+        this.buttonAcessar = true
+
+      }else{
+        this.buttonAcessar = false
+
+      }
+    }
   },
 };
 </script>
@@ -58,6 +68,7 @@ export default {
               v-model="form.email"
               type="email"
               placeholder="Informe seu email: "
+              @input="enableButtonAcessar()"
             ></b-form-input>
             <label for="floatingInput">Informe seu email:</label>
           </div>
@@ -67,11 +78,15 @@ export default {
               v-model="form.senha"
               type="password"
               placeholder="Informe sua senha: "
+              @input="enableButtonAcessar()"
             ></b-form-input>
             <label for="floatingInput">Informe sua senha:</label>
           </div>
           <div class="buttons-login-user">
-            <b-button @click="logarUser()" variant="primary">Acessar</b-button>
+            <b-button
+              @click="logarUser()"
+              variant="primary"
+              :disabled="!buttonAcessar" >Acessar</b-button>
             <b-button @click="(logar = !logar), reset()" variant="secondary"
               >Cadastre-se</b-button
             >

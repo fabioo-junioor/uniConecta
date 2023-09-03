@@ -10,11 +10,11 @@ export default{
       configRanking: {
         cursos,
         titulo: "MAIS CURTIDOS",
-        tituloTipo: "TOTAL LIKES",
+        tituloTipo: "LIKES",
         tipoRanking: false
 
       },
-      tituloButton: "MAIS COMPRADOS"
+      tituloButton: "+ COMPRADOS"
 
     }
   },
@@ -24,15 +24,15 @@ export default{
       this.tipoRanking = !this.tipoRanking
       if(this.configRanking.titulo === "MAIS CURTIDOS"){
         this.configRanking.titulo = "MAIS COMPRADOS"
-        this.configRanking.tituloTipo = "TOTAL COMPRAS"
+        this.configRanking.tituloTipo = "COMPRAS"
         this.configRanking.tipoRanking = !this.configRanking.tipoRanking
-        this.tituloButton = "MAIS CURTIDOS"
+        this.tituloButton = "+ CURTIDOS"
 
       }else{
         this.configRanking.titulo = "MAIS CURTIDOS"
-        this.configRanking.tituloTipo = "TOTAL LIKES"
+        this.configRanking.tituloTipo = "LIKES"
         this.configRanking.tipoRanking = !this.configRanking.tipoRanking
-        this.tituloButton = "MAIS COMPRADOS"
+        this.tituloButton = "+ COMPRADOS"
 
       }
     }
@@ -94,7 +94,7 @@ export default{
     .btn{
       margin-bottom: .3rem;
       color: white;
-      font-size: .8rem;
+      font-size: .7rem;
       font-weight: 500;
       border: none;
       padding: .5rem .4rem;

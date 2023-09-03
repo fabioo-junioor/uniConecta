@@ -51,17 +51,20 @@ export default {
   width: 100%;
   box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.4);
+  border: 2px solid #6C63FF;
+  background-color: #6C63FF;
 
   h3 {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
     font-size: 1rem;
     font-weight: bold;
-    padding: 1rem 0;
+    padding: .1rem;
+    margin: 1.5rem 0;
     text-align: center;
   
   }
-  table{
+  .v-table{
     th, td{
       padding: .7rem .5rem;
 

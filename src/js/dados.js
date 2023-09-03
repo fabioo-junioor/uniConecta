@@ -16,14 +16,14 @@ const cursos = [
     {
         "codigo": 3,
         "nome": "nome 3",
-        "autor": "Fabio",
+        "autor": "Maria",
         "pontos": 5115,
         "src": img
     },
     {
         "codigo": 4,
         "nome": "nome 4",
-        "autor": "Fabio",
+        "autor": "José",
         "pontos": 5554
     },
     {
