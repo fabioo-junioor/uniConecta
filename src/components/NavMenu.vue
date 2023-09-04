@@ -30,19 +30,31 @@ export default{
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item><router-link to="/sobre">SOBRE</router-link></b-nav-item>
-          <b-nav-item><router-link to="/cursos">CURSOS</router-link></b-nav-item>
-        </b-navbar-nav>
-        <b-navbar-nav v-if="!logado">
-          <b-nav-item>
-            <a v-b-modal.modal-scrollable-user-lg>
-              <ModalUser />
-              LOGIN
-            </a>
-          </b-nav-item>
-        </b-navbar-nav>
-        <b-navbar-nav v-else>
-          <b-nav-item href="#">Logado</b-nav-item>
+          <div class="menuStatic">
+            <b-nav-item><router-link to="/sobre">SOBRE</router-link></b-nav-item>
+            <b-nav-item><router-link to="/cursos">CURSOS</router-link></b-nav-item>
+          </div>
+          <div class="menuUser">
+            <div v-if="!logado">
+              <b-nav-item>
+                <a v-b-modal.modal-scrollable-user-lg>
+                  <ModalUser />
+                    LOGIN
+                </a>
+              </b-nav-item>
+            </div>
+            <div v-else>
+              <b-nav-item-dropdown
+                text="MENU"
+                toggle-class="nav-link-custom"
+                right >
+                <b-dropdown-item>PERFIL</b-dropdown-item>
+                <b-dropdown-item>MEUS CURSOS</b-dropdown-item>
+                <b-dropdown-divider></b-dropdown-divider>
+                <b-dropdown-item>SAIR</b-dropdown-item>
+              </b-nav-item-dropdown>
+            </div>
+          </div>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -58,7 +70,7 @@ export default{
     background: -webkit-linear-gradient(to right, #414345, #232526);
     background: linear-gradient(to right, #414345, #232526);
 
-    padding: .5rem;
+    padding: .5rem 0;
 
     .navbar-brand{
       border: 1px solid #6C63FF;
@@ -70,24 +82,56 @@ export default{
     }
 
     #nav-collapse{
+      width: 100%;
       display: flex;
       justify-content: space-between;
-      padding: 0 1rem;
 
-      a{
-        color: white;
-        text-decoration: none;
-        font-size: 1.2rem;
-        padding: .5rem;
-        background-color: transparent;
+      .navbar-nav{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        
+        .menuStatic{
+          display: flex;
+          flex-direction: row;
+          width: 80%;
 
-      }
-      a:hover{
-        color: #6C63FF;
-        text-decoration: underline 3px;
-        text-underline-offset: 95%;
+          a{
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: .5rem;
+            background-color: transparent;
 
-      }
+          }
+          a:hover{
+            color: #6C63FF;
+            text-decoration: underline 3px;
+            text-underline-offset: 95%;
+
+          }          
+        }
+        .menuUser{
+          width: 20%;
+          display: flex;
+          justify-content: center;
+
+          a{
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: .5rem;
+            background-color: transparent;
+
+          }
+          a:hover{
+            color: #6C63FF;
+            text-decoration: underline 3px;
+            text-underline-offset: 95%;
+
+          }
+        }
+      }      
     }
     a{
       color: rgba(255, 255, 255, 0.7);
@@ -98,8 +142,7 @@ export default{
       padding: .5rem 1.5rem;
       border-radius: 5px;
 
-    }
-  
+    }  
   }
   .navbar-toggler{
     border: 1px solid #6C63FF;
