@@ -1,8 +1,10 @@
 import { createRouter, createMemoryHistory } from "vue-router"
 
-import Cursos from '../pages/Cursos.vue'
 import Inicio from '../pages/Inicio.vue'
 import Sobre from '../pages/Sobre.vue'
+import Cursos from '../pages/Cursos.vue'
+import MeusCursos from '../pages/MeusCursos.vue'
+import Dashboard from '../pages/Dashboard.vue'
 
 const routes = [
     {
@@ -22,7 +24,18 @@ const routes = [
         name: 'cursos',
         component: Cursos,
         
-    
+    },
+    {
+        path: '/meusCursos',
+        name: 'meusCursos',
+        component: MeusCursos
+
+    },
+    {
+        path: '/dashboard',
+        name: 'dashboard',
+        component: Dashboard
+
     },
     {
         path: '/*',

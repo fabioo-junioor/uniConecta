@@ -6,7 +6,8 @@ export default{
   components: {ModalUser},
   data(){
     return{
-      logado: false
+      logado: true,
+      nameUser: "Fabio"
 
     }
   },
@@ -31,11 +32,14 @@ export default{
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <div class="menuStatic">
-            <b-nav-item><router-link to="/sobre">SOBRE</router-link></b-nav-item>
+            <b-nav-item>
+              <router-link to="/sobre">SOBRE</router-link>
+            </b-nav-item>
             <b-nav-item><router-link to="/cursos">CURSOS</router-link></b-nav-item>
           </div>
-          <div class="menuUser">
-            <div v-if="!logado">
+          <div class="menu-user">
+            <div v-if="!logado"
+              class="menu-user-nao-logado">
               <b-nav-item>
                 <a v-b-modal.modal-scrollable-user-lg>
                   <ModalUser />
@@ -43,15 +47,20 @@ export default{
                 </a>
               </b-nav-item>
             </div>
-            <div v-else>
+            <div v-else
+              class="menu-user-logado">
               <b-nav-item-dropdown
-                text="MENU"
-                toggle-class="nav-link-custom"
-                right >
-                <b-dropdown-item>PERFIL</b-dropdown-item>
-                <b-dropdown-item>MEUS CURSOS</b-dropdown-item>
+                :text=nameUser
+                toggle-class="fabio">
+                <b-dropdown-item>
+                  <router-link to="/dashboard">Dashboard</router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link to="meusCursos">Meus Cursos</router-link>
+                </b-dropdown-item>
+                <b-dropdown-item id="teste">Editar Perfil</b-dropdown-item>
                 <b-dropdown-divider></b-dropdown-divider>
-                <b-dropdown-item>SAIR</b-dropdown-item>
+                <b-dropdown-item>Sair</b-dropdown-item>
               </b-nav-item-dropdown>
             </div>
           </div>
@@ -71,6 +80,7 @@ export default{
     background: linear-gradient(to right, #414345, #232526);
 
     padding: .5rem 0;
+    z-index: 1;
 
     .navbar-brand{
       border: 1px solid #6C63FF;
@@ -111,24 +121,35 @@ export default{
 
           }          
         }
-        .menuUser{
+        .menu-user{
           width: 20%;
           display: flex;
           justify-content: center;
 
-          a{
-            color: white;
-            text-decoration: none;
-            font-size: 1.2rem;
-            padding: .5rem;
-            background-color: transparent;
+          .menu-user-nao-logado{
+            a{
+              color: white;
+              text-decoration: none;
+              font-size: 1.2rem;
+              padding: .5rem;
+              background-color: transparent;
+
+            }
+            a:hover{
+              color: #6C63FF;
+              text-decoration: underline 3px;
+              text-underline-offset: 95%;
 
           }
-          a:hover{
-            color: #6C63FF;
-            text-decoration: underline 3px;
-            text-underline-offset: 95%;
-
+          }
+          .menu-user-logado{
+            a{
+              color: rgba(0, 0, 0, 1);
+              font-size: 1rem;
+              font-weight: 400;
+              padding: 0;
+  
+            }
           }
         }
       }      
