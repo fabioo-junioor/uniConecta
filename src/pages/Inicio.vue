@@ -76,6 +76,7 @@ export default{
   justify-content: space-around;
   align-items: center;
   padding: 3rem .5rem 0 .5rem;
+  height: 100%;
 
   .inicio-img-draw{
     width: 40%;

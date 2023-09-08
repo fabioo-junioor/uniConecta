@@ -50,8 +50,7 @@ export default{
             <div v-else
               class="menu-user-logado">
               <b-nav-item-dropdown
-                :text=nameUser
-                toggle-class="fabio">
+                :text=nameUser>
                 <b-dropdown-item>
                   <router-link to="/dashboard">Dashboard</router-link>
                 </b-dropdown-item>
@@ -79,8 +78,7 @@ export default{
     background: -webkit-linear-gradient(to right, #414345, #232526);
     background: linear-gradient(to right, #414345, #232526);
 
-    padding: .5rem 0;
-    z-index: 1;
+    padding: .5rem;
 
     .navbar-brand{
       border: 1px solid #6C63FF;
@@ -122,7 +120,7 @@ export default{
           }          
         }
         .menu-user{
-          width: 20%;
+          width: 15%;
           display: flex;
           justify-content: center;
 

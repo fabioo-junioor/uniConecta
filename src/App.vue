@@ -11,7 +11,9 @@ import NavMenu from "./components/NavMenu.vue"
 
 <style lang="scss" scoped>
 #app{
-  height: 100vh;
-
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: rgba(0, 0, 0, .04);
+  
 }
 </style>
