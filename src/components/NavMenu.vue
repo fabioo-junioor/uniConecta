@@ -72,57 +72,61 @@ export default{
 
 <style lang="scss" scoped>
 #navmenu{
+  width: 100%;
+
   .navbar{
-    background: #232526;
+    width: 100%;
+    background: #6C63FF !important;
     box-shadow: 0px 2px 5px 3px rgba(0, 0, 0, 0.5);
-    background: -webkit-linear-gradient(to right, #414345, #232526);
-    background: linear-gradient(to right, #414345, #232526);
 
     padding: .5rem;
 
     .navbar-brand{
-      border: 1px solid #6C63FF;
+      border: 1px solid white;
       border-radius: 5px;
 
     }
     .navbar-brand:hover{
-      background-color: #6b63ff23;
-    }
+      background-color: rgba(255, 255, 255, 0.1);
 
+    }
     #nav-collapse{
       width: 100%;
-      display: flex;
-      justify-content: space-between;
 
       .navbar-nav{
         width: 100%;
         display: flex;
         flex-direction: row;
+        //background-color: red;
         
         .menuStatic{
           display: flex;
           flex-direction: row;
           width: 80%;
+          //background-color: blueviolet;
 
-          a{
-            color: white;
-            text-decoration: none;
-            font-size: 1.2rem;
-            padding: .5rem;
-            background-color: transparent;
+          .nav-item{
+            //background-color: green;
+            padding: 0 1rem;
 
+            a{
+              color: white;
+              text-decoration: none;
+              font-size: 1.1rem;
+              background-color: transparent;
+
+            }
+            a:hover{
+              color: white;
+              text-decoration: underline 3px;
+              text-underline-offset: 100%;
+
+            }          
           }
-          a:hover{
-            color: #6C63FF;
-            text-decoration: underline 3px;
-            text-underline-offset: 95%;
-
-          }          
         }
         .menu-user{
-          width: 15%;
           display: flex;
-          justify-content: center;
+          flex-direction: row;
 
           .menu-user-nao-logado{
             a{
@@ -141,6 +145,10 @@ export default{
           }
           }
           .menu-user-logado{
+            display: flex;
+            align-items: center;
+            z-index: 1 !important;
+            
             a{
               color: rgba(0, 0, 0, 1);
               font-size: 1rem;

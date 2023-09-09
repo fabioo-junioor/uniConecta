@@ -10,7 +10,7 @@ export default{
       configRanking: {
         cursos,
         titulo: "MAIS CURTIDOS",
-        tituloTipo: "LIKES",
+        tituloTipo: "TOTAL",
         tipoRanking: false
 
       },
@@ -24,13 +24,13 @@ export default{
       this.tipoRanking = !this.tipoRanking
       if(this.configRanking.titulo === "MAIS CURTIDOS"){
         this.configRanking.titulo = "MAIS COMPRADOS"
-        this.configRanking.tituloTipo = "COMPRAS"
+        //this.configRanking.tituloTipo = "COMPRAS"
         this.configRanking.tipoRanking = !this.configRanking.tipoRanking
         this.tituloButton = "+ CURTIDOS"
 
       }else{
         this.configRanking.titulo = "MAIS CURTIDOS"
-        this.configRanking.tituloTipo = "LIKES"
+        //this.configRanking.tituloTipo = "LIKES"
         this.configRanking.tipoRanking = !this.configRanking.tipoRanking
         this.tituloButton = "+ COMPRADOS"
 

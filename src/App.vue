@@ -6,6 +6,7 @@ import NavMenu from "./components/NavMenu.vue"
   <div id="app">
     <NavMenu />
     <router-view />
+    
   </div>
 </template>
 

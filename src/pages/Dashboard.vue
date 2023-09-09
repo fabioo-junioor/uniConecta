@@ -1,9 +1,13 @@
 <script>
+import CardCursos from '../components/CardCursos.vue'
+
 export default {
   name: "Dashboard",
+  components: {CardCursos},
   data() {
     return {
       nomeUser: "Fabio Junior",
+      curso: "Sistemas de informação",
       totalPontos: 626,
       totalCoins: 515
       
@@ -20,6 +24,7 @@ export default {
       </div>
       <div class="dados-user">
         <h3>{{ nomeUser }}</h3>
+        <h2>{{ curso }}</h2>
         <div>
           <img src="../assets/gifs/coin.gif" />
           {{ totalCoins }}
@@ -32,19 +37,28 @@ export default {
     </div>
     <div class="lado-cursos">
       <div class="cursos-comprados">
-        <h4>Comprados</h4>
-        <hr>
-        <div class="cards-cursos"></div>
-      </div>
-      <div class="cursos-vendidos">
         <h4>Vendidos</h4>
         <hr>
-        <div class="cards-cursos"></div>
+        <div class="cards-cursos">
+          <CardCursos 
+            v-for="i in 6" :key="i" />
+        </div>
+      </div>
+      <div class="cursos-vendidos">
+        <h4>Comprados</h4>
+        <hr>
+        <div class="cards-cursos">
+          <CardCursos 
+            v-for="i in 3" :key="i" />
+        </div>
       </div>
       <div class="cursos-avaliados">
         <h4>Avaliados</h4>
         <hr>
-        <div class="cards-cursos"></div>
+        <div class="cards-cursos">
+          <CardCursos 
+            v-for="i in 4" :key="i" />
+        </div>
       </div>
     </div>
   </div>
@@ -55,7 +69,7 @@ export default {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
   //background-color: red;
   
   .lado-user{
@@ -63,18 +77,16 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 3rem 2rem 0 0;
+    padding: 3rem 0 0 0;
     //background-color: brown;
 
     .foto-user{
       display: flex;
       justify-content: center;
       align-items: center;
-      border-radius: 10px;
-      padding: 1rem .2rem 0 .2rem;
       margin: 0 0 1rem 0;
-      background-color: white;
-      box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.3);
+      box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
 
       img{
         max-height: 15rem;
@@ -90,12 +102,18 @@ export default {
       justify-content: flex-start;
       padding: 1rem 0 1rem 1rem;
       background-color: white;
-      border: 1px solid rgba(0, 0, 0, 0.6);
-      border-radius: 10px;
+      border: 1px solid #6C63FF;
+      box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
+      border-radius: 5px;
 
       h3{
-        padding: 1rem 0;
+        padding: 1rem 0 0 0;
         font-size: 1.2rem;
+        width: 100%;
+
+      }
+      h2{
+        font-size: .9rem;
         width: 100%;
 
       }
@@ -105,7 +123,8 @@ export default {
         align-items: center;
         justify-content: flex-start;
         padding: .5rem 0;
-        font-size: .9rem;
+        font-size: .8rem;
+        font-weight: bold;
         //background-color: gray;
        
         img{
@@ -118,7 +137,7 @@ export default {
     }    
   }
   .lado-cursos{
-    width: 70%;
+    width: calc(100vw - 30%);
     padding: 3rem 0 0 0;
     //background-color: red;
 
@@ -126,7 +145,7 @@ export default {
     .cursos-vendidos,
     .cursos-avaliados{
       //background-color: blue;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
 
       h4{
         font-size: 1.3rem;
@@ -136,14 +155,16 @@ export default {
 
       }
       hr{
-        border: 1px solid black;
+        border: 1px solid #6C63FF;
         margin: 0 0 .5rem 0;
         width: 100%;
         
       }
       .cards-cursos{
-        background-color: white;
-        height: 15rem;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: .5rem;
+        align-items: stretch;
         
       }
     }
