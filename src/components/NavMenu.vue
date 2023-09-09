@@ -1,28 +1,26 @@
 <script>
-import ModalUser from './ModalUser.vue'
+import ModalUser from "./ModalUser.vue";
 
-export default{
-  name: 'NavMenu',
-  components: {ModalUser},
-  data(){
-    return{
+export default {
+  name: "NavMenu",
+  components: { ModalUser },
+  data() {
+    return {
       logado: true,
-      nameUser: "Fabio"
-
-    }
+      nameUser: "Fabio",
+    };
   },
-  methods:{
-    cad(){
-      console.log("teste")
-
-    }
-  }
-}
+  methods: {
+    cad() {
+      console.log("teste");
+    },
+  },
+};
 </script>
 
 <template>
   <div id="navmenu">
-    <b-navbar toggleable="lg" type="dark" variant="info">
+    <b-navbar toggleable="lg">
       <b-navbar-brand>
         <router-link to="/">UniConecta</router-link>
       </b-navbar-brand>
@@ -30,39 +28,42 @@ export default{
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav>
-          <div class="menuStatic">
-            <b-nav-item>
+       <b-navbar-nav>
+        <div class="menu-estatico">
+          <b-nav-item>
               <router-link to="/sobre">SOBRE</router-link>
-            </b-nav-item>
-            <b-nav-item><router-link to="/cursos">CURSOS</router-link></b-nav-item>
-          </div>
-          <div class="menu-user">
-            <div v-if="!logado"
-              class="menu-user-nao-logado">
-              <b-nav-item>
+          </b-nav-item>
+          <b-nav-item>
+            <router-link to="/cursos">CURSOS</router-link>
+          </b-nav-item>
+        </div>
+        <div class="menu-user">
+          <div
+            class="menu-user-nao-logado"
+            v-if="!logado">
+            <b-nav-item>
                 <a v-b-modal.modal-scrollable-user-lg>
                   <ModalUser />
                     LOGIN
                 </a>
               </b-nav-item>
-            </div>
-            <div v-else
-              class="menu-user-logado">
-              <b-nav-item-dropdown
-                :text=nameUser>
-                <b-dropdown-item>
-                  <router-link to="/dashboard">Dashboard</router-link>
-                </b-dropdown-item>
-                <b-dropdown-item>
-                  <router-link to="meusCursos">Meus Cursos</router-link>
-                </b-dropdown-item>
-                <b-dropdown-item id="teste">Editar Perfil</b-dropdown-item>
-                <b-dropdown-divider></b-dropdown-divider>
-                <b-dropdown-item>Sair</b-dropdown-item>
-              </b-nav-item-dropdown>
-            </div>
           </div>
+          <div
+            class="menu-user-logado"
+            v-else>
+            <b-nav-item-dropdown :text="nameUser" right>
+              <b-dropdown-item>
+                <router-link to="/dashboard">Dashboard</router-link>
+              </b-dropdown-item>
+              <b-dropdown-item>
+                <router-link to="meusCursos">Meus Cursos</router-link>
+              </b-dropdown-item>
+              <b-dropdown-item>Editar Perfil</b-dropdown-item>
+                <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item>Sair</b-dropdown-item>
+            </b-nav-item-dropdown>
+          </div>
+        </div>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -71,109 +72,129 @@ export default{
 
 
 <style lang="scss" scoped>
-#navmenu{
-  width: 100%;
+#navmenu {
+  a{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white !important;
+    text-decoration: none;
 
+  }
   .navbar{
     width: 100%;
-    background: #6C63FF !important;
-    box-shadow: 0px 2px 5px 3px rgba(0, 0, 0, 0.5);
-
-    padding: .5rem;
+    padding: 0 1rem;
+    background-color: #6C63FF;
+    box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.5);
 
     .navbar-brand{
+      padding: .5rem 1rem;
+      margin: .1rem;
       border: 1px solid white;
       border-radius: 5px;
 
     }
-    .navbar-brand:hover{
-      background-color: rgba(255, 255, 255, 0.1);
+    .navbar-toggler{
+      border: 1px solid white;
 
     }
     #nav-collapse{
-      width: 100%;
-
       .navbar-nav{
-        width: 100%;
+        min-width: 90%;
         display: flex;
         flex-direction: row;
-        //background-color: red;
-        
-        .menuStatic{
+        justify-content: space-between;
+        //background-color: purple;
+
+        .menu-estatico{
           display: flex;
-          flex-direction: row;
-          width: 80%;
-          //background-color: blueviolet;
+          //background-color: blue;
+          padding: 0 0 0 1rem;
 
-          .nav-item{
-            //background-color: green;
-            padding: 0 1rem;
+          a{
+            font-size: .9rem;
+            padding: .5rem;
+            font-weight: 600;
 
+          }
+          a:hover{
+            color: white;
+            text-decoration: underline 3px;
+            text-underline-offset: 100%;
+
+          }
+        }
+        .menu-user{
+          //background-color: green;
+          
+          .menu-user-nao-logado{
             a{
-              color: white;
-              text-decoration: none;
-              font-size: 1.1rem;
-              background-color: transparent;
-
+              color: white !important;
+              padding: 0;
+              font-weight: 600;
+              font-size: .9rem;
+  
             }
             a:hover{
               color: white;
               text-decoration: underline 3px;
               text-underline-offset: 100%;
 
-            }          
-          }
-        }
-        .menu-user{
-          display: flex;
-          flex-direction: row;
-
-          .menu-user-nao-logado{
-            a{
-              color: white;
-              text-decoration: none;
-              font-size: 1.2rem;
-              padding: .5rem;
-              background-color: transparent;
-
             }
-            a:hover{
-              color: #6C63FF;
-              text-decoration: underline 3px;
-              text-underline-offset: 95%;
-
-          }
           }
           .menu-user-logado{
-            display: flex;
-            align-items: center;
-            z-index: 1 !important;
-            
+            li{
+              color: white;
+              font-weight: 600;
+
+            }
             a{
-              color: rgba(0, 0, 0, 1);
-              font-size: 1rem;
+              color: black !important;
+              font-size: .9rem;
               font-weight: 400;
               padding: 0;
   
             }
           }
         }
-      }      
+      }
     }
-    a{
-      color: rgba(255, 255, 255, 0.7);
-      text-decoration: none;
-      font-size: 1.5rem;
-      font-weight: 500;
+  }  
+}
+/*################################################*/
+@media only screen and (max-width: 1560px) {
+}
+@media only screen and (max-width: 1200px) {
+}
+@media only screen and (max-width: 992px) {
+#navmenu {
+  .navbar{
+    padding: 0 1rem 0 .2rem;
 
-      padding: .5rem 1.5rem;
-      border-radius: 5px;
+    #nav-collapse{
+      .navbar-nav{
+        min-width: 90%;
+        display: flex;
+        flex-direction: column;
 
-    }  
-  }
-  .navbar-toggler{
-    border: 1px solid #6C63FF;
+        .menu-estatico{
+          display: flex;
+          flex-direction: column;
+          padding: 0 0 0 .2rem;
 
-  }
+          a{
+            font-size: .9rem;
+            padding: .5rem;
+
+          }
+        }
+      }
+    }
+  }  
+}
+}
+@media only screen and (max-width: 720px) {
+}
+@media only screen and (max-width: 481px) {
+}
+@media only screen and (max-width: 360px) {
 }
 </style>
