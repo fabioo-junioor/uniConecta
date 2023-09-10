@@ -65,8 +65,10 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap');
+
 #dashboard {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: 'Work Sans', sans-serif;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -169,5 +171,67 @@ export default {
       }
     }
   }
+}
+/*################################################*/
+@media only screen and (max-width: 1560px) {
+}
+@media only screen and (max-width: 1200px) {
+}
+@media only screen and (max-width: 992px) {
+}
+@media only screen and (max-width: 720px) {
+#dashboard{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .lado-user{
+    width: 95%;
+
+    .dados-user {
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0;
+
+      h3 {
+        text-align: center;
+
+      }
+      h2 {
+        text-align: center;
+
+      }
+      div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+      }
+    }
+
+  }
+  .lado-cursos{
+    width: 95%;
+    padding: 3rem 0 0 0;
+
+    .cursos-comprados,
+    .cursos-vendidos,
+    .cursos-avaliados{
+      .cards-cursos{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: .3rem;
+        
+      }
+    }
+  }
+}
+}
+@media only screen and (max-width: 481px) {
+}
+@media only screen and (max-width: 360px) {
 }
 </style>

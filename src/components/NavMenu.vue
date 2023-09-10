@@ -6,7 +6,7 @@ export default {
   components: { ModalUser },
   data() {
     return {
-      logado: true,
+      logado: false,
       nameUser: "Fabio",
     };
   },
@@ -58,7 +58,9 @@ export default {
               <b-dropdown-item>
                 <router-link to="meusCursos">Meus Cursos</router-link>
               </b-dropdown-item>
-              <b-dropdown-item>Editar Perfil</b-dropdown-item>
+              <b-dropdown-item>
+                <router-link to="editarPerfil">Editar Perfil</router-link>
+              </b-dropdown-item>
                 <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item>Sair</b-dropdown-item>
             </b-nav-item-dropdown>
@@ -72,9 +74,11 @@ export default {
 
 
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap');
+
 #navmenu {
   a{
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Work Sans', sans-serif;
     color: white !important;
     text-decoration: none;
 

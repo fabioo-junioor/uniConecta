@@ -113,4 +113,37 @@ export default{
     }
   }
 }
+/*################################################*/
+@media only screen and (max-width: 1560px) {
+}
+@media only screen and (max-width: 1200px) {
+}
+@media only screen and (max-width: 992px) {
+}
+@media only screen and (max-width: 720px) {
+#inicio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+
+  .inicio-img-draw{
+    width: 100%;
+    margin: 1rem 0;
+
+    img{
+      max-width: 20rem;
+
+    }
+  }
+  .inicio-ranking{
+    width: 95%;
+
+  }
+}
+}
+@media only screen and (max-width: 481px) {
+}
+@media only screen and (max-width: 360px) {
+}
 </style>

@@ -5,6 +5,7 @@ import Sobre from '../pages/Sobre.vue'
 import Cursos from '../pages/Cursos.vue'
 import MeusCursos from '../pages/MeusCursos.vue'
 import Dashboard from '../pages/Dashboard.vue'
+import EditarPerfil from '../pages/EditarPerfil.vue'
 
 const routes = [
     {
@@ -35,6 +36,12 @@ const routes = [
         path: '/dashboard',
         name: 'dashboard',
         component: Dashboard
+
+    },
+    {
+        path: '/editarPerfil',
+        name: 'editarPerfil',
+        component: EditarPerfil
 
     },
     {

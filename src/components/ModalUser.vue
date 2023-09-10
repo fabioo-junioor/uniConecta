@@ -10,7 +10,7 @@ export default {
         senha: "",
       },
       logar: true,
-      buttonAcessar: false
+      botaoAcessar: false
     };
   },
   methods: {
@@ -38,12 +38,12 @@ export default {
       console.log("Resetou");
     
     },
-    enableButtonAcessar(){
+    enableBotaoAcessar(){
       if((this.form.email != "") && (this.form.senha != "")){
-        this.buttonAcessar = true
+        this.botaoAcessar = true
 
       }else{
-        this.buttonAcessar = false
+        this.botaoAcessar = false
 
       }
     }
@@ -68,7 +68,7 @@ export default {
               v-model="form.email"
               type="email"
               placeholder="Informe seu email: "
-              @input="enableButtonAcessar()"
+              @input="enableBotaoAcessar()"
             ></b-form-input>
             <label for="floatingInput">Informe seu email:</label>
           </div>
@@ -78,7 +78,7 @@ export default {
               v-model="form.senha"
               type="password"
               placeholder="Informe sua senha: "
-              @input="enableButtonAcessar()"
+              @input="enableBotaoAcessar()"
             ></b-form-input>
             <label for="floatingInput">Informe sua senha:</label>
           </div>
@@ -86,7 +86,7 @@ export default {
             <b-button
               @click="logarUser()"
               variant="primary"
-              :disabled="!buttonAcessar" >Acessar</b-button>
+              :disabled="!botaoAcessar" >Acessar</b-button>
             <b-button @click="(logar = !logar), reset()" variant="secondary"
               >Cadastre-se</b-button
             >
@@ -143,37 +143,40 @@ export default {
   </b-modal>
 </template>
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap');
+
 .modal-content {
   border-radius: 5px !important;
   border: none !important;
   background-color: transparent !important;
+  box-shadow: 1px 1px 10px 2px rgba(0, 0, 0, 0.5);
 
   .modal-header{
-    background-color: #232526;
-    border: none !important;
+    background-color: #6C63FF;
+    border-bottom: 1px solid white;
   
     h5 {
-      color: #252525;
-      font-size: 1.4rem;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      color: white;
+      font-size: 1.3rem;
+      font-family: 'Work Sans', sans-serif;
 
     }
   }
   .modal-header .close {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: transparent;
     padding: 0.2rem 0.5rem;
     border: none;
-    border-radius: 5px;
-    color: black;
+    border-radius: 2px;
+    color: white;
 
   }
   .modal-header .close:hover {
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.2);
 
   }
   .modal-body {
     padding: 0;
-    background-color: #232526 !important;
+    background-color: #6C63FF !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
@@ -209,20 +212,21 @@ export default {
 }
 #loginUser form img {
   height: 7rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   filter: drop-shadow(1px 1px 3px #252525);
 }
 #loginUser form input {
   margin: 5px 0px;
-  border: .5px solid white;
+  border: .5px solid black;
   height: 3.5rem;
   border-radius: 5px;
-  background-color: #3e3e3e;
-  box-shadow: 2px 2px 5px #252525;
-  color: #fff;
+  background-color: white;
+  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.5);
+  color: black;
 }
 #loginUser form label{
-  color: white;
+  font-family: 'Work Sans', sans-serif;
+  color: black;
   
 }
 #loginUser form label::after{
@@ -237,29 +241,29 @@ export default {
   width: 100%;
 }
 #loginUser .buttons-login-user button {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  box-shadow: 2px 2px 5px #252525;
+  font-family: 'Work Sans', sans-serif;
+  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.5);
   width: 40%;
   height: 3rem;
-  border-radius: 10px;
-  color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  color: white;
 }
 #loginUser .link-esqueceu-senha-user {
   margin: 1rem 0;
 
 }
 #loginUser .link-esqueceu-senha-user button {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 0.8rem;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 0.9rem;
   padding: 0.8rem 2rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 1);
   font-weight: bold;
   background-color: transparent;
   border: none;
   border-radius: 10px;
 }
 #loginUser .link-esqueceu-senha-user button:hover {
-  color: rgba(255, 0, 0, 0.7);
+  color: rgba(255, 255, 255, .8);
   font-weight: bold;
 }
 </style>

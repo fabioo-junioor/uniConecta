@@ -44,7 +44,10 @@ export default {
 
 
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap');
+
 #list-ranking {
+  font-family: 'Work Sans', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -55,7 +58,6 @@ export default {
   background-color: #6C63FF;
 
   h3 {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: white;
     font-size: 1rem;
     font-weight: bold;

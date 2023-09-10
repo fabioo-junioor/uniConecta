@@ -68,9 +68,12 @@ export default {
 
 <style lang="scss" scoped>
 @import url('https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap');
+
 #card-cursos {
   display: flex;
   flex-direction: column;
+  font-family: 'Work Sans', sans-serif;
   background-color: white;
 
   //padding: 1rem 0 1rem 1rem;
