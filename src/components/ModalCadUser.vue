@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "ModalUser",
+  name: "ModalCadUser",
   data() {
     return {
       form: {
@@ -10,7 +10,8 @@ export default {
         senha: "",
       },
       logar: true,
-      botaoAcessar: false
+      botaoAcessar: false,
+      botaoSalvar: false
     };
   },
   methods: {
@@ -22,14 +23,6 @@ export default {
       
       }
     },
-    cadastrarUser() {
-      if (this.form.email === "" ||
-        this.form.senha === "" ||
-        this.form.nome === "" ||
-        this.form.telefone === null) {
-      } else {
-      }
-    },
     reset() {
       this.form.nome = "";
       this.form.email = "";
@@ -39,11 +32,25 @@ export default {
     
     },
     enableBotaoAcessar(){
-      if((this.form.email != "") && (this.form.senha != "")){
+      if((this.form.email != "") &&
+        (this.form.senha != "")){
         this.botaoAcessar = true
 
       }else{
         this.botaoAcessar = false
+
+      }
+    },
+    enableBotaoSalvar(){
+      if((this.form.nome != "") &&
+        (this.form.email != "") &&
+        (this.form.telefone > 0) &&
+        (this.form.senha != "")){
+          this.botaoSalvar = true
+          console.log(this.form.senha)
+
+      }else{
+        this.botaoSalvar = false
 
       }
     }
@@ -64,7 +71,6 @@ export default {
         <div v-if="logar">
           <div class="form-floating">
             <b-form-input
-              id="floatingInput"
               v-model="form.email"
               type="email"
               placeholder="Informe seu email: "
@@ -74,7 +80,6 @@ export default {
           </div>
           <div class="form-floating">
             <b-form-input
-              id="floatingInput"
               v-model="form.senha"
               type="password"
               placeholder="Informe sua senha: "
@@ -95,10 +100,10 @@ export default {
         <div v-else>
           <div class="form-floating">
             <b-form-input
-              id=""
               v-model="form.nome"
               type="text"
               placeholder="Informe seu nome: "
+              @input="enableBotaoSalvar()"
             ></b-form-input>
             <label for="floatingInput">Informe seu nome:</label>
           </div>
@@ -107,6 +112,7 @@ export default {
               v-model="form.email"
               type="email"
               placeholder="Informe seu email: "
+              @input="enableBotaoSalvar()"
             ></b-form-input>
             <label for="floatingInput">Informe seu email:</label>
           </div>
@@ -115,6 +121,7 @@ export default {
               v-model="form.telefone"
               type="tel"
               placeholder="Informe seu telefone: "
+              @input="enableBotaoSalvar()"
             ></b-form-input>
             <label for="floatingInput">Informe seu telefone:</label>
           </div>
@@ -123,11 +130,15 @@ export default {
               v-model="form.senha"
               type="password"
               placeholder="Informe sua senha: "
+              @input="enableBotaoSalvar()"
             ></b-form-input>
             <label for="floatingInput">Informe sua senha:</label>
           </div>
           <div class="buttons-login-user">
-            <b-button @click="cadastrarUser()" variant="primary"
+            <b-button
+              @click="cadastrarUser()"
+              variant="primary"
+              :disabled="!botaoSalvar"
               >Salvar</b-button
             >
             <b-button @click="(logar = !logar), reset()" variant="secondary"

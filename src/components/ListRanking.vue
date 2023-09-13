@@ -18,9 +18,11 @@ export default {
     <v-table>
       <thead>
         <tr>
-          <th class="text-left">#</th>
-          <th class="text-left">NOME CURSO</th>
-          <th class="text-left">AUTOR</th>
+          <th class="text-left">###</th>
+          <th
+            class="text-left"
+            v-if="titulo != 'Maior Pontuação'">NOME CURSO</th>
+          <th class="text-left">USUÁRIO</th>
           <th class="text-left">{{ tituloTipo }}</th>
         </tr>
       </thead>
@@ -33,7 +35,8 @@ export default {
               :src="curso.src"
               ></b-avatar>
           </td>
-          <td>{{ curso.nome }}</td>
+          <td 
+            v-if="titulo != 'Maior Pontuação'">{{ curso.nome }}</td>
           <td>{{ curso.autor }}</td>
           <td>{{ curso.pontos }}</td>
         </tr>

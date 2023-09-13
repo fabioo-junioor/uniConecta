@@ -1,12 +1,12 @@
 <script>
-import ModalUser from "./ModalUser.vue";
+import ModalCadUser from "./ModalCadUser.vue";
 
 export default {
   name: "NavMenu",
-  components: { ModalUser },
+  components: { ModalCadUser },
   data() {
     return {
-      logado: false,
+      logado: true,
       nameUser: "Fabio",
     };
   },
@@ -43,7 +43,7 @@ export default {
             v-if="!logado">
             <b-nav-item>
                 <a v-b-modal.modal-scrollable-user-lg>
-                  <ModalUser />
+                  <ModalCadUser />
                     LOGIN
                 </a>
               </b-nav-item>

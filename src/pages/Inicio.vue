@@ -9,7 +9,7 @@ export default{
     return{
       configRanking: {
         cursos,
-        titulo: "MAIS CURTIDOS",
+        titulo: "Maior Pontuação",
         tituloTipo: "TOTAL",
         tipoRanking: false
 
@@ -22,15 +22,13 @@ export default{
     alternaRanking(){
       console.log("clicou")
       this.tipoRanking = !this.tipoRanking
-      if(this.configRanking.titulo === "MAIS CURTIDOS"){
-        this.configRanking.titulo = "MAIS COMPRADOS"
-        //this.configRanking.tituloTipo = "COMPRAS"
+      if(this.configRanking.titulo === "Maior Pontuação"){
+        this.configRanking.titulo = "Mais Comprados"
         this.configRanking.tipoRanking = !this.configRanking.tipoRanking
-        this.tituloButton = "+ CURTIDOS"
+        this.tituloButton = "+ PONTOS"
 
       }else{
-        this.configRanking.titulo = "MAIS CURTIDOS"
-        //this.configRanking.tituloTipo = "LIKES"
+        this.configRanking.titulo = "Maior Pontuação"
         this.configRanking.tipoRanking = !this.configRanking.tipoRanking
         this.tituloButton = "+ COMPRADOS"
 
