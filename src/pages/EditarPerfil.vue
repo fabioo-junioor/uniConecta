@@ -90,8 +90,8 @@ export default {
     <div class="lado-edicao">
       <b-form>
         <div>
-          <div class="preview-imagem"
-            v-if="formEdicao.adicionouImagem">
+          <div class="preview-imagem">
+            <h5 v-if="!formEdicao.adicionouImagem">Visualização</h5>
             <img :src="formEdicao.imagem" />
           </div>
           <div class="imagem-profile">
@@ -262,14 +262,18 @@ export default {
       }
     }
     .preview-imagem{
-      max-width: 25rem !important;
-      height: auto;
-      height: auto;
+      max-width: 21rem !important;
+      max-height: auto !important;
+      min-width: 15rem !important;
+      min-height: 15rem !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       margin: 0 0 1rem 0;
       padding: .3rem;
       border: 1px solid #6c63ff;
       border-radius: 5px;
-      background-color: white;
+      background-color: rgb(240, 240, 240);
       box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
       color: black;
       font-weight: 500;
@@ -278,6 +282,11 @@ export default {
         max-height: 20rem;
         max-width: 20rem;
 
+      }
+      h5{
+        color: rgba(0, 0, 0, 0.6);
+        font-weight: 600;
+        font-size: 1rem;
       }
     }
     form{

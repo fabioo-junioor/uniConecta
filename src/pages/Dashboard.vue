@@ -176,8 +176,89 @@ export default {
 @media only screen and (max-width: 1560px) {
 }
 @media only screen and (max-width: 1200px) {
+#dashboard{
+  .lado-user{
+    .dados-user {
+      width: 90%;
+      padding: 0;
+
+      h3 {
+        text-align: center;
+
+      }
+      h2 {
+        text-align: center;
+
+      }
+      div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+      }
+    }
+  }
+  .lado-cursos{
+    .cursos-comprados,
+    .cursos-vendidos,
+    .cursos-avaliados{
+      .cards-cursos{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: .3rem;
+        
+      }
+    }
+  }
 }
-@media only screen and (max-width: 992px) {
+}
+@media only screen and (max-width: 990px) {
+#dashboard{  
+  .lado-user{
+    width: 25%;
+
+    .foto-user{
+      img{
+        max-height: 12rem;
+        max-width: 12rem;
+
+      }
+    }
+    .dados-user {
+      width: 90%;
+
+      h3 {
+        text-align: center;
+
+      }
+      h2 {
+        text-align: center;
+
+      }
+      div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+      }
+    }
+  }
+  .lado-cursos{
+    width: 70%;
+    .cursos-comprados,
+    .cursos-vendidos,
+    .cursos-avaliados{
+      .cards-cursos{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: .3rem;
+        
+      }
+    }
+  }
+}
 }
 @media only screen and (max-width: 720px) {
 #dashboard{
@@ -190,6 +271,49 @@ export default {
 
     .dados-user {
       width: 60%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      h3 {
+        text-align: center;
+
+      }
+      h2 {
+        text-align: center;
+
+      }
+      div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+      }
+    }
+  }
+  .lado-cursos{
+    width: 95%;
+    padding: 3rem 0 0 0;
+
+    .cursos-comprados,
+    .cursos-vendidos,
+    .cursos-avaliados{
+      .cards-cursos{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: .3rem;
+        
+      }
+    }
+  }
+}
+}
+@media only screen and (max-width: 481px) {
+#dashboard{
+  .lado-user{
+    .dados-user {
+      width: 80%;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -211,18 +335,14 @@ export default {
 
       }
     }
-
   }
   .lado-cursos{
-    width: 95%;
-    padding: 3rem 0 0 0;
-
     .cursos-comprados,
     .cursos-vendidos,
     .cursos-avaliados{
       .cards-cursos{
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(1, 1fr);
         gap: .3rem;
         
       }
@@ -230,8 +350,14 @@ export default {
   }
 }
 }
-@media only screen and (max-width: 481px) {
-}
 @media only screen and (max-width: 360px) {
+#dashboard{
+  .lado-user{
+    .dados-user {
+      width: 90%;
+      
+    }
+  }
+}
 }
 </style>
