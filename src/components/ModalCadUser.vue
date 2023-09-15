@@ -66,7 +66,7 @@ export default {
     <div id="loginUser">
       <b-form>
         <div>
-          <img src="../assets/draw/my_password.svg" />
+          <img src="../assets/draw/login.svg" />
         </div>
         <div v-if="logar">
           <div class="form-floating">

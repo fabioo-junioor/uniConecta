@@ -21,9 +21,9 @@ export default {
 <template>
   <div id="navmenu">
     <b-navbar toggleable="lg">
-      <b-navbar-brand>
-        <router-link to="/">UniConecta</router-link>
-      </b-navbar-brand>
+      <router-link to="/">
+        <b-navbar-brand><img src="../assets/img/logo.png"></b-navbar-brand>
+      </router-link>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -90,10 +90,20 @@ export default {
     box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.5);
 
     .navbar-brand{
-      padding: .5rem 1rem;
-      margin: .1rem;
+      padding: 0;
+      margin: .2rem .1rem;
       border: 1px solid white;
       border-radius: 5px;
+
+      img{
+        border-radius: 5px;
+        max-width: 9rem;
+        
+      }
+    }
+    .navbar-brand:hover{
+      background-color: white;
+      box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
 
     }
     .navbar-toggler{

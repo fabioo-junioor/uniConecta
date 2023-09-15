@@ -64,7 +64,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  //background-color: red;
+  margin: .5rem 0 1rem 0;
 
   .lado-user {
     width: 20%;
@@ -146,7 +146,7 @@ export default {
       button{
         font-family: 'Work Sans', sans-serif;
         border-radius: 5px;
-        color: black;
+        color: #6b63ff;
         background-color: transparent;
         border: 1px solid #6b63ff;
 

@@ -73,8 +73,8 @@ export default{
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 3rem .5rem 0 .5rem;
-  height: 100%;
+  padding: .5rem;
+  margin: .5rem 0 1rem 0;
 
   .inicio-img-draw{
     width: 40%;
@@ -92,16 +92,18 @@ export default{
 
     .btn{
       margin-bottom: .3rem;
-      color: white;
+      color: #6C63FF;
       font-size: .7rem;
       font-weight: 500;
-      border: none;
+      border: 1px solid #6C63FF;
       padding: .5rem .4rem;
-      background-color: #6C63FF;
+      background-color: transparent;
 
     }
     .btn:hover{
-      background-color: #6b63ffcc;
+      background-color: #6C63FF;
+      color: white;
+      box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
 
     }
     .inicio-ranking-likes,
@@ -122,7 +124,7 @@ export default{
 #inicio {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center;  
   padding: 0;
 
   .inicio-img-draw{
@@ -130,13 +132,13 @@ export default{
     margin: 1rem 0;
 
     img{
-      max-width: 20rem;
+      max-width: 15rem;
 
     }
   }
   .inicio-ranking{
-    width: 95%;
-
+    width: 90%;
+    
   }
 }
 }

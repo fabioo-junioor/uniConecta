@@ -43,7 +43,7 @@ export default {
     <div id="cadastro-curso">
       <b-form>
         <div>
-          <img src="../assets/draw/my_password.svg" />
+          <img src="../assets/draw/login.svg" />
         </div>
         <div>
           <div class="form-floating">

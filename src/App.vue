@@ -1,12 +1,25 @@
-<script setup>
+<script>
 import NavMenu from "./components/NavMenu.vue"
+import Rodape from './components/Rodape.vue'
+export default {
+  name: "App",
+  components: {NavMenu, Rodape},
+  data() {
+    return {}
+
+  }
+};
 </script>
 
 <template>
   <div id="app">
-    <NavMenu />
-    <router-view />
-    
+    <div class="app-nav-corpo">
+      <NavMenu />
+      <router-view />
+    </div>
+    <div class="app-rodape">
+      <Rodape />
+    </div>
   </div>
 </template>
 
@@ -15,6 +28,22 @@ import NavMenu from "./components/NavMenu.vue"
   min-height: 100vh;
   min-width: 100vw;
   background-color: rgba(0, 0, 0, .04);
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+/*################################################*/
+@media only screen and (max-width: 1560px) {
+}
+@media only screen and (max-width: 1200px) {
+}
+@media only screen and (max-width: 990px) {
+}
+@media only screen and (max-width: 720px) {
+}
+@media only screen and (max-width: 481px) {
+}
+@media only screen and (max-width: 360px) {
 }
 </style>
