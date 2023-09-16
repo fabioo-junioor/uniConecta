@@ -1,4 +1,6 @@
 <script>
+import { url, setDadosUsuario } from '../config/global.js'
+
 export default {
   name: "ModalCadUser",
   data() {
@@ -16,12 +18,22 @@ export default {
   },
   methods: {
     logarUser() {
-      if (this.form.email === "" || this.form.senha === "") {
-        
-      } else {
-        console.log("Logou- ", this.form.email, this.form.senha)
-      
-      }
+      fetch(url+'authUsuario.php', {
+        method: "POST",
+        body: JSON.stringify(this.form)
+      })
+      .then((res) => res.json())
+      .then((dados) => {
+        if(dados[0].pk_usuario != null){
+          setDadosUsuario(dados)
+          location.reload()
+          console.log(dados)
+
+        }else{
+          console.log("Usuario nao existe!")
+
+        }
+      })
     },
     reset() {
       this.form.nome = "";

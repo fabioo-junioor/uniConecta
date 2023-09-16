@@ -1,10 +1,12 @@
 <script>
+import { getDadosUsuario } from '../config/global.js'
+
 export default {
   name: "EditarPerfil",
   data() {
     return {
-      nomeUser: "Fabio Junior",
-      curso: "Sistemas de informação",
+      nomeUser: "",
+      curso: "",
       totalPontos: 626,
       totalCoins: 515,
       formEdicao: {
@@ -64,6 +66,12 @@ export default {
         this.formEdicao.senha)
 
     }
+  },
+  created(){
+    let dadosUsuario = getDadosUsuario()
+    this.nomeUser = dadosUsuario[0].nome
+    this.curso = dadosUsuario[0].graduacao
+
   }
 };
 </script>

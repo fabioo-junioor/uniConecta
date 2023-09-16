@@ -1,20 +1,33 @@
 <script>
 import ModalCadUser from "./ModalCadUser.vue";
+import { getDadosUsuario, deleteDadosUsuario } from "../config/global.js"
 
 export default {
   name: "NavMenu",
   components: { ModalCadUser },
   data() {
     return {
-      logado: true,
-      nameUser: "Fabio",
+      logado: false,
+      nomeUsuario: "",
     };
   },
   methods: {
     cad() {
-      console.log("teste");
+
     },
+    sair(){
+      deleteDadosUsuario()
+      location.reload()
+      
+    }
   },
+  created() {    
+      //console.log(getDadosUsuario())
+      let dadosUsuario = getDadosUsuario()
+      this.logado = (dadosUsuario != null) ? true : false
+      this.nomeUsuario = (dadosUsuario != null) ? dadosUsuario[0].nome.split(" ")[0] : ""
+
+  }
 };
 </script>
 
@@ -51,7 +64,7 @@ export default {
           <div
             class="menu-user-logado"
             v-else>
-            <b-nav-item-dropdown :text="nameUser" right>
+            <b-nav-item-dropdown :text="nomeUsuario" right>
               <b-dropdown-item>
                 <router-link to="/dashboard">Dashboard</router-link>
               </b-dropdown-item>
@@ -62,7 +75,8 @@ export default {
                 <router-link to="editarPerfil">Editar Perfil</router-link>
               </b-dropdown-item>
                 <b-dropdown-divider></b-dropdown-divider>
-              <b-dropdown-item>Sair</b-dropdown-item>
+              <b-dropdown-item
+                @click="sair()">Sair</b-dropdown-item>
             </b-nav-item-dropdown>
           </div>
         </div>
