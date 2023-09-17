@@ -43,9 +43,9 @@ export default {
         </div>
     </div>
     <b-card
-      title="HTML"
       tag="div"
       class="mb-2">
+      <b-card-title>html</b-card-title>
       <b-card-text>autor</b-card-text>
       <b-card-text>descricão</b-card-text>
       <div>
@@ -64,7 +64,6 @@ export default {
     </b-card>
   </div>
 </template>
-
 
 <style lang="scss" scoped>
 @import url('https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css');
@@ -128,9 +127,7 @@ export default {
       border-radius: 0px !important;
       min-height: 100px;
       
-
     }
-
     div{
       display: flex;
       justify-content: space-between;
@@ -138,7 +135,12 @@ export default {
       //background-color: red;
 
     }
-  }
-  
+    .card-body{
+      h4::first-letter, p::first-letter{
+        text-transform: uppercase;
+
+      }
+    }
+  }  
 }
 </style>

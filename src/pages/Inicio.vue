@@ -1,6 +1,6 @@
 <script>
 import ListRanking from '../components/ListRanking.vue'
-import cursos from '../js/dados.js'
+import { url } from '../config/global.js'
 
 export default{
   name: 'Inicio',
@@ -8,7 +8,7 @@ export default{
   data(){
     return{
       configRanking: {
-        cursos,
+        ranking: [],
         titulo: "Maior Pontuação",
         tituloTipo: "TOTAL",
         tipoRanking: false
@@ -20,20 +20,56 @@ export default{
   },
   methods: {
     alternaRanking(){
-      console.log("clicou")
       this.tipoRanking = !this.tipoRanking
       if(this.configRanking.titulo === "Maior Pontuação"){
         this.configRanking.titulo = "Mais Comprados"
         this.configRanking.tipoRanking = !this.configRanking.tipoRanking
         this.tituloButton = "+ PONTOS"
+        this.buscarMaisComprados()
 
       }else{
         this.configRanking.titulo = "Maior Pontuação"
         this.configRanking.tipoRanking = !this.configRanking.tipoRanking
         this.tituloButton = "+ COMPRADOS"
+        this.buscarMaioresPontuacoes()
 
       }
+    },
+    buscarMaioresPontuacoes(){
+      fetch(url+'buscaRanking.php?maioresPontuacoes=1', {
+        method: "POST",
+        body: JSON.stringify()
+      })
+      .then((res) => res.json())
+      .then((dados) => {
+        if(dados[0].pk_usuario != null){
+          console.log(dados)
+          this.configRanking.ranking = []
+          this.configRanking.ranking = dados
+
+        }
+      })
+    },
+    buscarMaisComprados(){
+      fetch(url+'buscaRanking.php?maisComprados=1', {
+        method: "POST",
+        body: JSON.stringify()
+      })
+      .then((res) => res.json())
+      .then((dados) => {
+        if(dados[0].pk_usuario != null){
+          console.log(dados)
+          this.configRanking.ranking = []
+          this.configRanking.ranking = dados
+
+        }
+      })
     }
+  },
+  created(){
+    console.log("criou ranking")
+    this.buscarMaioresPontuacoes()
+
   }
 }
 </script>
@@ -51,17 +87,19 @@ export default{
         v-if="tipoRanking"
         class="inicio-ranking-likes">
         <ListRanking
-          :cursos=configRanking.cursos
+          :ranking=configRanking.ranking
           :titulo=configRanking.titulo
-          :tituloTipo=configRanking.tituloTipo />      
+          :tituloTipo=configRanking.tituloTipo
+          :tipoRanking=configRanking.tipoRanking />      
       </div>
       <div 
         v-else
         class="inicio-ranking-best-sellers">
         <ListRanking
-          :cursos=configRanking.cursos
+          :ranking=configRanking.ranking
           :titulo=configRanking.titulo 
-          :tituloTipo=configRanking.tituloTipo />     
+          :tituloTipo=configRanking.tituloTipo
+          :tipoRanking=configRanking.tipoRanking />     
       </div>
     </div>
   </div>

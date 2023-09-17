@@ -17,23 +17,42 @@ export default {
     };
   },
   methods: {
-    logarUser() {
+    authUsuario() {
       fetch(url+'authUsuario.php', {
         method: "POST",
-        body: JSON.stringify(this.form)
+        body: JSON.stringify({
+          email: this.form.email,
+          senha: this.form.senha
+        })
       })
       .then((res) => res.json())
       .then((dados) => {
         if(dados[0].pk_usuario != null){
-          setDadosUsuario(dados)
-          location.reload()
-          console.log(dados)
+          //console.log(dados)
+          this.buscarDadosUsuario(dados[0].pk_usuario)          
 
         }else{
           console.log("Usuario nao existe!")
 
         }
       })
+    },
+    buscarDadosUsuario(pk_usuario){
+      fetch(url+'buscaDadosUsuario.php', {
+        method: "POST",
+        body: JSON.stringify({
+          pk_usuario: pk_usuario
+        })
+      })
+      .then((res) => res.json())
+      .then((dados) => {
+        setDadosUsuario(dados)
+        //location.reload()
+        console.log(dados)
+
+      })
+      
+
     },
     reset() {
       this.form.nome = "";
@@ -101,7 +120,7 @@ export default {
           </div>
           <div class="buttons-login-user">
             <b-button
-              @click="logarUser()"
+              @click="authUsuario()"
               variant="primary"
               :disabled="!botaoAcessar" >Acessar</b-button>
             <b-button @click="(logar = !logar), reset()" variant="secondary"

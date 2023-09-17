@@ -22,7 +22,7 @@ export default {
     }
   },
   created() {    
-      //console.log(getDadosUsuario())
+      console.log("criou nav")
       let dadosUsuario = getDadosUsuario()
       this.logado = (dadosUsuario != null) ? true : false
       this.nomeUsuario = (dadosUsuario != null) ? dadosUsuario[0].nome.split(" ")[0] : ""
@@ -173,6 +173,10 @@ export default {
               color: white;
               font-weight: 600;
 
+            }
+            li::first-letter{
+              text-transform: uppercase;
+              
             }
             a{
               color: black !important;

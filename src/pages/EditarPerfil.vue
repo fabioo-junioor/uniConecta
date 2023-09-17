@@ -5,10 +5,10 @@ export default {
   name: "EditarPerfil",
   data() {
     return {
-      nomeUser: "",
-      curso: "",
-      totalPontos: 626,
-      totalCoins: 515,
+      nomeUsuario: "",
+      graduacao: "",
+      totalPontos: 0,
+      totalMoedas: 0,
       formEdicao: {
         imagem: null,
         adicionouImagem: false,
@@ -20,7 +20,7 @@ export default {
           {value: 'Sistemas de informação', text: 'Sistemas de informação'},
           {value: 'Medicina', text: 'Medicina'},
         ],
-        senha: "asdasd22",
+        senha: "",
       },
       botaoSalvar: false
 
@@ -65,12 +65,18 @@ export default {
         this.formEdicao.graduacao,
         this.formEdicao.senha)
 
+    },
+    atualizaDadosUsuario(){
+      let dadosUsuario = getDadosUsuario()
+      this.nomeUsuario = dadosUsuario[0].nome
+      this.graduacao = dadosUsuario[0].graduacao
+      this.totalMoedas = dadosUsuario[0].total_moedas
+      this.totalPontos = dadosUsuario[0].total_pontos
+
     }
   },
   created(){
-    let dadosUsuario = getDadosUsuario()
-    this.nomeUser = dadosUsuario[0].nome
-    this.curso = dadosUsuario[0].graduacao
+    this.atualizaDadosUsuario()
 
   }
 };
@@ -83,11 +89,11 @@ export default {
         <img src="../assets/img/person1.png" />
       </div>
       <div class="dados-user">
-        <h3>{{ nomeUser }}</h3>
-        <h2>{{ curso }}</h2>
+        <h3>{{ nomeUsuario }}</h3>
+        <h2>{{ graduacao }}</h2>
         <div>
           <img src="../assets/gifs/coin.gif" />
-          {{ totalCoins }}
+          {{ totalMoedas }}
         </div>
         <div>
           <img src="../assets/img/trophy.png" />
@@ -223,6 +229,10 @@ export default {
       h2 {
         font-size: 0.9rem;
         width: 100%;
+      }
+      h3::first-letter, h2::first-letter{
+        text-transform: uppercase;
+        
       }
       div {
         display: flex;

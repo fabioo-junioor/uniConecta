@@ -2,13 +2,16 @@
 export default {
   name: "ListRanking",
   data() {
-    return {};
+    return {
+      
+    }
   },
   props: {
     titulo: String,
     tituloTipo: String,
-    cursos: Array,
-  },
+    ranking: Array,
+    tipoRanking: Boolean
+  }
 };
 </script>
 
@@ -21,24 +24,24 @@ export default {
           <th class="text-left">###</th>
           <th
             class="text-left"
-            v-if="titulo != 'Maior Pontuação'">NOME CURSO</th>
+            v-if="tipoRanking">NOME CURSO</th>
           <th class="text-left">USUÁRIO</th>
           <th class="text-left">{{ tituloTipo }}</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="curso in cursos" :key="curso.codigo">
+        <tr v-for="r in ranking" :key="r">
           <td>
             <b-avatar
               variant="info"
               size="50"
-              :src="curso.src"
+              :src="r"
               ></b-avatar>
           </td>
-          <td 
-            v-if="titulo != 'Maior Pontuação'">{{ curso.nome }}</td>
-          <td>{{ curso.autor }}</td>
-          <td>{{ curso.pontos }}</td>
+            <td v-if="tipoRanking">{{ r.nomeCurso }}</td>
+            <td>{{ r.nomeUsuario }}</td>
+            <td v-if="tipoRanking">{{ r.totalCompras }}</td>
+            <td v-if="!tipoRanking">{{ r.totalPontos }}</td>
         </tr>
       </tbody>
     </v-table>
@@ -73,6 +76,10 @@ export default {
     th, td{
       padding: .7rem .5rem;
 
+    }
+    td::first-letter{
+      text-transform: uppercase;
+              
     }
   }
 }
