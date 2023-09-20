@@ -1,0 +1,85 @@
+<script>
+export default {
+  name: "Alerta",
+  data() {
+    return {
+        tempo: 4,
+        dismissCountDown: 0
+
+    }
+  },
+  props: {
+    mensagem: String,
+    tipo: String
+
+  },
+  methods: {
+    countDownChanged(dismissCountDown) {
+        this.dismissCountDown = dismissCountDown
+
+    },
+    showAlert() {
+        this.dismissCountDown = this.tempo
+
+    }     
+  },
+  created(){
+    this.showAlert()
+
+  }
+};
+</script>
+<template>
+  <div id="alerta">
+    <b-alert
+      :show="dismissCountDown"
+      dismiss-label
+      fade
+      :variant=tipo
+      @dismissed="dismissCountDown=0"
+      @dismiss-count-down="countDownChanged">
+      <p>{{ mensagem }}</p>
+      <b-progress
+        :variant=tipo
+        :max="tempo"
+        :value="dismissCountDown"
+        height="4px"
+      ></b-progress>
+    </b-alert>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@import url("https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap");
+
+#alerta{
+    .alert{
+        width: 30%;
+        position: absolute;
+        top: 10%;
+        right: 2%;
+        z-index: 2000;
+
+        p{
+            font-family: 'Work Sans', sans-serif;
+            font-size: .9rem;
+            color: black;
+
+        }
+    }
+}
+/* Responsive */
+@media only screen and (max-width: 1560px) {
+}
+@media only screen and (max-width: 1200px) {
+}
+@media only screen and (max-width: 990px) {
+}
+@media only screen and (max-width: 720px) {
+}
+@media only screen and (max-width: 481px) {
+}
+@media only screen and (max-width: 360px) {
+}
+</style>

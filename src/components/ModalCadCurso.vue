@@ -209,4 +209,5 @@ export default {
   border-radius: 5px;
   color: white;
 }
+/* Responsive */
 </style>

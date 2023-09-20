@@ -5,10 +5,9 @@ import App from './App.vue'
 import router from './config/router.js'
 
 // BootstrapVue
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import { BootstrapVue, IconsPlugin, AlertPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
 
 // Vuetify
 import 'vuetify/styles'
@@ -27,5 +26,6 @@ createApp(App)
     .use(vuetify)
     .use(BootstrapVue)
     .use(IconsPlugin)
+    .use(AlertPlugin)
     .use(router)
     .mount('#app')

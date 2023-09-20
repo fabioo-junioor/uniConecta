@@ -35,4 +35,5 @@ export default {
 
   }
 }
+/* Responsive */
 </style>

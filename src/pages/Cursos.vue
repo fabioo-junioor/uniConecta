@@ -17,6 +17,8 @@ export default {
 
 <style lang="scss" scoped>
 #cursos {
-  background-color: aquamarine;  
+  background-color: aquamarine;
+
 }
+/* Responsive */
 </style>

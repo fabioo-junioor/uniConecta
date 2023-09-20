@@ -172,7 +172,7 @@ export default {
     }
   }
 }
-/*################################################*/
+/* Responsive */
 @media only screen and (max-width: 1560px) {
 }
 @media only screen and (max-width: 1200px) {

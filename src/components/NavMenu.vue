@@ -55,7 +55,7 @@ export default {
             class="menu-user-nao-logado"
             v-if="!logado">
             <b-nav-item>
-                <a v-b-modal.modal-scrollable-user-lg>
+                <a v-b-modal.modal-scrollable-user-xl>
                   <ModalCadUser />
                     LOGIN
                 </a>
@@ -69,10 +69,10 @@ export default {
                 <router-link to="/dashboard">Dashboard</router-link>
               </b-dropdown-item>
               <b-dropdown-item>
-                <router-link to="meusCursos">Meus Cursos</router-link>
+                <router-link to="/meusCursos">Meus Cursos</router-link>
               </b-dropdown-item>
               <b-dropdown-item>
-                <router-link to="editarPerfil">Editar Perfil</router-link>
+                <router-link to="/editarPerfil">Editar Perfil</router-link>
               </b-dropdown-item>
                 <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item
@@ -191,7 +191,7 @@ export default {
     }
   }  
 }
-/*################################################*/
+/* Responsive */
 @media only screen and (max-width: 1560px) {
 }
 @media only screen and (max-width: 1200px) {

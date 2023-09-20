@@ -1,9 +1,11 @@
 <script>
 import NavMenu from "./components/NavMenu.vue"
 import Rodape from './components/Rodape.vue'
+import Alerta from "./components/Alerta.vue"
+
 export default {
   name: "App",
-  components: {NavMenu, Rodape},
+  components: {NavMenu, Rodape, Alerta},
   data() {
     return {}
 
@@ -33,7 +35,7 @@ export default {
   justify-content: space-between;
 
 }
-/*################################################*/
+/* Responsive */
 @media only screen and (max-width: 1560px) {
 }
 @media only screen and (max-width: 1200px) {

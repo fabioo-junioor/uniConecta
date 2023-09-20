@@ -1,8 +1,10 @@
 <script>
 import { url, setDadosUsuario } from '../config/global.js'
+import Alerta from './Alerta.vue'
 
 export default {
   name: "ModalCadUser",
+  components: {Alerta},
   data() {
     return {
       form: {
@@ -10,6 +12,12 @@ export default {
         email: "",
         telefone: null,
         senha: "",
+      },
+      alerta:{
+        mensagem: '',
+        tipo: '',
+        isAlert: false
+
       },
       logar: true,
       botaoAcessar: false,
@@ -32,7 +40,12 @@ export default {
           this.buscarDadosUsuario(dados[0].pk_usuario)          
 
         }else{
-          console.log("Usuario nao existe!")
+          console.log("Senha incorreta!")
+          //this.resetaAlerta()
+          this.alerta.mensagem = "Senha incorreta"
+          this.alerta.tipo = "danger"
+          this.alerta.isAlert = true
+          
 
         }
       })
@@ -62,6 +75,16 @@ export default {
       console.log("Resetou");
     
     },
+    resetaAlerta(){
+      setTimeout(() => {
+        this.alerta.mensagem = ""
+        this.alerta.tipo = ""
+        this.alerta.isAlert = false
+
+      }, 4050)
+      console.log("Resetou alerta");
+
+    },
     enableBotaoAcessar(){
       if((this.form.email != "") &&
         (this.form.senha != "")){
@@ -89,104 +112,113 @@ export default {
 };
 </script>
 <template>
-  <b-modal
-    id="modal-scrollable-user-lg"
-    size="lg"
-    scrollable
-    title="Login Usuário">
-    <div id="loginUser">
-      <b-form>
-        <div>
-          <img src="../assets/draw/login.svg" />
-        </div>
-        <div v-if="logar">
-          <div class="form-floating">
-            <b-form-input
-              v-model="form.email"
-              type="email"
-              placeholder="Informe seu email: "
-              @input="enableBotaoAcessar()"
-            ></b-form-input>
-            <label for="floatingInput">Informe seu email:</label>
+  <div id="modal-cadastro-usuario">
+    <Alerta
+      class="alerta-cadastro-usuario"
+      :mensagem=alerta.mensagem
+      :tipo=alerta.tipo
+      v-if="alerta.isAlert" />
+    <b-modal
+      id="modal-scrollable-user-xl"
+      size="lg"
+      scrollable
+      title="Login Usuário">
+      <div id="loginUser">
+        <b-form>
+          <div>
+            <img src="../assets/draw/login.svg" />
           </div>
-          <div class="form-floating">
-            <b-form-input
-              v-model="form.senha"
-              type="password"
-              placeholder="Informe sua senha: "
-              @input="enableBotaoAcessar()"
-            ></b-form-input>
-            <label for="floatingInput">Informe sua senha:</label>
+          <div v-if="logar">
+            <div class="form-floating">
+              <b-form-input
+                v-model="form.email"
+                type="email"
+                placeholder="Informe seu email: "
+                @input="enableBotaoAcessar()"
+              ></b-form-input>
+              <label for="floatingInput">Informe seu email:</label>
+            </div>
+            <div class="form-floating">
+              <b-form-input
+                v-model="form.senha"
+                type="password"
+                placeholder="Informe sua senha: "
+                @input="enableBotaoAcessar()"
+              ></b-form-input>
+              <label for="floatingInput">Informe sua senha:</label>
+            </div>
+            <div class="buttons-login-user">
+              <b-button
+                @click="authUsuario()"
+                variant="primary"
+                :disabled="!botaoAcessar" >Acessar</b-button>
+              <b-button @click="(logar = !logar), reset()" variant="secondary"
+                >Cadastre-se</b-button
+              >
+            </div>
           </div>
-          <div class="buttons-login-user">
-            <b-button
-              @click="authUsuario()"
-              variant="primary"
-              :disabled="!botaoAcessar" >Acessar</b-button>
-            <b-button @click="(logar = !logar), reset()" variant="secondary"
-              >Cadastre-se</b-button
-            >
+          <div v-else>
+            <div class="form-floating">
+              <b-form-input
+                v-model="form.nome"
+                type="text"
+                placeholder="Informe seu nome: "
+                @input="enableBotaoSalvar()"
+              ></b-form-input>
+              <label for="floatingInput">Informe seu nome:</label>
+            </div>
+            <div class="form-floating">
+              <b-form-input
+                v-model="form.email"
+                type="email"
+                placeholder="Informe seu email: "
+                @input="enableBotaoSalvar()"
+              ></b-form-input>
+              <label for="floatingInput">Informe seu email:</label>
+            </div>
+            <div class="form-floating">
+              <b-form-input
+                v-model="form.telefone"
+                type="tel"
+                placeholder="Informe seu telefone: "
+                @input="enableBotaoSalvar()"
+              ></b-form-input>
+              <label for="floatingInput">Informe seu telefone:</label>
+            </div>
+            <div class="form-floating">
+              <b-form-input
+                v-model="form.senha"
+                type="password"
+                placeholder="Informe sua senha: "
+                @input="enableBotaoSalvar()"
+              ></b-form-input>
+              <label for="floatingInput">Informe sua senha:</label>
+            </div>
+            <div class="buttons-login-user">
+              <b-button
+                @click="cadastrarUser()"
+                variant="primary"
+                :disabled="!botaoSalvar"
+                >Salvar</b-button
+              >
+              <b-button @click="(logar = !logar), reset()" variant="secondary"
+                >Fazer login</b-button
+              >
+            </div>
           </div>
-        </div>
-        <div v-else>
-          <div class="form-floating">
-            <b-form-input
-              v-model="form.nome"
-              type="text"
-              placeholder="Informe seu nome: "
-              @input="enableBotaoSalvar()"
-            ></b-form-input>
-            <label for="floatingInput">Informe seu nome:</label>
+          <div class="link-esqueceu-senha-user">
+            <b-button v-if="logar">Esqueceu sua senha?</b-button>
           </div>
-          <div class="form-floating">
-            <b-form-input
-              v-model="form.email"
-              type="email"
-              placeholder="Informe seu email: "
-              @input="enableBotaoSalvar()"
-            ></b-form-input>
-            <label for="floatingInput">Informe seu email:</label>
-          </div>
-          <div class="form-floating">
-            <b-form-input
-              v-model="form.telefone"
-              type="tel"
-              placeholder="Informe seu telefone: "
-              @input="enableBotaoSalvar()"
-            ></b-form-input>
-            <label for="floatingInput">Informe seu telefone:</label>
-          </div>
-          <div class="form-floating">
-            <b-form-input
-              v-model="form.senha"
-              type="password"
-              placeholder="Informe sua senha: "
-              @input="enableBotaoSalvar()"
-            ></b-form-input>
-            <label for="floatingInput">Informe sua senha:</label>
-          </div>
-          <div class="buttons-login-user">
-            <b-button
-              @click="cadastrarUser()"
-              variant="primary"
-              :disabled="!botaoSalvar"
-              >Salvar</b-button
-            >
-            <b-button @click="(logar = !logar), reset()" variant="secondary"
-              >Fazer login</b-button
-            >
-          </div>
-        </div>
-        <div class="link-esqueceu-senha-user">
-          <b-button v-if="logar">Esqueceu sua senha?</b-button>
-        </div>
-      </b-form>
-    </div>
-  </b-modal>
+        </b-form>
+      </div>
+    </b-modal>
+  </div>
 </template>
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap');
-
+#modal-cadastro-usuario{
+  
+}
 .modal-content {
   border-radius: 5px !important;
   border: none !important;
@@ -307,5 +339,18 @@ export default {
 #loginUser .link-esqueceu-senha-user button:hover {
   color: rgba(255, 255, 255, .8);
   font-weight: bold;
+}
+/* Responsive */
+@media only screen and (max-width: 1560px) {
+}
+@media only screen and (max-width: 1200px) {
+}
+@media only screen and (max-width: 990px) {
+}
+@media only screen and (max-width: 720px) {
+}
+@media only screen and (max-width: 481px) {
+}
+@media only screen and (max-width: 360px) {
 }
 </style>
