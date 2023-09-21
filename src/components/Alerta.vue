@@ -19,9 +19,9 @@ export default {
 
     },
     showAlert() {
-        this.dismissCountDown = this.tempo
+      this.dismissCountDown = this.tempo
 
-    }     
+    }
   },
   created(){
     this.showAlert()
@@ -54,20 +54,20 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap");
 
 #alerta{
-    .alert{
-        width: 30%;
-        position: absolute;
-        top: 10%;
-        right: 2%;
-        z-index: 2000;
+  .alert{
+      width: 30%;
+      position: absolute;
+      top: 10%;
+      right: 2%;
+      z-index: 2000;
 
-        p{
-            font-family: 'Work Sans', sans-serif;
-            font-size: .9rem;
-            color: black;
+      p{
+          font-family: 'Work Sans', sans-serif;
+          font-size: .9rem;
+          color: black;
 
-        }
-    }
+      }
+  }
 }
 /* Responsive */
 @media only screen and (max-width: 1560px) {
@@ -75,11 +75,41 @@ export default {
 @media only screen and (max-width: 1200px) {
 }
 @media only screen and (max-width: 990px) {
+  #alerta{
+    .alert{
+        width: 40%;
+        position: absolute;
+        top: 10%;
+        right: 2%;
+        z-index: 2000;
+
+    }
+  }
 }
 @media only screen and (max-width: 720px) {
 }
 @media only screen and (max-width: 481px) {
+  #alerta{
+    .alert{
+        width: 60%;
+        position: absolute;
+        top: 10%;
+        right: 2%;
+        z-index: 2000;
+
+    }
+  }
 }
 @media only screen and (max-width: 360px) {
+  #alerta{
+    .alert{
+        width: 70%;
+        position: absolute;
+        top: 10%;
+        right: 2%;
+        z-index: 2000;
+
+    }
+  }
 }
 </style>

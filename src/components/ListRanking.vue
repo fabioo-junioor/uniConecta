@@ -21,27 +21,21 @@ export default {
     <v-table>
       <thead>
         <tr>
-          <th class="text-left">###</th>
+          <th class="text-left">Posição</th>
           <th
             class="text-left"
-            v-if="tipoRanking">NOME CURSO</th>
-          <th class="text-left">USUÁRIO</th>
+            v-if="tipoRanking">Nome Curso</th>
+          <th class="text-left">Usuário</th>
           <th class="text-left">{{ tituloTipo }}</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="r in ranking" :key="r">
-          <td>
-            <b-avatar
-              variant="info"
-              size="50"
-              :src="r"
-              ></b-avatar>
-          </td>
-            <td v-if="tipoRanking">{{ r.nomeCurso }}</td>
-            <td>{{ r.nomeUsuario }}</td>
-            <td v-if="tipoRanking">{{ r.totalCompras }}</td>
-            <td v-if="!tipoRanking">{{ r.totalPontos }}</td>
+        <tr v-for="(r, i) in ranking" :key="r">
+          <td>{{ i+1 }}º</td>
+          <td v-if="tipoRanking">{{ r.nomeCurso }}</td>
+          <td>{{ r.nomeUsuario }}</td>
+          <td v-if="tipoRanking">{{ r.totalCompras }}</td>
+          <td v-if="!tipoRanking">{{ r.totalPontos }}</td>
         </tr>
       </tbody>
     </v-table>
@@ -73,6 +67,17 @@ export default {
   
   }
   .v-table{
+    th{
+      font-weight: bold;
+      color: black;
+
+    }
+    td:nth-child(1){
+      padding-left: 1.2rem;
+      font-weight: bold;
+      color: black;
+      
+    }
     th, td{
       padding: .7rem .5rem;
 

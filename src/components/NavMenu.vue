@@ -1,18 +1,49 @@
 <script>
 import ModalCadUser from "./ModalCadUser.vue";
+import Alerta from './Alerta.vue'
+
 import { getDadosUsuario, deleteDadosUsuario } from "../config/global.js"
 
 export default {
   name: "NavMenu",
-  components: { ModalCadUser },
+  components: { ModalCadUser, Alerta },
   data() {
     return {
       logado: false,
       nomeUsuario: "",
+      alerta:{
+        mensagem: '',
+        tipo: '',
+        isAlert: false
+
+      }
     };
   },
   methods: {
-    cad() {
+    mensagemAlerta(id) {
+      if(id == 1){
+        this.alerta.mensagem = "Logado..."
+        this.alerta.tipo = "success"
+        this.alerta.isAlert = true
+
+      }else if(id == 2){
+        this.alerta.mensagem = "Senha incorreta!"
+        this.alerta.tipo = "danger"
+        this.alerta.isAlert = true
+
+      }
+        this.resetaAlerta(id)
+
+    },
+    resetaAlerta(id){
+      setTimeout(() => {
+        this.alerta.mensagem = ""
+        this.alerta.tipo = ""
+        this.alerta.isAlert = false
+
+        return id != 2 ? location.reload() : false
+
+      }, 4050)
 
     },
     sair(){
@@ -22,7 +53,7 @@ export default {
     }
   },
   created() {    
-      console.log("criou nav")
+      //console.log("criou nav")
       let dadosUsuario = getDadosUsuario()
       this.logado = (dadosUsuario != null) ? true : false
       this.nomeUsuario = (dadosUsuario != null) ? dadosUsuario[0].nome.split(" ")[0] : ""
@@ -33,6 +64,10 @@ export default {
 
 <template>
   <div id="navmenu">
+    <Alerta
+      v-if="alerta.isAlert"
+      :mensagem="alerta.mensagem"
+      :tipo="alerta.tipo" />
     <b-navbar toggleable="lg">
       <router-link to="/">
         <b-navbar-brand><img src="../assets/img/logo.png"></b-navbar-brand>
@@ -56,7 +91,8 @@ export default {
             v-if="!logado">
             <b-nav-item>
                 <a v-b-modal.modal-scrollable-user-xl>
-                  <ModalCadUser />
+                  <ModalCadUser
+                    @mensagemAlerta="mensagemAlerta" />
                     LOGIN
                 </a>
               </b-nav-item>

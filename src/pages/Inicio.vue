@@ -1,6 +1,6 @@
 <script>
 import ListRanking from '../components/ListRanking.vue'
-import { url } from '../config/global.js'
+import dadosTemp from '../config/dadosTemp.js'
 
 export default{
   name: 'Inicio',
@@ -10,11 +10,12 @@ export default{
       configRanking: {
         ranking: [],
         titulo: "Maior Pontuação",
-        tituloTipo: "TOTAL",
+        tituloTipo: "Total",
         tipoRanking: false
 
       },
-      tituloButton: "+ COMPRADOS"
+      tituloButton: "+ COMPRADOS",
+      url: null
 
     }
   },
@@ -36,14 +37,14 @@ export default{
       }
     },
     buscarMaioresPontuacoes(){
-      fetch(url+'buscaRanking.php?maioresPontuacoes=1', {
+      fetch(this.url+'buscaRanking.php?maioresPontuacoes=1', {
         method: "POST",
         body: JSON.stringify()
       })
-      .then((res) => res.json())
+      .then(async (res) => res.json())
       .then((dados) => {
         if(dados[0].pk_usuario != null){
-          console.log(dados)
+          //console.log(dados)
           this.configRanking.ranking = []
           this.configRanking.ranking = dados
 
@@ -51,14 +52,14 @@ export default{
       })
     },
     buscarMaisComprados(){
-      fetch(url+'buscaRanking.php?maisComprados=1', {
+      fetch(this.url+'buscaRanking.php?maisComprados=1', {
         method: "POST",
         body: JSON.stringify()
       })
       .then((res) => res.json())
       .then((dados) => {
         if(dados[0].pk_usuario != null){
-          console.log(dados)
+          //console.log(dados)
           this.configRanking.ranking = []
           this.configRanking.ranking = dados
 
@@ -67,8 +68,10 @@ export default{
     }
   },
   created(){
-    console.log("criou ranking")
+    this.url = import.meta.env.VITE_ROOT_API
+    this.configRanking.ranking = dadosTemp
     this.buscarMaioresPontuacoes()
+    console.log("criou", import.meta.env.VITE_ROOT_API)
 
   }
 }

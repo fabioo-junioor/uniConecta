@@ -1,5 +1,5 @@
 <script>
-import { url, setDadosUsuario } from '../config/global.js'
+import { setDadosUsuario } from '../config/global.js'
 import Alerta from './Alerta.vue'
 
 export default {
@@ -13,20 +13,16 @@ export default {
         telefone: null,
         senha: "",
       },
-      alerta:{
-        mensagem: '',
-        tipo: '',
-        isAlert: false
-
-      },
       logar: true,
       botaoAcessar: false,
-      botaoSalvar: false
+      botaoSalvar: false,
+      url: null
+
     };
   },
   methods: {
     authUsuario() {
-      fetch(url+'authUsuario.php', {
+      fetch(this.url+'authUsuario.php', {
         method: "POST",
         body: JSON.stringify({
           email: this.form.email,
@@ -37,21 +33,18 @@ export default {
       .then((dados) => {
         if(dados[0].pk_usuario != null){
           //console.log(dados)
-          this.buscarDadosUsuario(dados[0].pk_usuario)          
+          this.buscarDadosUsuario(dados[0].pk_usuario)
+          this.$emit('mensagemAlerta', 1)
 
         }else{
           console.log("Senha incorreta!")
-          //this.resetaAlerta()
-          this.alerta.mensagem = "Senha incorreta"
-          this.alerta.tipo = "danger"
-          this.alerta.isAlert = true
-          
+          this.$emit('mensagemAlerta', 2)                  
 
         }
       })
     },
     buscarDadosUsuario(pk_usuario){
-      fetch(url+'buscaDadosUsuario.php', {
+      fetch(this.url+'buscaDadosUsuario.php', {
         method: "POST",
         body: JSON.stringify({
           pk_usuario: pk_usuario
@@ -61,11 +54,8 @@ export default {
       .then((dados) => {
         setDadosUsuario(dados)
         //location.reload()
-        console.log(dados)
 
       })
-      
-
     },
     reset() {
       this.form.nome = "";
@@ -74,16 +64,6 @@ export default {
       this.form.telefone = null;
       console.log("Resetou");
     
-    },
-    resetaAlerta(){
-      setTimeout(() => {
-        this.alerta.mensagem = ""
-        this.alerta.tipo = ""
-        this.alerta.isAlert = false
-
-      }, 4050)
-      console.log("Resetou alerta");
-
     },
     enableBotaoAcessar(){
       if((this.form.email != "") &&
@@ -109,15 +89,14 @@ export default {
       }
     }
   },
+  created(){
+    this.url = import.meta.env.VITE_ROOT_API
+
+  }
 };
 </script>
 <template>
   <div id="modal-cadastro-usuario">
-    <Alerta
-      class="alerta-cadastro-usuario"
-      :mensagem=alerta.mensagem
-      :tipo=alerta.tipo
-      v-if="alerta.isAlert" />
     <b-modal
       id="modal-scrollable-user-xl"
       size="lg"
