@@ -15,7 +15,7 @@ export default{
 
       },
       tituloButton: "+ COMPRADOS",
-      url: import.meta.env.VITE_ROOT_API
+      url: null
 
     }
   },
@@ -68,9 +68,10 @@ export default{
     }
   },
   mounted(){
+    this.url = import.meta.env.VITE_ROOT_API
     this.configRanking.ranking = dadosTemp
     this.buscarMaioresPontuacoes()
-    console.log("montou", this.url)
+    console.log("montou: ", this.url)
 
   }
 }
