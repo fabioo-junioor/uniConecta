@@ -16,7 +16,7 @@ export default {
       logar: true,
       botaoAcessar: false,
       botaoSalvar: false,
-      url: null
+      url: import.meta.env.VITE_ROOT_API
 
     };
   },
@@ -88,10 +88,6 @@ export default {
 
       }
     }
-  },
-  created(){
-    this.url = import.meta.env.VITE_ROOT_API
-
   }
 };
 </script>

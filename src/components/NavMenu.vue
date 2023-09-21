@@ -52,7 +52,7 @@ export default {
       
     }
   },
-  created() {    
+  mounted() {    
       //console.log("criou nav")
       let dadosUsuario = getDadosUsuario()
       this.logado = (dadosUsuario != null) ? true : false
@@ -78,10 +78,10 @@ export default {
       <b-collapse id="nav-collapse" is-nav>
        <b-navbar-nav>
         <div class="menu-estatico">
-          <b-nav-item>
+          <b-nav-item disabled>
               <router-link to="/sobre">SOBRE</router-link>
           </b-nav-item>
-          <b-nav-item>
+          <b-nav-item disabled>
             <router-link to="/cursos">CURSOS</router-link>
           </b-nav-item>
         </div>
