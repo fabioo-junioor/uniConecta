@@ -71,7 +71,6 @@ export default{
     this.url = import.meta.env.VITE_ROOT_API
     this.configRanking.ranking = dadosTemp
     this.buscarMaioresPontuacoes()
-    console.log("montou: ", this.url)
 
   }
 }

@@ -1,5 +1,5 @@
 <script>
-import { setDadosUsuario } from '../config/global.js'
+import { dadosUsuarioPreview } from '../config/global.js'
 import Alerta from './Alerta.vue'
 
 export default {
@@ -16,7 +16,7 @@ export default {
       logar: true,
       botaoAcessar: false,
       botaoSalvar: false,
-      url: import.meta.env.VITE_ROOT_API
+      url: null
 
     };
   },
@@ -33,7 +33,7 @@ export default {
       .then((dados) => {
         if(dados[0].pk_usuario != null){
           //console.log(dados)
-          this.buscarDadosUsuario(dados[0].pk_usuario)
+          dadosUsuarioPreview(dados[0].pk_usuario)
           this.$emit('mensagemAlerta', 1)
 
         }else{
@@ -43,18 +43,27 @@ export default {
         }
       })
     },
-    buscarDadosUsuario(pk_usuario){
-      fetch(this.url+'buscaDadosUsuario.php', {
-        method: "POST",
+    cadastrarUsuario(){
+      fetch(this.url+'cadastrarUsuario.php', {
+        method: 'POST',
         body: JSON.stringify({
-          pk_usuario: pk_usuario
+          nome: this.form.nome,
+          email: this.form.email,
+          telefone: this.form.telefone,
+          senha: this.form.senha
         })
       })
       .then((res) => res.json())
       .then((dados) => {
-        setDadosUsuario(dados)
-        //location.reload()
+        if(dados[0].pk_usuario != null){
+          //console.log("email ja cadastrado", dados)
+          this.$emit('mensagemAlerta', 3) 
+          
+          }else{
+          //console.log("cadastrou ", dados)
+          this.$emit('mensagemAlerta', 4) 
 
+        }
       })
     },
     reset() {
@@ -88,6 +97,10 @@ export default {
 
       }
     }
+  },
+  mounted(){
+    this.url = import.meta.env.VITE_ROOT_API
+    
   }
 };
 </script>
@@ -171,7 +184,7 @@ export default {
             </div>
             <div class="buttons-login-user">
               <b-button
-                @click="cadastrarUser()"
+                @click="cadastrarUsuario()"
                 variant="primary"
                 :disabled="!botaoSalvar"
                 >Salvar</b-button

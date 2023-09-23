@@ -1,8 +1,7 @@
 <script>
 import ModalCadUser from "./ModalCadUser.vue";
 import Alerta from './Alerta.vue'
-
-import { getDadosUsuario, deleteDadosUsuario } from "../config/global.js"
+import { getDadosUsuarioLocal, deleteDadosUsuario } from "../config/global.js"
 
 export default {
   name: "NavMenu",
@@ -31,6 +30,16 @@ export default {
         this.alerta.tipo = "danger"
         this.alerta.isAlert = true
 
+      }else if(id == 3){
+        this.alerta.mensagem = "Email ja existe!"
+        this.alerta.tipo = "info"
+        this.alerta.isAlert = true
+
+      }else if(id == 4){
+        this.alerta.mensagem = "Cadastrado!"
+        this.alerta.tipo = "danger"
+        this.alerta.isAlert = true
+
       }
         this.resetaAlerta(id)
 
@@ -52,9 +61,8 @@ export default {
       
     }
   },
-  mounted() {    
-      //console.log("criou nav")
-      let dadosUsuario = getDadosUsuario()
+  mounted() {
+      let dadosUsuario = getDadosUsuarioLocal()
       this.logado = (dadosUsuario != null) ? true : false
       this.nomeUsuario = (dadosUsuario != null) ? dadosUsuario[0].nome.split(" ")[0] : ""
 

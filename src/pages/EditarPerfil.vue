@@ -1,36 +1,45 @@
 <script>
-import { getDadosUsuario } from '../config/global.js'
+import { getDadosUsuarioLocal, dadosUsuarioPreview } from '../config/global.js'
+import Alerta from '../components/Alerta.vue'
 
 export default {
   name: "EditarPerfil",
+  components: {Alerta},
   data() {
     return {
+      pk_usuario: null,
       nomeUsuario: "",
       graduacao: "",
+      imagemPerfil: null,
       totalPontos: 0,
       totalMoedas: 0,
       formEdicao: {
         imagem: null,
         adicionouImagem: false,
-        nome: "Fabio",
-        email: "fabio@inf",
-        telefone: 99996655,
+        nome: "",
+        email: "",
+        telefone: null,
         graduacao: null,
         opcoes: [
           {value: 'Sistemas de informação', text: 'Sistemas de informação'},
           {value: 'Medicina', text: 'Medicina'},
+          {value: 'Engenharia Eletrica', text: 'Engenharia Eletrica'}
         ],
         senha: "",
       },
-      botaoSalvar: false
+      botaoSalvar: false,
+      url: null,
+      alerta: {
+        mensagem: "",
+        tipo: "",
+        isAlert: false
 
+      }
     }
   },
   methods: {
-    enableBotaoSalvar(){
-      console.log("--> ", this.formEdicao.adicionouImagem)
-     
-      if((this.formEdicao.adicionouImagem == true) &&
+    enableBotaoSalvar(){     
+      if(/*(this.formEdicao.adicionouImagem == true) &&*/
           (this.formEdicao.nome != "") && 
           (this.formEdicao.email != "") && 
           (this.formEdicao.telefone > 0) &&
@@ -50,7 +59,7 @@ export default {
         reader.onload = e => {
           this.formEdicao.imagem = e.target.result
           this.formEdicao.adicionouImagem = true
-          //console.log(this.formEdicao.adicionouImagem)
+          //console.log(this.formEdicao.imagem)
           this.enableBotaoSalvar()
 
         }
@@ -58,25 +67,79 @@ export default {
       }
     },
     salvarEdicao(){
-      console.log(this.formEdicao.imagem,
-        this.formEdicao.nome,
-        this.formEdicao.email,
-        this.formEdicao.telefone,
-        this.formEdicao.graduacao,
-        this.formEdicao.senha)
+      fetch(this.url+'editarUsuario.php', {
+        method: 'POST',
+        body: JSON.stringify({
+          pk_usuario: this.pk_usuario,
+          nome: this.formEdicao.nome,
+          telefone: this.formEdicao.telefone,
+          graduacao: this.formEdicao.graduacao,
+          img: this.formEdicao.imagem,
+          senha: this.formEdicao.senha
 
+        })
+      })
+      .then((res) => res.json())
+      .then((dados) => {
+        console.log("salvo")
+        dadosUsuarioPreview(dados[0].pk_usuario)
+        this.atualizaDadosPreview()
+
+        this.alerta.mensagem = "Edição realizada"
+        this.alerta.tipo = "success"
+        this.alerta.isAlert = true
+        this.resetaAlerta()
+
+      })
     },
-    atualizaDadosUsuario(){
-      let dadosUsuario = getDadosUsuario()
+    buscarDadosEdicao(){
+      let dadosUsuario = getDadosUsuarioLocal()
+      fetch(this.url+'buscaDadosUsuario.php?dadosEdicao=1', {
+        method: 'POST',
+        body: JSON.stringify({
+          pk_usuario: dadosUsuario[0].pk_usuario
+        })
+      })
+      .then((res) => res.json())
+      .then((dados) => {
+        //console.log(dados)
+        this.atualizaDadosEdicao(dados)
+
+      })
+    },
+    atualizaDadosPreview(){
+      let dadosUsuario = getDadosUsuarioLocal()
+      this.pk_usuario = dadosUsuario[0].pk_usuario
       this.nomeUsuario = dadosUsuario[0].nome
       this.graduacao = dadosUsuario[0].graduacao
       this.totalMoedas = dadosUsuario[0].total_moedas
       this.totalPontos = dadosUsuario[0].total_pontos
+      this.imagemPerfil = dadosUsuario[0].img
 
+
+    },
+    atualizaDadosEdicao(dadosUsuario){
+      this.formEdicao.imagem = dadosUsuario[0].img
+      this.formEdicao.nome = dadosUsuario[0].nome
+      this.formEdicao.email = dadosUsuario[0].email
+      this.formEdicao.telefone = dadosUsuario[0].telefone
+      this.formEdicao.graduacao = dadosUsuario[0].graduacao
+
+
+    },
+    resetaAlerta(){
+      setTimeout(() => {
+        this.alerta.mensagem = ""
+        this.alerta.tipo = ""
+        this.alerta.isAlert = false
+
+      }, 4050)
     }
   },
-  created(){
-    this.atualizaDadosUsuario()
+  async mounted(){
+    this.url = import.meta.env.VITE_ROOT_API
+    await this.buscarDadosEdicao()
+    await this.atualizaDadosPreview()
 
   }
 };
@@ -84,9 +147,18 @@ export default {
 
 <template>
   <div id="editar-perfil">
+    <Alerta
+      v-if="alerta.isAlert"
+      :mensagem="alerta.mensagem"
+      :tipo="alerta.tipo" />
     <div class="lado-user">
       <div class="foto-user">
-        <img src="../assets/img/person1.png" />
+        <img
+          v-if="!imagemPerfil"
+          src="../assets/img/person1.png" />
+        <img
+          v-else
+          :src="imagemPerfil" />
       </div>
       <div class="dados-user">
         <h3>{{ nomeUsuario }}</h3>
@@ -105,7 +177,7 @@ export default {
       <b-form>
         <div>
           <div class="preview-imagem">
-            <h5 v-if="!formEdicao.adicionouImagem">Visualização</h5>
+            <h5 v-if="!formEdicao.imagem">Visualização</h5>
             <img :src="formEdicao.imagem" />
           </div>
           <div class="imagem-profile">
@@ -128,6 +200,7 @@ export default {
           </div>
           <div class="form-floating">
             <b-form-input
+              disabled
               v-model="formEdicao.email"
               type="email"
               placeholder="Informe seu email:"
@@ -201,13 +274,23 @@ export default {
       justify-content: center;
       align-items: center;
       margin: 0 0 1rem 0;
+      border: 1px solid #6c63ff;
       box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
       border-radius: 5px;
+      padding: .3rem;
+      
+      max-width: 16rem !important;
+      max-height: 16rem !important;
+      min-width: 15rem !important;
+      min-height: 15rem !important;
 
       img {
-        max-height: 15rem;
-        max-width: 15rem;
-        padding: 0;
+        border-radius: 5px;
+        max-width: 15.5rem;
+        max-height: 15.5rem;
+        min-width: auto;
+        min-height: auto;
+
       }
     }
     .dados-user {
@@ -299,6 +382,7 @@ export default {
       img{
         max-height: 20rem;
         max-width: 20rem;
+        border-radius: 5px;
 
       }
       h5{
