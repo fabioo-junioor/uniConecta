@@ -468,52 +468,132 @@ export default {
 @media only screen and (max-width: 1200px) {
 }
 @media only screen and (max-width: 992px) {
+  #editar-perfil{
+    .lado-user{
+      width: 25%;
+
+      .foto-user{
+        max-width: 13rem !important;
+        max-height: 13rem !important;
+        min-width: 12rem !important;
+        min-height: 12rem !important;
+
+        img{
+          max-height: 12.5rem;
+          max-width: 12.5rem;
+
+        }
+      }
+      .dados-user {
+        width: 90%;
+
+        div {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+
+        }
+      }
+    }
+    .lado-edicao{
+      width: 70%;
+
+    }
+  }
 }
 @media only screen and (max-width: 720px) {
-#editar-perfil{
-  //background-color: red;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
+  #editar-perfil{
+    //background-color: red;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
 
-  .lado-user{
-    //background-color: blue;
-    width: 95%;
+    .lado-user{
+      //background-color: blue;
+      width: 95%;
 
-    .dados-user {
-      width: 60%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 0;
-
-      h3 {
-        text-align: center;
-
-      }
-      h2 {
-        text-align: center;
-
-      }
-      div {
+      .dados-user {
+        width: 60%;
         display: flex;
-        flex-direction: row;
-        align-items: center;
+        flex-direction: column;
         justify-content: center;
+        padding: 0;
+
+        h3 {
+          text-align: center;
+
+        }
+        h2 {
+          text-align: center;
+
+        }
+        div {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+
+        }
+      }
+    }
+    .lado-edicao{
+      width: 95%;
+      //background-color: aquamarine;
+
+    }
+  }
+}
+@media only screen and (max-width: 481px) {
+  #editar-perfil{
+    .lado-user{
+      .dados-user {
+        width: 80%;
+
+        h3 {
+          text-align: center;
+
+        }
+        h2 {
+          text-align: center;
+
+        }
+        div {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+
+        }
+      }
+    }
+    .lado-edicao{
+      width: 95%;
+
+      form{
+        padding: 0;
 
       }
     }
   }
-  .lado-edicao{
-    width: 95%;
-    //background-color: aquamarine;
-
-  }
-}
-}
-@media only screen and (max-width: 481px) {
 }
 @media only screen and (max-width: 360px) {
+  #editar-perfil{
+    .lado-edicao{
+      .preview-imagem{
+        max-width: 16rem !important;
+        max-height: auto !important;
+        min-width: 15rem !important;
+        min-height: 15rem !important;
+
+        img{
+          max-height: 15rem;
+          max-width: 15rem;
+
+        }
+      }
+    }
+  }
 }
 </style>

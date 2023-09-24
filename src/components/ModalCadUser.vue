@@ -107,7 +107,7 @@ export default {
 <template>
   <div id="modal-cadastro-usuario">
     <b-modal
-      id="modal-scrollable-user-xl"
+      id="modal-scrollable-user-lg"
       size="lg"
       scrollable
       title="Login Usuário">

@@ -98,7 +98,7 @@ export default {
             class="menu-user-nao-logado"
             v-if="!logado">
             <b-nav-item>
-                <a v-b-modal.modal-scrollable-user-xl>
+                <a v-b-modal.modal-scrollable-user-lg>
                   <ModalCadUser
                     @mensagemAlerta="mensagemAlerta" />
                     LOGIN

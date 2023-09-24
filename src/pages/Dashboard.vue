@@ -1,4 +1,5 @@
 <script>
+import { getDadosUsuarioLocal } from '../config/global.js'
 import CardCursos from '../components/CardCursos.vue'
 
 export default {
@@ -6,12 +7,104 @@ export default {
   components: {CardCursos},
   data() {
     return {
-      nomeUser: "Fabio Junior",
-      curso: "Sistemas de informação",
-      totalPontos: 626,
-      totalCoins: 515
+      pk_usuario: null,
+      nomeUsusario: "",
+      graduacao: "",
+      totalPontos: null,
+      totalMoedas: null,
+      imagemPerfil: null,
+      url: null,
+      cursosVendidos: null,
+      cursosComprados: null,
+      cursosAvaliados: null
       
     }
+  },
+  methods: {
+    buscaCursosVendidos(dadosUsuario){
+      fetch(this.url+'buscaCursos.php?buscaCursosVendidos=1', {
+        method: 'POST',
+        body: JSON.stringify({
+          pk_usuario: dadosUsuario[0].pk_usuario
+        })
+      })
+      .then((res) => res.json())
+      .then((dados) => {
+        if(dados[0].pk_usuario != null){
+          this.cursosVendidos = dados
+
+        }else{
+          this.cursosVendidos = null
+
+        }
+          //console.log(dados)
+
+      })
+    },
+    buscaCursosComprados(dadosUsuario){
+      fetch(this.url+'buscaCursos.php?buscaCursosComprados=1', {
+        method: 'POST',
+        body: JSON.stringify({
+          pk_usuario: dadosUsuario[0].pk_usuario
+        })
+      })
+      .then((res) => res.json())
+      .then((dados) => {
+        if(dados[0].pk_usuario != null){
+          this.cursosComprados = dados
+
+        }else{
+          this.cursosComprados = null
+
+        }
+          //console.log(dados)
+
+      })
+    },
+    buscaCursosAvaliados(dadosUsuario){
+      fetch(this.url+'buscaCursos.php?buscaCursosAvaliados=1', {
+        method: 'POST',
+        body: JSON.stringify({
+          pk_usuario: dadosUsuario[0].pk_usuario
+        })
+      })
+      .then((res) => res.json())
+      .then((dados) => {
+        if(dados[0].pk_usuario != null){
+          this.cursosAvaliados = dados
+
+        }else{
+          this.cursosAvaliados = null
+
+        }
+          //console.log(dados)
+
+      })
+    },
+    infoCurso(){
+      console.log("info curso ")
+      
+
+    },
+    atualizaDadosPreview(dadosUsuario){
+      this.pk_usuario = dadosUsuario[0].pk_usuario
+      this.nomeUsuario = dadosUsuario[0].nome
+      this.graduacao = dadosUsuario[0].graduacao
+      this.totalMoedas = dadosUsuario[0].total_moedas
+      this.totalPontos = dadosUsuario[0].total_pontos
+      this.imagemPerfil = dadosUsuario[0].img
+
+
+    }
+  },
+  mounted(){
+    this.url = import.meta.env.VITE_ROOT_API
+    let dadosUsuario = getDadosUsuarioLocal()
+    this.atualizaDadosPreview(dadosUsuario)
+    this.buscaCursosVendidos(dadosUsuario)
+    this.buscaCursosComprados(dadosUsuario)
+    this.buscaCursosAvaliados(dadosUsuario)
+
   }
 }
 </script>
@@ -20,14 +113,19 @@ export default {
   <div id="dashboard">
     <div class="lado-user">
       <div class="foto-user">
-        <img src="../assets/img/person1.png">
+        <img
+          v-if="!imagemPerfil"
+          src="../assets/img/person1.png" />
+        <img
+          v-else
+          :src="imagemPerfil" />
       </div>
       <div class="dados-user">
-        <h3>{{ nomeUser }}</h3>
-        <h2>{{ curso }}</h2>
+        <h3>{{ nomeUsuario }}</h3>
+        <h2>{{ graduacao }}</h2>
         <div>
           <img src="../assets/gifs/coin.gif" />
-          {{ totalCoins }}
+          {{ totalMoedas }}
         </div>
         <div>
           <img src="../assets/img/trophy.png" />
@@ -36,28 +134,48 @@ export default {
       </div>
     </div>
     <div class="lado-cursos">
-      <div class="cursos-comprados">
+      <div
+        class="cursos-vendidos"
+        v-if="cursosVendidos != null">
         <h4>Vendidos</h4>
         <hr>
         <div class="cards-cursos">
           <CardCursos 
-            v-for="i in 6" :key="i" />
+            v-for="i in cursosVendidos" :key="i"
+            :cursoNome="i.cursoNome"
+            :usuarioNome="i.usuarioNome"
+            :cursoDescricao="i.cursoDescricao"
+            :tipo="true"
+            @infoCurso="infoCurso" />
         </div>
       </div>
-      <div class="cursos-vendidos">
+      <div
+        class="cursos-comprados"
+        v-if="cursosComprados != null">
         <h4>Comprados</h4>
         <hr>
         <div class="cards-cursos">
           <CardCursos 
-            v-for="i in 3" :key="i" />
+            v-for="i in cursosComprados" :key="i"
+            :cursoNome="i.cursoNome"
+            :usuarioNome="i.usuarioNome"
+            :cursoDescricao="i.cursoDescricao"
+            :tipo="true" />
         </div>
       </div>
-      <div class="cursos-avaliados">
+      <div
+        class="cursos-avaliados"
+        v-if="cursosAvaliados != null">
         <h4>Avaliados</h4>
         <hr>
         <div class="cards-cursos">
           <CardCursos 
-            v-for="i in 4" :key="i" />
+            v-for="i in cursosAvaliados" :key="i"
+            :cursoNome="i.cursoNome"
+            :usuarioNome="i.usuarioNome"
+            :cursoDescricao="i.cursoDescricao"
+            :isValid="true"
+            :tipo="true" />
         </div>
       </div>
     </div>
@@ -87,13 +205,22 @@ export default {
       justify-content: center;
       align-items: center;
       margin: 0 0 1rem 0;
+      border: 1px solid #6c63ff;
       box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
       border-radius: 5px;
+      padding: .3rem;
+
+      max-width: 16rem !important;
+      max-height: 16rem !important;
+      min-width: 15rem !important;
+      min-height: 15rem !important;
 
       img{
-        max-height: 15rem;
-        max-width: 15rem;
-        padding: 0;
+        border-radius: 5px;
+        max-width: 15.5rem;
+        max-height: 15.5rem;
+        min-width: auto;
+        min-height: auto;
 
       }
     }
@@ -118,6 +245,10 @@ export default {
         font-size: .9rem;
         width: 100%;
 
+      }
+      h3::first-letter, h2::first-letter{
+        text-transform: uppercase;
+        
       }
       div{
         display: flex;
@@ -180,21 +311,12 @@ export default {
   .lado-user{
     .dados-user {
       width: 90%;
-      padding: 0;
 
-      h3 {
-        text-align: center;
-
-      }
-      h2 {
-        text-align: center;
-
-      }
       div {
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
 
       }
     }
@@ -213,34 +335,20 @@ export default {
   }
 }
 }
-@media only screen and (max-width: 990px) {
+@media only screen and (max-width: 992px) {
 #dashboard{  
   .lado-user{
     width: 25%;
 
     .foto-user{
+        max-width: 13rem !important;
+        max-height: 13rem !important;
+        min-width: 12rem !important;
+        min-height: 12rem !important;
+
       img{
-        max-height: 12rem;
-        max-width: 12rem;
-
-      }
-    }
-    .dados-user {
-      width: 90%;
-
-      h3 {
-        text-align: center;
-
-      }
-      h2 {
-        text-align: center;
-
-      }
-      div {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
+        max-height: 12.5rem;
+        max-width: 12.5rem;
 
       }
     }

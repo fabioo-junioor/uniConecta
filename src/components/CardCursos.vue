@@ -8,6 +8,14 @@ export default {
 
     };
   },
+  props: {
+    cursoNome: String,
+    usuarioNome: String,
+    cursoDescricao: String,
+    isValid: Boolean,
+    tipo: Boolean
+
+  },
   methods: {
     adicionarFavorito(){
       this.favorito = !this.favorito
@@ -17,6 +25,15 @@ export default {
     removerFavorito(){
       this.favorito = !this.favorito
       this.totalFavoritos -= 1
+
+    },
+    avaliarCurso(){
+      console.log("avaliar ")
+
+    },
+    infoCurso(){
+      //console.log("info curso ")
+      this.$emit('infoCurso')
 
     }
   },
@@ -45,20 +62,24 @@ export default {
     <b-card
       tag="div"
       class="mb-2">
-      <b-card-title>html</b-card-title>
-      <b-card-text>autor</b-card-text>
-      <b-card-text>descricão</b-card-text>
+      <b-card-title>{{cursoNome}}</b-card-title>
+      <b-card-text>{{usuarioNome}}</b-card-text>
+      <b-card-text>{{cursoDescricao}}</b-card-text>
       <div>
-        <b-button variant="outline-info">
+        <b-button
+          @click="infoCurso()"
+          variant="outline-info">
             <i class="bx bx-info-circle"/>
         </b-button>
         <b-button
-          v-if="true"
-          variant="outline-success">Comprar  
+          v-if="tipo"
+          :disabled="isValid"
+          @click="avaliarCurso()"
+          variant="outline-success">Avaliar  
         </b-button>
         <b-button
           v-else
-          variant="outline-success">Avaliar  
+          variant="outline-success">Comprar  
         </b-button>
       </div>
     </b-card>
@@ -136,6 +157,14 @@ export default {
 
     }
     .card-body{
+      h4, p{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+      
+      }
       h4::first-letter, p::first-letter{
         text-transform: uppercase;
 
