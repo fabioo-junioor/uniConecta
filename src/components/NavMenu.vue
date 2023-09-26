@@ -10,6 +10,7 @@ export default {
     return {
       logado: false,
       nomeUsuario: "",
+      imagemPerfil: null,
       alerta:{
         mensagem: '',
         tipo: '',
@@ -55,6 +56,10 @@ export default {
       }, 4050)
 
     },
+    atualizaDadosPreview(dadosUsuario){
+      this.imagemPerfil = dadosUsuario[0].img
+
+    },
     sair(){
       deleteDadosUsuario()
       location.reload()
@@ -63,9 +68,10 @@ export default {
   },
   mounted() {
       let dadosUsuario = getDadosUsuarioLocal()
-      console.log(dadosUsuario)
+      //console.log(dadosUsuario)
       this.logado = (dadosUsuario != null) ? true : false
-      this.nomeUsuario = (dadosUsuario != null) ? dadosUsuario[0].nome.split(" ")[0] : ""
+      //this.nomeUsuario = (dadosUsuario != null) ? dadosUsuario[0].nome.split(" ")[0] : ""
+      this.imagemPerfil = (dadosUsuario != null) ? dadosUsuario[0].img : null
 
   }
 };
@@ -109,7 +115,17 @@ export default {
           <div
             class="menu-user-logado"
             v-else>
-            <b-nav-item-dropdown :text="nomeUsuario" right>
+            <b-nav-item-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret right>
+              <template #button-content>
+                <img
+                  class="img-icon-user"
+                  v-if="!imagemPerfil"
+                  src="../assets/img/person1.png" />
+                <img
+                  class="img-icon-user"
+                  v-else
+                  :src="imagemPerfil" />
+              </template>
               <b-dropdown-item>
                 <router-link to="/dashboard">Dashboard</router-link>
               </b-dropdown-item>
@@ -179,6 +195,7 @@ export default {
 
         .menu-estatico{
           display: flex;
+          align-items: center;
           //background-color: blue;
           padding: 0 0 0 1rem;
 
@@ -228,7 +245,19 @@ export default {
               font-size: .9rem;
               font-weight: 400;
               padding: 0;
-  
+
+              .img-icon-user{
+                border: 1px solid white;
+                border-radius: 50%;
+                width: 3rem;
+                height: 3rem;
+
+              }
+              .img-icon-user:hover{
+                border: 1px solid #6C63FF;
+                box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 1);
+
+              }
             }
           }
         }
@@ -255,12 +284,27 @@ export default {
         .menu-estatico{
           display: flex;
           flex-direction: column;
+          align-items: flex-start;
           padding: 0 0 0 .2rem;
 
           a{
             font-size: .9rem;
             padding: .5rem;
 
+          }
+        }
+        .menu-user{
+          .menu-user-logado{
+            margin-bottom: .5rem;
+            
+            a{
+              .img-icon-user{
+                width: 2.5rem;
+                height: 2.5rem;
+                margin-left: .5rem;
+
+              }
+            }
           }
         }
       }

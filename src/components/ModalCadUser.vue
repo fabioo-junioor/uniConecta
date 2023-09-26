@@ -69,6 +69,22 @@ export default {
         }
       }
     },
+    handlePhone(event){
+      event.value = this.maskPhone(event.value)
+
+    },
+    maskPhone(value){
+      if(!value){
+        return ""
+        
+      }else{
+        value = value.replace(/\D/g,'')
+        value = value.replace(/(\d{2})(\d)/,"($1) $2")
+        value = value.replace(/(\d)(\d{4})$/,"$1-$2")
+        return value
+        
+      }
+    },
     reset() {
       this.form.nome = "";
       this.form.email = "";
@@ -169,9 +185,11 @@ export default {
             <div class="form-floating">
               <b-form-input
                 v-model="form.telefone"
-                type="text"
+                type="tel"
                 placeholder="Informe seu telefone: "
+                maxlength="15"
                 @input="enableBotaoSalvar()"
+                @keyup="handlePhone($event.target)"
               ></b-form-input>
               <label for="floatingInput">Informe seu telefone:</label>
             </div>
