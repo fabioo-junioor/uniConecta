@@ -36,41 +36,45 @@ export default{
 
       }
     },
-    buscarMaioresPontuacoes(){
-      fetch(this.url+'buscaRanking.php?maioresPontuacoes=1', {
+    async buscarMaioresPontuacoes(){
+      const response = await fetch(this.url+'buscaRanking.php?maioresPontuacoes=1', {
         method: "POST",
         body: JSON.stringify()
       })
-      .then(async (res) => res.json())
-      .then((dados) => {
+      if(!response.ok){
+        console.log(response.status)
+
+      }else{
+        const dados = await response.json()
         if(dados[0].pk_usuario != null){
-          //console.log(dados)
           this.configRanking.ranking = []
           this.configRanking.ranking = dados
 
         }
-      })
+      }      
     },
-    buscarMaisComprados(){
-      fetch(this.url+'buscaRanking.php?maisComprados=1', {
+    async buscarMaisComprados(){
+      const response = await fetch(this.url+'buscaRanking.php?maisComprados=1', {
         method: "POST",
         body: JSON.stringify()
-      })
-      .then((res) => res.json())
-      .then((dados) => {
+      })      
+      if(!response.ok){
+        console.log(response.status)
+        
+      }else{
+        const dados = await response.json()
         if(dados[0].pk_usuario != null){
-          //console.log(dados)
           this.configRanking.ranking = []
           this.configRanking.ranking = dados
 
         }
-      })
+      }        
     }
   },
-  mounted(){
+  async mounted(){
     this.url = import.meta.env.VITE_ROOT_API
     this.configRanking.ranking = dadosTemp
-    this.buscarMaioresPontuacoes()
+    await this.buscarMaioresPontuacoes()
 
   }
 }

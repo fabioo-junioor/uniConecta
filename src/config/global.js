@@ -1,16 +1,19 @@
-function dadosUsuarioPreview(pk_usuario){
-    fetch(import.meta.env.VITE_ROOT_API+'buscaDadosUsuario.php?dadosPreview=1', {
+async function dadosUsuarioPreview(pk_usuario){
+    const response = await fetch(import.meta.env.VITE_ROOT_API+'buscaDadosUsuario.php?dadosPreview=1', {
         method: 'POST',
         body: JSON.stringify({
             pk_usuario: pk_usuario
         })
       })
-      .then((res) => res.json())
-      .then((dados) => {
-        //console.log("--> ", dados)
+      if(!response.ok){
+        console.log(response.status)
+
+      }else{
+        const dados = await response.json()
+        //console.log("salvo--> ", dados)
         setDadosUsuarioLocal(dados)
 
-    })
+      }
 }
 function setDadosUsuarioLocal(dados){
     localStorage.setItem('dadosUsuario', JSON.stringify(dados))

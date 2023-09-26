@@ -1,7 +1,7 @@
 <script>
+import { getDadosUsuarioLocal, deleteDadosUsuario } from "../config/global.js"
 import ModalCadUser from "./ModalCadUser.vue";
 import Alerta from './Alerta.vue'
-import { getDadosUsuarioLocal, deleteDadosUsuario } from "../config/global.js"
 
 export default {
   name: "NavMenu",
@@ -21,7 +21,7 @@ export default {
   methods: {
     mensagemAlerta(id) {
       if(id == 1){
-        this.alerta.mensagem = "Logado..."
+        this.alerta.mensagem = "Logando..."
         this.alerta.tipo = "success"
         this.alerta.isAlert = true
 
@@ -36,8 +36,8 @@ export default {
         this.alerta.isAlert = true
 
       }else if(id == 4){
-        this.alerta.mensagem = "Cadastrado!"
-        this.alerta.tipo = "danger"
+        this.alerta.mensagem = "Cadastrado, efetue o login!"
+        this.alerta.tipo = "success"
         this.alerta.isAlert = true
 
       }
@@ -50,7 +50,7 @@ export default {
         this.alerta.tipo = ""
         this.alerta.isAlert = false
 
-        return id != 2 ? location.reload() : false
+        return ((id != 2)&&(id != 3)) ? location.reload() : false
 
       }, 4050)
 
@@ -63,6 +63,7 @@ export default {
   },
   mounted() {
       let dadosUsuario = getDadosUsuarioLocal()
+      console.log(dadosUsuario)
       this.logado = (dadosUsuario != null) ? true : false
       this.nomeUsuario = (dadosUsuario != null) ? dadosUsuario[0].nome.split(" ")[0] : ""
 

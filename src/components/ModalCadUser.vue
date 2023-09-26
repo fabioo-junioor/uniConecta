@@ -21,18 +21,20 @@ export default {
     };
   },
   methods: {
-    authUsuario() {
-      fetch(this.url+'authUsuario.php', {
+    async authUsuario() {
+      const response = await fetch(this.url+'authUsuario.php', {
         method: "POST",
         body: JSON.stringify({
           email: this.form.email,
           senha: this.form.senha
         })
       })
-      .then((res) => res.json())
-      .then((dados) => {
+      if(!response.ok){
+        console.log(response.status)
+
+      }else{
+        const dados = await response.json()
         if(dados[0].pk_usuario != null){
-          //console.log(dados)
           dadosUsuarioPreview(dados[0].pk_usuario)
           this.$emit('mensagemAlerta', 1)
 
@@ -41,10 +43,10 @@ export default {
           this.$emit('mensagemAlerta', 2)                  
 
         }
-      })
+      }
     },
-    cadastrarUsuario(){
-      fetch(this.url+'cadastrarUsuario.php', {
+    async cadastrarUsuario(){
+      const response = await fetch(this.url+'cadastrarUsuario.php', {
         method: 'POST',
         body: JSON.stringify({
           nome: this.form.nome,
@@ -53,18 +55,19 @@ export default {
           senha: this.form.senha
         })
       })
-      .then((res) => res.json())
-      .then((dados) => {
+      if(!response.ok){
+        console.log(response.ok)
+
+      }else{
+        const dados = await response.json()
         if(dados[0].pk_usuario != null){
-          //console.log("email ja cadastrado", dados)
           this.$emit('mensagemAlerta', 3) 
           
           }else{
-          //console.log("cadastrou ", dados)
           this.$emit('mensagemAlerta', 4) 
 
         }
-      })
+      }
     },
     reset() {
       this.form.nome = "";
@@ -90,7 +93,6 @@ export default {
         (this.form.telefone > 0) &&
         (this.form.senha != "")){
           this.botaoSalvar = true
-          console.log(this.form.senha)
 
       }else{
         this.botaoSalvar = false
@@ -167,7 +169,7 @@ export default {
             <div class="form-floating">
               <b-form-input
                 v-model="form.telefone"
-                type="tel"
+                type="text"
                 placeholder="Informe seu telefone: "
                 @input="enableBotaoSalvar()"
               ></b-form-input>

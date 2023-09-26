@@ -1,10 +1,11 @@
 <script>
 import { getDadosUsuarioLocal } from '../config/global.js'
 import CardCursos from '../components/CardCursos.vue'
+import LadoUsuario from '../components/LadoUsuario.vue'
 
 export default {
   name: "Dashboard",
-  components: {CardCursos},
+  components: {CardCursos, LadoUsuario},
   data() {
     return {
       pk_usuario: null,
@@ -21,15 +22,18 @@ export default {
     }
   },
   methods: {
-    buscaCursosVendidos(dadosUsuario){
-      fetch(this.url+'buscaCursos.php?buscaCursosVendidos=1', {
+    async buscaCursosVendidos(dadosUsuario){
+      const response = await fetch(this.url+'buscaCursos.php?buscaCursosVendidos=1', {
         method: 'POST',
         body: JSON.stringify({
           pk_usuario: dadosUsuario[0].pk_usuario
         })
       })
-      .then((res) => res.json())
-      .then((dados) => {
+      if(!response.ok){
+        console.log(response.status)
+
+      }else{
+        const dados = await response.json()
         if(dados[0].pk_usuario != null){
           this.cursosVendidos = dados
 
@@ -37,19 +41,20 @@ export default {
           this.cursosVendidos = null
 
         }
-          //console.log(dados)
-
-      })
+      }
     },
-    buscaCursosComprados(dadosUsuario){
-      fetch(this.url+'buscaCursos.php?buscaCursosComprados=1', {
+    async buscaCursosComprados(dadosUsuario){
+      const response = await fetch(this.url+'buscaCursos.php?buscaCursosComprados=1', {
         method: 'POST',
         body: JSON.stringify({
           pk_usuario: dadosUsuario[0].pk_usuario
         })
       })
-      .then((res) => res.json())
-      .then((dados) => {
+      if(!response.ok){
+        console.log(response.status)
+
+      }else{
+        const dados = await response.json()
         if(dados[0].pk_usuario != null){
           this.cursosComprados = dados
 
@@ -57,19 +62,20 @@ export default {
           this.cursosComprados = null
 
         }
-          //console.log(dados)
-
-      })
+      }
     },
-    buscaCursosAvaliados(dadosUsuario){
-      fetch(this.url+'buscaCursos.php?buscaCursosAvaliados=1', {
+    async buscaCursosAvaliados(dadosUsuario){
+      const response = await fetch(this.url+'buscaCursos.php?buscaCursosAvaliados=1', {
         method: 'POST',
         body: JSON.stringify({
           pk_usuario: dadosUsuario[0].pk_usuario
         })
       })
-      .then((res) => res.json())
-      .then((dados) => {
+      if(!response.ok){
+        console.log(response.status)
+
+      }else{
+        const dados = await response.json()
         if(dados[0].pk_usuario != null){
           this.cursosAvaliados = dados
 
@@ -77,9 +83,7 @@ export default {
           this.cursosAvaliados = null
 
         }
-          //console.log(dados)
-
-      })
+      }
     },
     infoCurso(){
       console.log("info curso ")
@@ -97,13 +101,13 @@ export default {
 
     }
   },
-  mounted(){
+  async mounted(){
     this.url = import.meta.env.VITE_ROOT_API
     let dadosUsuario = getDadosUsuarioLocal()
-    this.atualizaDadosPreview(dadosUsuario)
-    this.buscaCursosVendidos(dadosUsuario)
-    this.buscaCursosComprados(dadosUsuario)
-    this.buscaCursosAvaliados(dadosUsuario)
+    await this.atualizaDadosPreview(dadosUsuario)
+    await this.buscaCursosVendidos(dadosUsuario)
+    await this.buscaCursosComprados(dadosUsuario)
+    await this.buscaCursosAvaliados(dadosUsuario)
 
   }
 }
@@ -112,26 +116,12 @@ export default {
 <template>
   <div id="dashboard">
     <div class="lado-user">
-      <div class="foto-user">
-        <img
-          v-if="!imagemPerfil"
-          src="../assets/img/person1.png" />
-        <img
-          v-else
-          :src="imagemPerfil" />
-      </div>
-      <div class="dados-user">
-        <h3>{{ nomeUsuario }}</h3>
-        <h2>{{ graduacao }}</h2>
-        <div>
-          <img src="../assets/gifs/coin.gif" />
-          {{ totalMoedas }}
-        </div>
-        <div>
-          <img src="../assets/img/trophy.png" />
-          {{ totalPontos }}
-        </div>
-      </div>
+      <LadoUsuario
+        :imagemPerfil="imagemPerfil"
+        :nomeUsuario="nomeUsuario"
+        :graduacao="graduacao"
+        :totalMoedas="totalMoedas"
+        :totalPontos="totalPontos" />
     </div>
     <div class="lado-cursos">
       <div
@@ -194,84 +184,11 @@ export default {
   
   .lado-user{
     width: 20%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 3rem 0 0 0;
-    //background-color: brown;
-
-    .foto-user{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0 0 1rem 0;
-      border: 1px solid #6c63ff;
-      box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
-      border-radius: 5px;
-      padding: .3rem;
-
-      max-width: 16rem !important;
-      max-height: 16rem !important;
-      min-width: 15rem !important;
-      min-height: 15rem !important;
-
-      img{
-        border-radius: 5px;
-        max-width: 15.5rem;
-        max-height: 15.5rem;
-        min-width: auto;
-        min-height: auto;
-
-      }
-    }
-    .dados-user{
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      padding: 1rem 0 1rem 1rem;
-      background-color: white;
-      border: 1px solid #6C63FF;
-      box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
-      border-radius: 5px;
-
-      h3{
-        padding: 1rem 0 0 0;
-        font-size: 1.2rem;
-        width: 100%;
-
-      }
-      h2{
-        font-size: .9rem;
-        width: 100%;
-
-      }
-      h3::first-letter, h2::first-letter{
-        text-transform: uppercase;
         
-      }
-      div{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        padding: .5rem 0;
-        font-size: .8rem;
-        font-weight: bold;
-        //background-color: gray;
-       
-        img{
-          height: 2rem;
-          margin: .1rem;
-          //background-color: red;
-          
-        }
-      }
-    }    
   }
   .lado-cursos{
-    width: calc(100vw - 30%);
-    padding: 3rem 0 0 0;
+    width: calc(100vw - 22%);
+    padding: 3rem 1rem 0 1rem;
     //background-color: red;
 
     .cursos-comprados,
