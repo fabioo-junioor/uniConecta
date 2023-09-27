@@ -16,7 +16,7 @@ export default {
       totalMoedas: 0,
       formEdicao: {
         imagem: null,
-        adicionouImagem: false,
+        adicionouImagem: true,
         nome: "",
         email: "",
         telefone: null,
@@ -43,7 +43,8 @@ export default {
         this.formEdicao.email != "" &&
         this.formEdicao.telefone > 0 &&
         this.formEdicao.graduacao != null &&
-        this.formEdicao.senha != "") {
+        this.formEdicao.senha != "" &&
+        this.formEdicao.adicionouImagem == true) {
         this.botaoSalvar = true;
 
       } else {
@@ -53,14 +54,33 @@ export default {
     },
     selecionarImagem(event) {
       var input = event;
+      this.validarTamanhoImagem(input)
       if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = (e) => {
           this.formEdicao.imagem = e.target.result;
-          this.formEdicao.adicionouImagem = true;
-          this.enableBotaoSalvar();
+          //console.log("aqui")
+          this.enableBotaoSalvar()
+
         };
-        reader.readAsDataURL(input.files[0]);
+        reader.readAsDataURL(input.files[0])
+
+      }
+
+    },
+    async validarTamanhoImagem(e){
+      const tamanho = await e.files[0].size /1024/1024
+      if(tamanho > 3){
+        this.formEdicao.adicionouImagem = false
+        //console.log("Imagem muito grande!")
+        this.alerta.mensagem = "Imagem muito grande!";
+        this.alerta.tipo = "warning";
+        this.alerta.isAlert = true;
+        this.resetaAlerta();
+
+      }else{
+        this.formEdicao.adicionouImagem = true
+
       }
     },
     async salvarEdicao() {
@@ -105,6 +125,22 @@ export default {
         const dados = await response.json()
         this.atualizaDadosEdicao(dados);
 
+      }
+    },
+    handlePhone(event){
+      event.value = this.maskPhone(event.value)
+
+    },
+    maskPhone(value){
+      if(!value){
+        return ""
+        
+      }else{
+        value = value.replace(/\D/g,'')
+        value = value.replace(/(\d{2})(\d)/,"($1) $2")
+        value = value.replace(/(\d)(\d{4})$/,"$1-$2")
+        return value
+        
       }
     },
     atualizaDadosPreview() {
@@ -198,6 +234,7 @@ export default {
               v-model="formEdicao.telefone"
               type="tel"
               placeholder="Informe seu telefone:"
+              @keyup="handlePhone($event.target)"
               @input="enableBotaoSalvar()"
             ></b-form-input>
             <label for="floatingInput">Informe seu telefone:</label>
@@ -254,7 +291,7 @@ export default {
   }
   .lado-edicao {
     width: calc(100vw - 22%);
-    padding: 3rem 0 0 0;
+    padding: 3rem 1rem 0 1rem;
     display: flex;
     //background-color: red;
 
@@ -325,6 +362,10 @@ export default {
         background-color: white;
         box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
         color: rgba(0, 0, 0, 0.8);
+      }
+      input:disabled{
+        background-color: rgba(0, 0, 0, 0.05);
+
       }
       label {
         font-family: "Work Sans", sans-serif;

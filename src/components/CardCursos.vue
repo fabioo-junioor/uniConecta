@@ -9,6 +9,7 @@ export default {
     };
   },
   props: {
+    pk_curso: Number,
     cursoNome: String,
     usuarioNome: String,
     cursoDescricao: String,
@@ -31,9 +32,9 @@ export default {
       console.log("avaliar ")
 
     },
-    infoCurso(){
-      //console.log("info curso ")
-      this.$emit('infoCurso')
+    infoCurso(pk_curso){
+      this.$emit('infoCurso', pk_curso)
+      console.log("-->", pk_curso)
 
     }
   },

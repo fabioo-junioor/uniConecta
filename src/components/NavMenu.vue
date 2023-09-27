@@ -129,7 +129,7 @@ export default {
               <b-dropdown-item>
                 <router-link to="/dashboard">Dashboard</router-link>
               </b-dropdown-item>
-              <b-dropdown-item>
+              <b-dropdown-item disabled>
                 <router-link to="/meusCursos">Meus Cursos</router-link>
               </b-dropdown-item>
               <b-dropdown-item>

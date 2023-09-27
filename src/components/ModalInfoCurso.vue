@@ -19,7 +19,7 @@ export default {
 <template>
   <div id="modal-informacoes-curso">
     <b-modal
-      id="modal-scrollable-user-lg"
+      id="modalInfoCurso"
       size="lg"
       scrollable
       title="Informações do curso">

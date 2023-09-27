@@ -2,10 +2,11 @@
 import { getDadosUsuarioLocal } from '../config/global.js'
 import CardCursos from '../components/CardCursos.vue'
 import LadoUsuario from '../components/LadoUsuario.vue'
+import ModalInfoCurso from '../components/ModalInfoCurso.vue'
 
 export default {
   name: "Dashboard",
-  components: {CardCursos, LadoUsuario},
+  components: {CardCursos, LadoUsuario, ModalInfoCurso},
   data() {
     return {
       pk_usuario: null,
@@ -34,6 +35,7 @@ export default {
 
       }else{
         const dados = await response.json()
+        //console.log(dados)
         if(dados[0].pk_usuario != null){
           this.cursosVendidos = dados
 
@@ -55,6 +57,7 @@ export default {
 
       }else{
         const dados = await response.json()
+        //console.log(dados)
         if(dados[0].pk_usuario != null){
           this.cursosComprados = dados
 
@@ -76,6 +79,7 @@ export default {
 
       }else{
         const dados = await response.json()
+        //console.log(dados)
         if(dados[0].pk_usuario != null){
           this.cursosAvaliados = dados
 
@@ -85,9 +89,9 @@ export default {
         }
       }
     },
-    infoCurso(){
-      console.log("info curso ")
-      
+    infoCurso(pk_curso){
+      this.$root.$emit('bv::show::modal', 'modalInfoCurso')    
+      console.log("info curso ", pk_curso)
 
     },
     atualizaDadosPreview(dadosUsuario){
@@ -115,6 +119,7 @@ export default {
 
 <template>
   <div id="dashboard">
+    <ModalInfoCurso />
     <div class="lado-user">
       <LadoUsuario
         :imagemPerfil="imagemPerfil"
@@ -132,6 +137,7 @@ export default {
         <div class="cards-cursos">
           <CardCursos 
             v-for="i in cursosVendidos" :key="i"
+            :pk_curso="i.pk_curso"
             :cursoNome="i.cursoNome"
             :usuarioNome="i.usuarioNome"
             :cursoDescricao="i.cursoDescricao"
@@ -147,10 +153,12 @@ export default {
         <div class="cards-cursos">
           <CardCursos 
             v-for="i in cursosComprados" :key="i"
+            :pk_curso="i.pk_curso"
             :cursoNome="i.cursoNome"
             :usuarioNome="i.usuarioNome"
             :cursoDescricao="i.cursoDescricao"
-            :tipo="true" />
+            :tipo="true"
+            :infoCurso="infoCurso" />
         </div>
       </div>
       <div
@@ -161,11 +169,13 @@ export default {
         <div class="cards-cursos">
           <CardCursos 
             v-for="i in cursosAvaliados" :key="i"
+            :pk_curso="i.pk_curso"
             :cursoNome="i.cursoNome"
             :usuarioNome="i.usuarioNome"
             :cursoDescricao="i.cursoDescricao"
-            :isValid="true"
-            :tipo="true" />
+            :tipo="true"
+            :infoCurso="infoCurso"
+            :isValid="true" />
         </div>
       </div>
     </div>
