@@ -34,7 +34,6 @@ export default {
     },
     infoCurso(pk_curso){
       this.$emit('infoCurso', pk_curso)
-      console.log("-->", pk_curso)
 
     }
   },
@@ -68,7 +67,7 @@ export default {
       <b-card-text>{{cursoDescricao}}</b-card-text>
       <div>
         <b-button
-          @click="infoCurso()"
+          @click="infoCurso(pk_curso)"
           variant="outline-info">
             <i class="bx bx-info-circle"/>
         </b-button>

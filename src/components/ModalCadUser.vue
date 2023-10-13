@@ -10,8 +10,9 @@ export default {
       form: {
         nome: "",
         email: "",
-        telefone: null,
+        telefone: "",
         senha: "",
+        permNumber: null,
       },
       logar: true,
       botaoAcessar: false,
@@ -46,6 +47,7 @@ export default {
       }
     },
     async cadastrarUsuario(){
+      /*
       const response = await fetch(this.url+'cadastrarUsuario.php', {
         method: 'POST',
         body: JSON.stringify({
@@ -67,7 +69,9 @@ export default {
           this.$emit('mensagemAlerta', 4) 
 
         }
-      }
+      }*/
+      console.log(this.form.permNumber)
+
     },
     handlePhone(event){
       event.value = this.maskPhone(event.value)
@@ -89,7 +93,8 @@ export default {
       this.form.nome = "";
       this.form.email = "";
       this.form.senha = "";
-      this.form.telefone = null;
+      this.form.telefone = "";
+      this.form.permNumber = null;
       console.log("Resetou");
     
     },
@@ -104,9 +109,10 @@ export default {
       }
     },
     enableBotaoSalvar(){
+      console.log(this.form.telefone)
       if((this.form.nome != "") &&
         (this.form.email != "") &&
-        (this.form.telefone > 0) &&
+        (this.form.telefone != "") &&
         (this.form.senha != "")){
           this.botaoSalvar = true
 
@@ -202,6 +208,13 @@ export default {
               ></b-form-input>
               <label for="floatingInput">Informe sua senha:</label>
             </div>
+            <div class="checkWhatsapp">
+              <b-form-checkbox
+                v-model="form.permNumber"
+                value="1"
+                unchecked-value="0"      
+              ></b-form-checkbox>Permitir contato pelo whatsapp
+            </div>
             <div class="buttons-login-user">
               <b-button
                 @click="cadastrarUsuario()"
@@ -224,9 +237,7 @@ export default {
 </template>
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap');
-#modal-cadastro-usuario{
-  
-}
+
 .modal-content {
   border-radius: 5px !important;
   border: none !important;
@@ -305,6 +316,24 @@ export default {
   background-color: white;
   box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.5);
   color: black;
+}
+#loginUser .checkWhatsapp{
+  display: flex !important;
+  flex-direction: row;
+  height: 2.5rem;
+  color: white;
+  font-weight: 500;
+  font-size: .9rem;
+
+  .custom-control{
+    width: 1.5rem !important;
+
+    input{
+      height: 100% !important;
+      box-shadow: none;
+
+    }
+  }
 }
 #loginUser form label{
   font-family: 'Work Sans', sans-serif;

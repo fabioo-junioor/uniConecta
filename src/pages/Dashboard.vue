@@ -18,8 +18,16 @@ export default {
       url: null,
       cursosVendidos: null,
       cursosComprados: null,
-      cursosAvaliados: null
-      
+      cursosAvaliados: null,
+      dadosInfo: {
+        pk_curso: null,
+        cursoNome: "",
+        usuarioNome: "",
+        totalHoras: null,
+        valorCurso: null,
+        descricao: ""
+
+      }      
     }
   },
   methods: {
@@ -89,12 +97,35 @@ export default {
         }
       }
     },
-    infoCurso(pk_curso){
+    async buscaInfoCurso(pk_curso){
+      const response = await fetch(this.url+'buscaInfoCurso.php?buscaInfoCurso=1', {
+        method: 'POST',
+        body: JSON.stringify({
+          pk_curso: pk_curso
+        })
+      })
+      if(!response.ok){
+        console.log(response.status)
+
+      }else{
+        const dados = await response.json()
+        this.dadosInfo.pk_curso = dados[0].pk_curso
+        this.dadosInfo.cursoNome = dados[0].cursoNome
+        this.dadosInfo.usuarioNome = dados[0].usuarioNome
+        this.dadosInfo.totalHoras = dados[0].totalHoras
+        this.dadosInfo.valorCurso = dados[0].valorCurso
+        this.dadosInfo.descricao = dados[0].cursoDescricao
+        console.log("-->", dados)
+        
+      }
+    },
+    async infoCurso(pk_curso){
+      await this.buscaInfoCurso(pk_curso)
       this.$root.$emit('bv::show::modal', 'modalInfoCurso')    
-      console.log("info curso ", pk_curso)
+      //console.log("info curso ", pk_curso)
 
     },
-    atualizaDadosPreview(dadosUsuario){
+    async atualizaDadosPreview(dadosUsuario){
       this.pk_usuario = dadosUsuario[0].pk_usuario
       this.nomeUsuario = dadosUsuario[0].nome
       this.graduacao = dadosUsuario[0].graduacao
@@ -119,7 +150,13 @@ export default {
 
 <template>
   <div id="dashboard">
-    <ModalInfoCurso />
+    <ModalInfoCurso
+      :pk_curso="dadosInfo.pk_curso"
+      :cursoNome="dadosInfo.cursoNome"
+      :usuarioNome="dadosInfo.usuarioNome"
+      :totalHoras="dadosInfo.totalHoras"
+      :valorCurso="dadosInfo.valorCurso"
+      :descricao="dadosInfo.descricao" />
     <div class="lado-user">
       <LadoUsuario
         :imagemPerfil="imagemPerfil"
@@ -158,7 +195,7 @@ export default {
             :usuarioNome="i.usuarioNome"
             :cursoDescricao="i.cursoDescricao"
             :tipo="true"
-            :infoCurso="infoCurso" />
+            @infoCurso="infoCurso" />
         </div>
       </div>
       <div
@@ -174,7 +211,7 @@ export default {
             :usuarioNome="i.usuarioNome"
             :cursoDescricao="i.cursoDescricao"
             :tipo="true"
-            :infoCurso="infoCurso"
+            @infoCurso="infoCurso"
             :isValid="true" />
         </div>
       </div>

@@ -7,13 +7,15 @@ export default {
 
     }
   },
-  methods: {
-    
+  props: {
+    pk_curso: Number,
+    cursoNome: String,
+    usuarioNome: String,
+    totalHoras: Number,
+    valorCurso: Number,
+    descricao: String
+
   },
-  mounted(){
-    //this.url = import.meta.env.VITE_ROOT_API
-    
-  }
 };
 </script>
 <template>
@@ -23,17 +25,63 @@ export default {
       size="lg"
       scrollable
       title="Informações do curso">
-      <p>teste</p>
+      <div>
+        <h4>Nome curso: </h4>
+        <span>{{cursoNome}}</span>
+      </div>
+      <div>
+        <h5>Criador: </h5>
+        <span>{{usuarioNome}}</span>
+      </div>
+      <div>
+        <h5>Duração: </h5>
+        <span>{{totalHoras}} Horas</span>
+      </div>
+      <div>
+        <h5>Valor: </h5>
+        <span>{{valorCurso}} Moedas</span>
+      </div>
+      <div>
+        <h5>Descrição: </h5>
+        <span>{{descricao}}</span>
+      </div>
     </b-modal>
   </div>
 </template>
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap');
 
-#modal-informacoes-curso{
-  background-color: red;
+#modalInfoCurso{
+  font-family: 'Work Sans', sans-serif;
+  color: white;
+  .modal-content{
+    .modal-body{
+      display: flex !important;
+      align-items: flex-start !important;
+      padding: 1rem .5rem;
+      
+      div{
+        width: 100%;
+        padding: 1rem .3rem;
+        margin: .5rem 0;
+        display: flex;
+        align-items: center;
+        border-left: 3px solid white;
+        //box-shadow: 1px 2px 0px 0px white;
 
+        h4, h5{
+          margin: 0;
+          
+        }
+        span{
+          padding: 0 0 0 .5rem;
+
+        }
+      }  
+    }
+  }
 }
+
 /* Responsive */
 @media only screen and (max-width: 1560px) {
 }
