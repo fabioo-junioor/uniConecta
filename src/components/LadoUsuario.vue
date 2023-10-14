@@ -3,6 +3,8 @@ export default {
   name: "LadoUsuario",
   data() {
     return {
+      urlWp: "https://wa.me/",
+      msgWp: "?text=Ola"
       
     }
   },
@@ -11,7 +13,10 @@ export default {
     nomeUsuario: String,
     graduacao: String,
     totalMoedas: Number,
-    totalPontos: Number
+    totalPontos: Number,
+    email: String,
+    telefone: String,
+    permissaoTelefone: Number
 
   }
 };
@@ -27,8 +32,14 @@ export default {
             :src="imagemPerfil" />
         </div>
         <div class="dados-user">
-        <h3>{{ nomeUsuario }}</h3>
-        <h2>{{ graduacao }}</h2>
+        <h2>{{ nomeUsuario }}</h2>
+        <h3 
+          v-if="graduacao">{{ graduacao }}</h3>
+        <h4
+          v-if="true">{{ email }}</h4>
+        <h4 
+         v-if="permissaoTelefone == 1" >
+         <a :href="urlWp+telefone+msgWp" target="_blank">Whatsapp</a></h4>
         <div>
             <img src="../assets/gifs/coin.gif" />
             {{ totalMoedas }}
@@ -87,14 +98,29 @@ export default {
       box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
       border-radius: 5px;
 
-      h3 {
+      h2 {
         padding: 1rem 0 0 0;
-        font-size: 1.2rem;
+        font-size: 1rem;
         width: 100%;
       }
-      h2 {
+      h3 {
         font-size: 0.9rem;
         width: 100%;
+      }
+      h4{
+        font-size: .8rem;
+
+        a{
+          text-decoration: none;
+          color: #6c63ff;
+          font-weight: 600;
+
+        }
+        a:hover{
+          text-decoration: underline;
+          
+        }
+        
       }
       h3::first-letter, h2::first-letter{
         text-transform: uppercase;

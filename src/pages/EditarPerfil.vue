@@ -11,6 +11,9 @@ export default {
       pk_usuario: null,
       nomeUsuario: "",
       graduacao: "",
+      telefone: "",
+      email: "",
+      permissaoTelefone: null,
       imagemPerfil: null,
       totalPontos: 0,
       totalMoedas: 0,
@@ -19,7 +22,8 @@ export default {
         adicionouImagem: true,
         nome: "",
         email: "",
-        telefone: null,
+        telefone: "",
+        permissaoTelefone: null,
         graduacao: null,
         opcoes: [
           { value: "Sistemas de informação", text: "Sistemas de informação" },
@@ -41,7 +45,7 @@ export default {
     enableBotaoSalvar() {
       if (this.formEdicao.nome != "" &&
         this.formEdicao.email != "" &&
-        this.formEdicao.telefone > 0 &&
+        this.formEdicao.telefone != "" &&
         this.formEdicao.graduacao != null &&
         this.formEdicao.senha != "" &&
         this.formEdicao.adicionouImagem == true) {
@@ -93,6 +97,7 @@ export default {
           graduacao: this.formEdicao.graduacao,
           img: this.formEdicao.imagem,
           senha: this.formEdicao.senha,
+          permissaoTelefone: this.formEdicao.permissaoTelefone
         }),
       })
       if(!response.ok){
@@ -143,23 +148,28 @@ export default {
         
       }
     },
-    atualizaDadosPreview() {
-      let dadosUsuario = getDadosUsuarioLocal();
-      this.pk_usuario = dadosUsuario[0].pk_usuario;
-      this.nomeUsuario = dadosUsuario[0].nome;
-      this.graduacao = dadosUsuario[0].graduacao;
-      this.totalMoedas = dadosUsuario[0].total_moedas;
-      this.totalPontos = dadosUsuario[0].total_pontos;
-      this.imagemPerfil = dadosUsuario[0].img;
+    async atualizaDadosPreview() {
+      let dadosUsuario = await getDadosUsuarioLocal();
+      this.pk_usuario = dadosUsuario[0].pk_usuario
+      this.nomeUsuario = dadosUsuario[0].nome
+      this.graduacao = dadosUsuario[0].graduacao
+      this.totalMoedas = dadosUsuario[0].total_moedas
+      this.totalPontos = dadosUsuario[0].total_pontos
+      this.imagemPerfil = dadosUsuario[0].img
+      this.telefone = dadosUsuario[0].telefone
+      this.email = dadosUsuario[0].email
+      this.permissaoTelefone = dadosUsuario[0].permissaoTelefone
+      
 
     },
-    atualizaDadosEdicao(dadosUsuario) {
-      this.formEdicao.imagem = dadosUsuario[0].img;
-      this.formEdicao.nome = dadosUsuario[0].nome;
-      this.formEdicao.email = dadosUsuario[0].email;
-      this.formEdicao.telefone = dadosUsuario[0].telefone;
-      this.formEdicao.graduacao = dadosUsuario[0].graduacao;
-
+    async atualizaDadosEdicao(dadosUsuario) {
+      this.formEdicao.imagem = dadosUsuario[0].img
+      this.formEdicao.nome = dadosUsuario[0].nome
+      this.formEdicao.email = dadosUsuario[0].email
+      this.formEdicao.telefone = dadosUsuario[0].telefone
+      this.formEdicao.graduacao = dadosUsuario[0].graduacao
+      this.formEdicao.permissaoTelefone = dadosUsuario[0].permissaoTelefone
+      
     },
     resetaAlerta() {
       setTimeout(() => {
@@ -171,8 +181,8 @@ export default {
   },
   async mounted() {
     this.url = import.meta.env.VITE_ROOT_API;
-    await this.buscarDadosEdicao();
     await this.atualizaDadosPreview();
+    await this.buscarDadosEdicao();
 
   },
 };
@@ -192,6 +202,9 @@ export default {
         :graduacao="graduacao"
         :totalMoedas="totalPontos"
         :totalPontos="totalPontos"
+        :telefone="telefone"
+        :email="email"
+        :permissaoTelefone="permissaoTelefone"
       />
     </div>
     <div class="lado-edicao">
@@ -234,6 +247,7 @@ export default {
               v-model="formEdicao.telefone"
               type="tel"
               placeholder="Informe seu telefone:"
+              maxlength="15"
               @keyup="handlePhone($event.target)"
               @input="enableBotaoSalvar()"
             ></b-form-input>
@@ -260,6 +274,13 @@ export default {
               @input="enableBotaoSalvar()"
             ></b-form-input>
             <label for="floatingInput">Informe sua senha:</label>
+          </div>
+          <div class="checkWhatsapp">
+            <b-form-checkbox
+              v-model="formEdicao.permissaoTelefone"
+              value="1"
+              unchecked-value="0"      
+            ></b-form-checkbox>Permitir contato via whatsapp
           </div>
           <div class="botao-salvar">
             <b-button
@@ -389,6 +410,24 @@ export default {
         option:nth-child(1) {
           background-color: #6c63ff;
           color: white;
+        }
+      }
+      .checkWhatsapp{
+        display: flex !important;
+        flex-direction: row;
+        height: 2.5rem;
+        color: black;
+        font-weight: 500;
+        font-size: .9rem;
+
+        .custom-control{
+          width: 1.5rem !important;
+
+          input{
+            height: 100% !important;
+            box-shadow: none;
+
+          }
         }
       }
     }

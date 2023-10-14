@@ -1,4 +1,7 @@
-import { createRouter, createMemoryHistory } from "vue-router"
+import { createRouter, createWebHistory } from "vue-router"
+
+import { getDadosUsuarioLocal } from "./global.js"
+let dadosUsuario = getDadosUsuarioLocal()
 
 import Inicio from '../pages/Inicio.vue'
 import Sobre from '../pages/Sobre.vue'
@@ -29,20 +32,53 @@ const routes = [
     {
         path: '/meusCursos',
         name: 'meusCursos',
-        component: MeusCursos
+        component: MeusCursos,
+        beforeEnter: (_, __, next) => {
+            const userLogado = (dadosUsuario != null) ? true : false
+            if(userLogado){
+                next()
+                return
 
+            }else{
+                next('/')
+                return
+
+            }
+        }
     },
     {
         path: '/dashboard',
         name: 'dashboard',
-        component: Dashboard
+        component: Dashboard,
+        beforeEnter: (_, __, next) => {
+            const userLogado = (dadosUsuario != null) ? true : false
+            if(userLogado){
+                next()
+                return
 
+            }else{
+                next('/')
+                return
+                
+            }
+        }
     },
     {
         path: '/editarPerfil',
         name: 'editarPerfil',
-        component: EditarPerfil
+        component: EditarPerfil,
+        beforeEnter: (_, __, next) => {
+            const userLogado = (dadosUsuario != null) ? true : false
+            if(userLogado){
+                next()
+                return
 
+            }else{
+                next('/')
+                return
+
+            }
+        }
     },
     {
         path: '/*',
@@ -51,7 +87,7 @@ const routes = [
     }
 ]
 const router = createRouter({
-    history: createMemoryHistory(),
+    history: createWebHistory(),
     routes
 
 })

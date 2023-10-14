@@ -11,7 +11,8 @@ export default{
         ranking: [],
         titulo: "Maior Pontuação",
         tituloTipo: "Total",
-        tipoRanking: false
+        tipoRanking: false,
+        responseRanking: true
 
       },
       tituloButton: "+ COMPRADOS",
@@ -21,18 +22,19 @@ export default{
   },
   methods: {
     alternaRanking(){
-      this.tipoRanking = !this.tipoRanking
       if(this.configRanking.titulo === "Maior Pontuação"){
+        this.buscarMaisComprados()
         this.configRanking.titulo = "Mais Comprados"
         this.configRanking.tipoRanking = !this.configRanking.tipoRanking
         this.tituloButton = "+ PONTOS"
-        this.buscarMaisComprados()
-
+        this.tipoRanking = !this.tipoRanking
+ 
       }else{
+        this.buscarMaioresPontuacoes()
         this.configRanking.titulo = "Maior Pontuação"
         this.configRanking.tipoRanking = !this.configRanking.tipoRanking
         this.tituloButton = "+ COMPRADOS"
-        this.buscarMaioresPontuacoes()
+        this.tipoRanking = !this.tipoRanking
 
       }
     },
@@ -40,7 +42,10 @@ export default{
       const response = await fetch(this.url+'buscaRanking.php?maioresPontuacoes=1', {
         method: "POST",
         body: JSON.stringify()
-      })
+      }).catch(
+        this.configRanking.responseRanking = true
+
+      )
       if(!response.ok){
         console.log(response.status)
 
@@ -49,15 +54,19 @@ export default{
         if(dados[0].pk_usuario != null){
           this.configRanking.ranking = []
           this.configRanking.ranking = dados
+          this.configRanking.responseRanking = false
 
         }
-      }      
+      } 
     },
     async buscarMaisComprados(){
       const response = await fetch(this.url+'buscaRanking.php?maisComprados=1', {
         method: "POST",
         body: JSON.stringify()
-      })      
+      }).catch(
+        this.configRanking.responseRanking = true
+
+      ) 
       if(!response.ok){
         console.log(response.status)
         
@@ -66,16 +75,26 @@ export default{
         if(dados[0].pk_usuario != null){
           this.configRanking.ranking = []
           this.configRanking.ranking = dados
+          this.configRanking.responseRanking = false
 
         }
       }        
     }
   },
-  async mounted(){
+  mounted(){
     this.url = import.meta.env.VITE_ROOT_API
-    this.configRanking.ranking = dadosTemp
-    await this.buscarMaioresPontuacoes()
+    //this.configRanking.ranking = dadosTemp
+    var tempoResponse = setInterval(() => {
+      if(this.configRanking.responseRanking){
+        console.log("buscando")
+        this.buscarMaioresPontuacoes()
 
+      }else{
+        clearInterval(tempoResponse)
+        console.log("achou")
+
+      }
+    }, 3000)
   }
 }
 </script>
@@ -87,6 +106,7 @@ export default{
     </div>
     <div class="inicio-ranking">
       <b-button
+        :disabled="configRanking.responseRanking"
         variant="success"
         v-on:click="alternaRanking()">{{tituloButton}}</b-button>
       <div
@@ -96,7 +116,8 @@ export default{
           :ranking=configRanking.ranking
           :titulo=configRanking.titulo
           :tituloTipo=configRanking.tituloTipo
-          :tipoRanking=configRanking.tipoRanking />      
+          :tipoRanking=configRanking.tipoRanking
+          :responseRanking="configRanking.responseRanking" />      
       </div>
       <div 
         v-else
@@ -105,7 +126,8 @@ export default{
           :ranking=configRanking.ranking
           :titulo=configRanking.titulo 
           :tituloTipo=configRanking.tituloTipo
-          :tipoRanking=configRanking.tipoRanking />     
+          :tipoRanking=configRanking.tipoRanking
+          :responseRanking="configRanking.responseRanking" />     
       </div>
     </div>
   </div>

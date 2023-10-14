@@ -112,7 +112,7 @@ export default {
                 </a>
               </b-nav-item>
           </div>
-          <div
+          <div 
             class="menu-user-logado"
             v-else>
             <b-nav-item-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret right>
@@ -129,7 +129,7 @@ export default {
               <b-dropdown-item>
                 <router-link to="/dashboard">Dashboard</router-link>
               </b-dropdown-item>
-              <b-dropdown-item disabled>
+              <b-dropdown-item>
                 <router-link to="/meusCursos">Meus Cursos</router-link>
               </b-dropdown-item>
               <b-dropdown-item>

@@ -15,6 +15,9 @@ export default {
       totalPontos: null,
       totalMoedas: null,
       imagemPerfil: null,
+      email: "",
+      telefone: "",
+      permissaoTelefone: null,
       url: null,
       cursosVendidos: null,
       cursosComprados: null,
@@ -132,7 +135,9 @@ export default {
       this.totalMoedas = dadosUsuario[0].total_moedas
       this.totalPontos = dadosUsuario[0].total_pontos
       this.imagemPerfil = dadosUsuario[0].img
-
+      this.email = dadosUsuario[0].email
+      this.telefone = dadosUsuario[0].telefone
+      this.permissaoTelefone = dadosUsuario[0].permissaoTelefone
 
     }
   },
@@ -163,7 +168,10 @@ export default {
         :nomeUsuario="nomeUsuario"
         :graduacao="graduacao"
         :totalMoedas="totalMoedas"
-        :totalPontos="totalPontos" />
+        :totalPontos="totalPontos"
+        :telefone="telefone"
+        :email="email"
+        :permissaoTelefone="permissaoTelefone" />
     </div>
     <div class="lado-cursos">
       <div

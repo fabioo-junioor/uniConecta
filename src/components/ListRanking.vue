@@ -10,7 +10,8 @@ export default {
     titulo: String,
     tituloTipo: String,
     ranking: Array,
-    tipoRanking: Boolean
+    tipoRanking: Boolean,
+    responseRanking: Boolean
   }
 };
 </script>
@@ -18,6 +19,9 @@ export default {
 <template>
   <div id="list-ranking">
     <h3>{{ titulo }}</h3>
+    <b-spinner
+      v-if="responseRanking"
+      variant="light"></b-spinner>
     <v-table>
       <thead>
         <tr>
@@ -50,7 +54,8 @@ export default {
   font-family: 'Work Sans', sans-serif;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
@@ -67,6 +72,9 @@ export default {
   
   }
   .v-table{
+    width: 100%;
+    margin-top: .5rem;
+
     th{
       font-weight: bold;
       color: black;

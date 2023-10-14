@@ -1,12 +1,10 @@
 <script>
-import { getDadosUsuarioLocal } from '../config/global.js'
 import CardCursos from "../components/CardCursos.vue";
-import ModalCadCurso from "../components/ModalCadCurso.vue";
 import LadoUsuario from '../components/LadoUsuario.vue'
 
 export default {
   name: "MeusCursos",
-  components: { CardCursos, ModalCadCurso, LadoUsuario },
+  components: { CardCursos, LadoUsuario },
   data() {
     return {
       imagemPerfil: null,
@@ -16,34 +14,23 @@ export default {
       totalMoedas: 515,
       telefone: "",
       email: "",
-      permissaoTelefone: null
+      permissaoTelefone: null,
+      cursos: []
 
     };
   },
   methods: {
-    async atualizaDadosPreview() {
-      let dadosUsuario = await getDadosUsuarioLocal();
-      this.pk_usuario = dadosUsuario[0].pk_usuario;
-      this.nomeUsuario = dadosUsuario[0].nome;
-      this.graduacao = dadosUsuario[0].graduacao;
-      this.totalMoedas = dadosUsuario[0].total_moedas;
-      this.totalPontos = dadosUsuario[0].total_pontos;
-      this.imagemPerfil = dadosUsuario[0].img;
-      this.telefone = dadosUsuario[0].telefone
-      this.email = dadosUsuario[0].email
-      this.permissaoTelefone = dadosUsuario[0].permissaoTelefone
-
-    }
+    
   },
   async mounted(){
-    await this.atualizaDadosPreview()
+    
 
   }
 };
 </script>
 
 <template>
-  <div id="meus-cursos">
+  <div id="perfil-usuario">
     <div class="lado-user">
       <LadoUsuario
         :imagemPerfil="imagemPerfil"
@@ -55,17 +42,14 @@ export default {
         :email="email"
         :permissaoTelefone="permissaoTelefone" />
     </div>
-    <div class="lado-meus-cursos">
-      <div class="meus-cursos-header">
-        <h4>Meus Cursos</h4>
-        <a v-b-modal.modal-scrollable-curso-lg>
-          <b-button> <ModalCadCurso />CADASTRAR CURSO </b-button>
-        </a>
+    <div class="lado-cursos-usuario">
+      <div class="cursos-usuario-header">
+        <h4>Cursos</h4>
       </div>
-      <div class="meus-cursos-body">
+      <div class="cursos-usuario-body">
         <hr />
         <div class="cards-cursos">
-          <CardCursos v-for="i in 6" :key="i" />
+          <CardCursos v-for="i in 4" :key="i" />
         </div>
       </div>
     </div>
@@ -75,7 +59,7 @@ export default {
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap");
 
-#meus-cursos {
+#perfil-usuario {
   font-family: "Work Sans", sans-serif;
   display: flex;
   flex-direction: row;
@@ -92,7 +76,7 @@ export default {
     padding: 3rem 1rem 0 1rem;
     //background-color: greenyellow;
 
-    .meus-cursos-header {
+    .cursos-usuario-header {
       //background-color: red;
       display: flex;
       justify-content: space-between;
@@ -116,7 +100,7 @@ export default {
         color: white;
       }
     }
-    .meus-cursos-body {
+    .cursos-usuario-body {
       //background-color: blue;
 
       hr {
@@ -142,7 +126,7 @@ export default {
 @media only screen and (max-width: 992px) {
 }
 @media only screen and (max-width: 720px) {
-  #meus-cursos {
+  #perfil-usuario {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -171,11 +155,11 @@ export default {
         }
       }
     }
-    .lado-meus-cursos {
+    .lado-cursos-usuario {
       width: 95%;
       padding: 3rem 0 0 0;
 
-      .meus-cursos-body {
+      .cursos-usuario-body {
         .cards-cursos {
           display: grid;
           grid-template-columns: repeat(3, 1fr);

@@ -12,7 +12,7 @@ export default {
         email: "",
         telefone: "",
         senha: "",
-        permNumber: null,
+        permissaoTelefone: null,
       },
       logar: true,
       botaoAcessar: false,
@@ -40,21 +40,21 @@ export default {
           this.$emit('mensagemAlerta', 1)
 
         }else{
-          console.log("Senha incorreta!")
+          console.log("Email ou senha incorreto!")
           this.$emit('mensagemAlerta', 2)                  
 
         }
       }
     },
     async cadastrarUsuario(){
-      /*
       const response = await fetch(this.url+'cadastrarUsuario.php', {
         method: 'POST',
         body: JSON.stringify({
           nome: this.form.nome,
           email: this.form.email,
           telefone: this.form.telefone,
-          senha: this.form.senha
+          senha: this.form.senha,
+          permissaoTelefone: this.form.permissaoTelefone
         })
       })
       if(!response.ok){
@@ -69,9 +69,7 @@ export default {
           this.$emit('mensagemAlerta', 4) 
 
         }
-      }*/
-      console.log(this.form.permNumber)
-
+      }
     },
     handlePhone(event){
       event.value = this.maskPhone(event.value)
@@ -109,7 +107,7 @@ export default {
       }
     },
     enableBotaoSalvar(){
-      console.log(this.form.telefone)
+      //console.log(this.form.telefone)
       if((this.form.nome != "") &&
         (this.form.email != "") &&
         (this.form.telefone != "") &&
@@ -210,10 +208,10 @@ export default {
             </div>
             <div class="checkWhatsapp">
               <b-form-checkbox
-                v-model="form.permNumber"
+                v-model="form.permissaoTelefone"
                 value="1"
                 unchecked-value="0"      
-              ></b-form-checkbox>Permitir contato pelo whatsapp
+              ></b-form-checkbox>Permitir contato via whatsapp
             </div>
             <div class="buttons-login-user">
               <b-button
