@@ -186,7 +186,9 @@ export default {
             :cursoNome="i.cursoNome"
             :usuarioNome="i.usuarioNome"
             :cursoDescricao="i.cursoDescricao"
-            :tipo="true"
+            :tipo="1"
+            :desativarBotao="false"
+            :ativarFavorito="false"
             @infoCurso="infoCurso" />
         </div>
       </div>
@@ -202,7 +204,9 @@ export default {
             :cursoNome="i.cursoNome"
             :usuarioNome="i.usuarioNome"
             :cursoDescricao="i.cursoDescricao"
-            :tipo="true"
+            :tipo="1"
+            :desativarBotao="false"
+            :ativarFavorito="false"
             @infoCurso="infoCurso" />
         </div>
       </div>
@@ -218,9 +222,10 @@ export default {
             :cursoNome="i.cursoNome"
             :usuarioNome="i.usuarioNome"
             :cursoDescricao="i.cursoDescricao"
-            :tipo="true"
-            @infoCurso="infoCurso"
-            :isValid="true" />
+            :tipo="3"
+            :desativarBotao="true"
+            :ativarFavorito="true"
+            @infoCurso="infoCurso" />
         </div>
       </div>
     </div>
@@ -280,19 +285,6 @@ export default {
 }
 @media only screen and (max-width: 1200px) {
 #dashboard{
-  .lado-user{
-    .dados-user {
-      width: 90%;
-
-      div {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-
-      }
-    }
-  }
   .lado-cursos{
     .cursos-comprados,
     .cursos-vendidos,
@@ -312,18 +304,6 @@ export default {
   .lado-user{
     width: 25%;
 
-    .foto-user{
-        max-width: 13rem !important;
-        max-height: 13rem !important;
-        min-width: 12rem !important;
-        min-height: 12rem !important;
-
-      img{
-        max-height: 12.5rem;
-        max-width: 12.5rem;
-
-      }
-    }
   }
   .lado-cursos{
     width: 70%;
@@ -345,32 +325,11 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 1rem;
 
   .lado-user{
     width: 95%;
 
-    .dados-user {
-      width: 60%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-
-      h3 {
-        text-align: center;
-
-      }
-      h2 {
-        text-align: center;
-
-      }
-      div {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-
-      }
-    }
   }
   .lado-cursos{
     width: 95%;
@@ -391,31 +350,6 @@ export default {
 }
 @media only screen and (max-width: 481px) {
 #dashboard{
-  .lado-user{
-    .dados-user {
-      width: 80%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 0;
-
-      h3 {
-        text-align: center;
-
-      }
-      h2 {
-        text-align: center;
-
-      }
-      div {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-
-      }
-    }
-  }
   .lado-cursos{
     .cursos-comprados,
     .cursos-vendidos,
@@ -431,13 +365,5 @@ export default {
 }
 }
 @media only screen and (max-width: 360px) {
-#dashboard{
-  .lado-user{
-    .dados-user {
-      width: 90%;
-      
-    }
-  }
-}
 }
 </style>

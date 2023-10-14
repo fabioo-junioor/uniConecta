@@ -210,11 +210,7 @@ export default {
         justify-content: center;
         padding: 0;
 
-        h3 {
-          text-align: center;
-
-        }
-        h2 {
+        h2, h3, h4 {
           text-align: center;
 
         }
@@ -234,14 +230,6 @@ export default {
       .dados-user {
         width: 80%;
 
-        h3 {
-          text-align: center;
-
-        }
-        h2 {
-          text-align: center;
-
-        }
         div {
           display: flex;
           flex-direction: row;

@@ -5,7 +5,6 @@ export default {
     return {
       favorito: false,
       totalFavoritos: 15
-
     };
   },
   props: {
@@ -13,8 +12,9 @@ export default {
     cursoNome: String,
     usuarioNome: String,
     cursoDescricao: String,
-    isValid: Boolean,
-    tipo: Boolean
+    desativarBotao: Boolean,
+    tipo: Number,
+    ativarFavorito: Boolean
 
   },
   methods: {
@@ -46,7 +46,9 @@ export default {
         <div class="total-favoritos">
           <span>{{totalFavoritos}}</span>
         </div>
-        <div class="favoritar-curso">
+        <div
+          v-if="ativarFavorito"
+          class="favoritar-curso">
             <b-button
               v-if="!favorito"
               @click="adicionarFavorito()" >
@@ -72,14 +74,20 @@ export default {
             <i class="bx bx-info-circle"/>
         </b-button>
         <b-button
-          v-if="tipo"
-          :disabled="isValid"
+          v-if="tipo == 1"
+          :disabled="desativarBotao"
           @click="avaliarCurso()"
           variant="outline-success">Avaliar  
         </b-button>
         <b-button
-          v-else
+          v-else-if="tipo == 2"
+          :disabled="desativarBotao"
           variant="outline-success">Comprar  
+        </b-button>
+        <b-button
+          v-else-if="tipo == 3"
+          :disabled="desativarBotao"
+          variant="outline-success">Avaliado  
         </b-button>
       </div>
     </b-card>

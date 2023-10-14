@@ -3,7 +3,7 @@ import CardCursos from "../components/CardCursos.vue";
 import LadoUsuario from '../components/LadoUsuario.vue'
 
 export default {
-  name: "MeusCursos",
+  name: "PerfilUsuario",
   components: { CardCursos, LadoUsuario },
   data() {
     return {

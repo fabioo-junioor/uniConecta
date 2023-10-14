@@ -3,10 +3,11 @@ import { getDadosUsuarioLocal } from '../config/global.js'
 import CardCursos from "../components/CardCursos.vue";
 import ModalCadCurso from "../components/ModalCadCurso.vue";
 import LadoUsuario from '../components/LadoUsuario.vue'
+import ModalInfoCurso from '../components/ModalInfoCurso.vue'
 
 export default {
   name: "MeusCursos",
-  components: { CardCursos, ModalCadCurso, LadoUsuario },
+  components: { CardCursos, ModalCadCurso, LadoUsuario, ModalInfoCurso },
   data() {
     return {
       imagemPerfil: null,
@@ -16,11 +17,70 @@ export default {
       totalMoedas: 515,
       telefone: "",
       email: "",
-      permissaoTelefone: null
+      permissaoTelefone: null,
+      meusCursos: null,
+      url: null,
+      dadosInfo: {
+        pk_curso: null,
+        cursoNome: "",
+        usuarioNome: "",
+        totalHoras: null,
+        valorCurso: null,
+        descricao: ""
 
+      }
     };
   },
   methods: {
+    async buscaMeusCursos(dadosUsuario){
+      const response = await fetch(this.url+'buscaMeusCursos.php?buscaMeusCursos=1', {
+        method: 'POST',
+        body: JSON.stringify({
+          pk_usuario: dadosUsuario[0].pk_usuario
+        })
+      })
+      if(!response.ok){
+        console.log(response.status)
+
+      }else{
+        const dados = await response.json()
+        //console.log(dados)
+        if(dados[0].pk_curso != null){
+          this.meusCursos = dados
+
+        }else{
+          this.meusCursos = null
+
+        }
+      }
+    },
+    async buscaInfoCurso(pk_curso){
+      const response = await fetch(this.url+'buscaInfoCurso.php?buscaInfoCurso=1', {
+        method: 'POST',
+        body: JSON.stringify({
+          pk_curso: pk_curso
+        })
+      })
+      if(!response.ok){
+        console.log(response.status)
+
+      }else{
+        const dados = await response.json()
+        this.dadosInfo.pk_curso = dados[0].pk_curso
+        this.dadosInfo.cursoNome = dados[0].cursoNome
+        this.dadosInfo.usuarioNome = dados[0].usuarioNome
+        this.dadosInfo.totalHoras = dados[0].totalHoras
+        this.dadosInfo.valorCurso = dados[0].valorCurso
+        this.dadosInfo.descricao = dados[0].cursoDescricao
+        console.log("-->", dados)
+        
+      }
+    },
+    async infoCurso(pk_curso){
+      await this.buscaInfoCurso(pk_curso)
+      this.$root.$emit('bv::show::modal', 'modalInfoCurso')    
+
+    },
     async atualizaDadosPreview() {
       let dadosUsuario = await getDadosUsuarioLocal();
       this.pk_usuario = dadosUsuario[0].pk_usuario;
@@ -36,7 +96,10 @@ export default {
     }
   },
   async mounted(){
+    this.url = import.meta.env.VITE_ROOT_API
     await this.atualizaDadosPreview()
+    let dadosUsuario = getDadosUsuarioLocal()
+    this.buscaMeusCursos(dadosUsuario)
 
   }
 };
@@ -44,6 +107,13 @@ export default {
 
 <template>
   <div id="meus-cursos">
+    <ModalInfoCurso
+      :pk_curso="dadosInfo.pk_curso"
+      :cursoNome="dadosInfo.cursoNome"
+      :usuarioNome="dadosInfo.usuarioNome"
+      :totalHoras="dadosInfo.totalHoras"
+      :valorCurso="dadosInfo.valorCurso"
+      :descricao="dadosInfo.descricao" />
     <div class="lado-user">
       <LadoUsuario
         :imagemPerfil="imagemPerfil"
@@ -65,7 +135,16 @@ export default {
       <div class="meus-cursos-body">
         <hr />
         <div class="cards-cursos">
-          <CardCursos v-for="i in 6" :key="i" />
+          <CardCursos
+            v-for="i in meusCursos" :key="i"
+            :pk_curso="i.pk_curso"
+            :cursoNome="i.cursoNome"
+            :usuarioNome="i.usuarioNome"
+            :cursoDescricao="i.cursoDescricao"
+            :ativarFavorito="false"
+            :desativarBotao="true"
+            :tipo="2"
+            @infoCurso="infoCurso" />
         </div>
       </div>
     </div>
@@ -138,54 +217,76 @@ export default {
 @media only screen and (max-width: 1560px) {
 }
 @media only screen and (max-width: 1200px) {
-}
-@media only screen and (max-width: 992px) {
-}
-@media only screen and (max-width: 720px) {
   #meus-cursos {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .lado-user {
-      width: 95%;
-
-      .dados-user {
-        width: 60%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 0;
-
-        h3 {
-          text-align: center;
-        }
-        h2 {
-          text-align: center;
-        }
-        div {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: center;
-        }
-      }
-    }
     .lado-meus-cursos {
-      width: 95%;
-      padding: 3rem 0 0 0;
-
       .meus-cursos-body {
         .cards-cursos {
           display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: .3rem;
+
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: 992px) {
+  #meus-cursos{  
+    .lado-user{
+      width: 25%;
+
+    }
+    .lado-meus-cursos{
+      width: 70%;
+      .meus-cursos-body{
+        .cards-cursos{
+          display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: 0.3rem;
+          gap: .3rem;
+          
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: 720px) {
+  #meus-cursos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1rem;
+
+    .lado-user{
+      width: 95%;
+
+    }
+    .lado-meus-cursos{
+      width: 95%;
+      padding: 3rem 0 0 0;
+      .meus-cursos-body{
+        .cards-cursos{
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: .3rem;
+          
         }
       }
     }
   }
 }
 @media only screen and (max-width: 481px) {
+  #meus-cursos{
+    .lado-meus-cursos{
+      .meus-cursos-body{
+        .cards-cursos{
+          display: grid;
+          grid-template-columns: repeat(1, 1fr);
+          gap: .3rem;
+          
+        }
+      }
+    }
+  }
 }
 @media only screen and (max-width: 360px) {
 }

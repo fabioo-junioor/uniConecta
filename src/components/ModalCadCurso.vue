@@ -1,6 +1,10 @@
 <script>
+import { getDadosUsuarioLocal } from '../config/global.js'
+import Alerta from './Alerta.vue'
+
 export default {
   name: "ModalCadCurso",
+  components: {Alerta},
   data() {
     return {
       formCurso: {
@@ -9,15 +13,44 @@ export default {
         valor: null,
         descricao: "",
       },
-      botaoCadastrar: false
+      alerta: {
+        mensagem: "",
+        tipo: "",
+        isAlert: false
+      },
+      botaoCadastrar: false,
+      url: null
     };
   },
   methods: {
-    cadastrarCurso() {
-      console.log(this.formCurso.nome,
-        this.formCurso.totalHoras,
-        this.formCurso.valor,
-        this.formCurso.descricao)
+    async cadastrarCurso() {
+      let pk_usuario = getDadosUsuarioLocal()
+      const response = await fetch(this.url+'cadastrarCurso.php', {
+        method: "POST",
+        body: JSON.stringify({
+          nome: this.formCurso.nome,
+          totalHoras: this.formCurso.totalHoras,
+          valor: this.formCurso.valor,
+          descricao: this.formCurso.descricao,
+          pk_usuario: pk_usuario[0].pk_usuario
+        })
+      })
+      if(!response.ok){
+        console.log(response.status)
+
+      }else{
+        const dados = await response.json()
+        console.log(dados)
+        if(dados[0].pk_curso == true){
+          //console.log("cadastrado")
+          this.mensagemAlerta(1)
+
+        }else{
+          //console.log("nao cadastrado!")
+          this.mensagemAlerta(2)                  
+
+        }
+      }
     },
     enableBotaoCadastrar(){
       if((this.formCurso.nome != "") &&
@@ -30,11 +63,45 @@ export default {
         this.botaoCadastrar = false
 
       }
+    },
+    mensagemAlerta(id) {
+      if(id == 1){
+        this.alerta.mensagem = "Curso cadastrado"
+        this.alerta.tipo = "success"
+        this.alerta.isAlert = true
+
+      }else if(id == 2){
+        this.alerta.mensagem = "Curso não cadastrado!"
+        this.alerta.tipo = "danger"
+        this.alerta.isAlert = true
+
+      }
+      this.resetaAlerta(id)
+
+    },
+    resetaAlerta(id){
+      setTimeout(() => {
+        this.alerta.mensagem = ""
+        this.alerta.tipo = ""
+        this.alerta.isAlert = false
+
+        return ((id != 2)&&(id != 3)) ? location.reload() : false
+
+      }, 4100)
+
     }
   },
+  mounted(){
+    this.url = import.meta.env.VITE_ROOT_API
+
+  }
 };
 </script>
 <template>
+  <Alerta 
+    v-if="alerta.isAlert"
+    :mensagem="alerta.mensagem"
+    :tipo="alerta.tipo"/>
   <b-modal
     id="modal-scrollable-curso-lg"
     size="lg"
