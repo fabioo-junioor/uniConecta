@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router"
 
 import { getDadosUsuarioLocal } from "./global.js"
 let dadosUsuario = getDadosUsuarioLocal()
+let url = import.meta.env.VITE_URL_FRONT
 
 import Inicio from '../pages/Inicio.vue'
 import Sobre from '../pages/Sobre.vue'
@@ -57,7 +58,7 @@ const routes = [
                 return
 
             }else{
-                next('/')
+                next(url)
                 return
                 
             }
@@ -82,7 +83,7 @@ const routes = [
     },
     {
         path: '/*',
-        redirect: '/'
+        redirect: url
 
     }
 ]
