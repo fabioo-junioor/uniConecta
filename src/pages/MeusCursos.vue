@@ -72,7 +72,6 @@ export default {
         this.dadosInfo.totalHoras = dados[0].totalHoras
         this.dadosInfo.valorCurso = dados[0].valorCurso
         this.dadosInfo.descricao = dados[0].cursoDescricao
-        console.log("-->", dados)
         
       }
     },
@@ -141,6 +140,7 @@ export default {
             :cursoNome="i.cursoNome"
             :usuarioNome="i.usuarioNome"
             :cursoDescricao="i.cursoDescricao"
+            :totalFavoritos="i.totalFavoritos"
             :ativarFavorito="false"
             :desativarBotao="true"
             :tipo="2"

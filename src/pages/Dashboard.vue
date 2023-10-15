@@ -28,7 +28,9 @@ export default {
         usuarioNome: "",
         totalHoras: null,
         valorCurso: null,
-        descricao: ""
+        descricao: "",
+        totalFavoritos: null,
+        pk_favorito: null
 
       }      
     }
@@ -47,7 +49,7 @@ export default {
       }else{
         const dados = await response.json()
         //console.log(dados)
-        if(dados[0].pk_usuario != null){
+        if(dados[0].pk_curso != null){
           this.cursosVendidos = dados
 
         }else{
@@ -69,7 +71,7 @@ export default {
       }else{
         const dados = await response.json()
         //console.log(dados)
-        if(dados[0].pk_usuario != null){
+        if(dados[0].pk_curso != null){
           this.cursosComprados = dados
 
         }else{
@@ -91,7 +93,7 @@ export default {
       }else{
         const dados = await response.json()
         //console.log(dados)
-        if(dados[0].pk_usuario != null){
+        if(dados[0].pk_curso != null){
           this.cursosAvaliados = dados
 
         }else{
@@ -118,7 +120,8 @@ export default {
         this.dadosInfo.totalHoras = dados[0].totalHoras
         this.dadosInfo.valorCurso = dados[0].valorCurso
         this.dadosInfo.descricao = dados[0].cursoDescricao
-        console.log("-->", dados)
+        this.dadosInfo.totalFavoritos = dados[0].totalFavorito
+        this.dadosInfo.pk_favorito = dados[0].pk_favorito
         
       }
     },
@@ -126,6 +129,42 @@ export default {
       await this.buscaInfoCurso(pk_curso)
       this.$root.$emit('bv::show::modal', 'modalInfoCurso')    
       //console.log("info curso ", pk_curso)
+
+    },
+    async adicionarFavorito(pk_curso){
+      const response = await fetch(this.url+'adicionaDeletaFavorito.php?adicionaFavorito=1', {
+        method: 'POST',
+        body: JSON.stringify({
+          fk_curso: pk_curso,
+          fk_usuario: this.pk_usuario
+        })
+      })
+      if(!response.ok){
+        console.log(response.status)
+
+      }else{
+        const dados = await response.json()
+        console.log("adicionou favorito")
+        location.reload()
+        
+      }
+    },
+    async deletarFavorito(pk_curso){
+      const response = await fetch(this.url+'adicionaDeletaFavorito.php?deletaFavorito=1', {
+        method: 'POST',
+        body: JSON.stringify({
+          fk_curso: pk_curso,
+          fk_usuario: this.pk_usuario
+        })
+      })
+      if(!response.ok){
+        console.log(response.status)
+
+      }else{
+        const dados = await response.json()
+        console.log("deletou favorito")
+        
+      }
 
     },
     async atualizaDadosPreview(dadosUsuario){
@@ -186,6 +225,7 @@ export default {
             :cursoNome="i.cursoNome"
             :usuarioNome="i.usuarioNome"
             :cursoDescricao="i.cursoDescricao"
+            :totalFavoritos="i.totalFavoritos"
             :tipo="1"
             :desativarBotao="false"
             :ativarFavorito="false"
@@ -204,10 +244,14 @@ export default {
             :cursoNome="i.cursoNome"
             :usuarioNome="i.usuarioNome"
             :cursoDescricao="i.cursoDescricao"
+            :totalFavoritos="i.totalFavoritos"
+            :fk_usuarioFavorito="i.fk_usuarioFavorito != pk_usuario ? true : false"
             :tipo="1"
             :desativarBotao="false"
-            :ativarFavorito="false"
-            @infoCurso="infoCurso" />
+            :ativarFavorito="true"
+            @infoCurso="infoCurso"
+            @adicionarFavorito="adicionarFavorito"
+            @deletarFavorito="deletarFavorito" />
         </div>
       </div>
       <div
@@ -222,10 +266,14 @@ export default {
             :cursoNome="i.cursoNome"
             :usuarioNome="i.usuarioNome"
             :cursoDescricao="i.cursoDescricao"
+            :totalFavoritos="i.totalFavoritos"
+            :fk_usuarioFavorito="i.fk_usuarioFavorito != pk_usuario ? true : false"
             :tipo="3"
             :desativarBotao="true"
-            :ativarFavorito="true"
-            @infoCurso="infoCurso" />
+            :ativarFavorito="i.fk_usuarioCurso != pk_usuario ? true : false"
+            @infoCurso="infoCurso"
+            @adicionarFavorito="adicionarFavorito"
+            @deletarFavorito="deletarFavorito" />
         </div>
       </div>
     </div>

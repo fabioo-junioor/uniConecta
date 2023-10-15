@@ -1,10 +1,12 @@
 <script>
+import { getDadosUsuarioLocal } from '../config/global.js'
+
 export default {
   name: "CardCursos",
   data() {
     return {
       favorito: false,
-      totalFavoritos: 15
+      
     };
   },
   props: {
@@ -12,20 +14,20 @@ export default {
     cursoNome: String,
     usuarioNome: String,
     cursoDescricao: String,
+    totalFavoritos: Number,
+    fk_usuarioFavorito: Boolean,
     desativarBotao: Boolean,
     tipo: Number,
     ativarFavorito: Boolean
 
   },
   methods: {
-    adicionarFavorito(){
-      this.favorito = !this.favorito
-      this.totalFavoritos += 1
+    adicionarFavorito(pk_curso){
+      this.$emit('adicionarFavorito', pk_curso)
 
     },
-    removerFavorito(){
-      this.favorito = !this.favorito
-      this.totalFavoritos -= 1
+    deletarFavorito(pk_curso){
+      this.$emit('deletarFavorito', pk_curso)
 
     },
     avaliarCurso(){
@@ -37,6 +39,12 @@ export default {
 
     }
   },
+  mounted(){
+    let dadosUsuario = getDadosUsuarioLocal()
+    this.idUsuario = dadosUsuario[0].pk_usuario
+    //console.log(this.idUsuario)
+
+  }
 };
 </script>
 
@@ -50,13 +58,13 @@ export default {
           v-if="ativarFavorito"
           class="favoritar-curso">
             <b-button
-              v-if="!favorito"
-              @click="adicionarFavorito()" >
+              v-if="fk_usuarioFavorito"
+              @click="adicionarFavorito(pk_curso)" >
                 <i class="bx bx-heart" />
             </b-button>
             <b-button
               v-else
-              @click="removerFavorito()" >
+              @click="deletarFavorito(pk_curso)" >
                 <i class="bx bxs-heart" />
             </b-button>
         </div>
