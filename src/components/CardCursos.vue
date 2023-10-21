@@ -50,6 +50,11 @@ export default {
     comprarCurso(pk_curso){
       this.$emit('comprarCurso', pk_curso)
 
+    },
+    perfilUsuario(pk_curso){
+      console.log("pk", pk_curso)
+      this.$router.push({name: 'perfilUsuario'})
+      
     }
   },
   mounted(){
@@ -94,9 +99,16 @@ export default {
       class="mb-2">
       <b-card-title>Titulo: {{cursoNome}}</b-card-title>
       <b-card-text>Tipo: {{tipoCurso}}</b-card-text>
-      <b-card-text>Autor: {{usuarioNome}}</b-card-text>
+      <b-card-text>Autor: 
+        <router-link
+          :to="{name: 'perfilUsuario', params:{ pk: pk_curso } }" 
+          >{{usuarioNome}}
+        </router-link>
+      </b-card-text>
       <b-card-text
-        v-if="compradorNome">Comprador: {{compradorNome}}</b-card-text>
+        v-if="compradorNome">Comprador:
+         <router-link to="/perfilUsuario">{{compradorNome}}</router-link>
+      </b-card-text>
       <b-card-text>Descrição: {{cursoDescricao}}</b-card-text>
       <div>
         <b-button

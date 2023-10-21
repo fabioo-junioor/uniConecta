@@ -15,15 +15,15 @@ export default {
       telefone: "",
       email: "",
       permissaoTelefone: null,
-      cursos: []
+      cursos: null
 
     };
   },
   methods: {
     
   },
-  async mounted(){
-    
+  mounted(){
+    console.log("perfil user", parseInt(this.$route.params.pk))
 
   }
 };
@@ -44,7 +44,7 @@ export default {
     </div>
     <div class="lado-cursos-usuario">
       <div class="cursos-usuario-header">
-        <h4>Cursos</h4>
+        <h4>Cursos - {{$route.params.pk}}</h4>
       </div>
       <div class="cursos-usuario-body">
         <hr />

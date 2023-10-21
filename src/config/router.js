@@ -10,6 +10,7 @@ import Cursos from '../pages/Cursos.vue'
 import MeusCursos from '../pages/MeusCursos.vue'
 import Dashboard from '../pages/Dashboard.vue'
 import EditarPerfil from '../pages/EditarPerfil.vue'
+import PerfilUsuario from '../pages/PerfilUsuario.vue'
 
 const routes = [
     {
@@ -28,6 +29,12 @@ const routes = [
         path: '/cursos',
         name: 'cursos',
         component: Cursos,
+        
+    },
+    {
+        path: '/perfilUsuario/:pk',
+        name: 'perfilUsuario',
+        component: PerfilUsuario
         
     },
     {

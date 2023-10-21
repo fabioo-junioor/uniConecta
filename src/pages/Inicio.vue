@@ -140,14 +140,18 @@ export default{
   justify-content: space-around;
   align-items: center;
   padding: .5rem;
-  margin: .5rem 0 1rem 0;
-
+  margin: 2rem 0 0 0;
+  
   .inicio-img-draw{
     width: 40%;
     display: flex;
     align-items: center;
     justify-content: center;
 
+    img{
+      width: 70%;
+
+    }
   }
   .inicio-ranking{
     width: 40%;
