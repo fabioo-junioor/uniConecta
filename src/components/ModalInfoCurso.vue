@@ -10,6 +10,7 @@ export default {
   props: {
     pk_curso: Number,
     cursoNome: String,
+    tipoCurso: String,
     usuarioNome: String,
     totalHoras: Number,
     valorCurso: Number,
@@ -28,6 +29,10 @@ export default {
       <div>
         <h4>Nome curso: </h4>
         <span>{{cursoNome}}</span>
+      </div>
+      <div>
+        <h5>Tipo: </h5>
+        <span>{{tipoCurso}}</span>
       </div>
       <div>
         <h5>Criador: </h5>
@@ -49,6 +54,7 @@ export default {
   </div>
 </template>
 <style lang="scss">
+@import url('https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css');
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap');
 
 #modalInfoCurso{

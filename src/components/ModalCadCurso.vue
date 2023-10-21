@@ -12,6 +12,12 @@ export default {
         totalHoras: null,
         valor: null,
         descricao: "",
+        tipoCurso: null,
+        opcoes: [
+          { value: "Curso", text: "Curso" },
+          { value: "Aula", text: "Aula" },
+          { value: "Ofcina", text: "Oficina" },
+        ],
       },
       alerta: {
         mensagem: "",
@@ -24,7 +30,7 @@ export default {
   },
   methods: {
     async cadastrarCurso() {
-      let pk_usuario = getDadosUsuarioLocal()
+      let dadosUsuario = getDadosUsuarioLocal()
       const response = await fetch(this.url+'cadastrarCurso.php', {
         method: "POST",
         body: JSON.stringify({
@@ -32,7 +38,9 @@ export default {
           totalHoras: this.formCurso.totalHoras,
           valor: this.formCurso.valor,
           descricao: this.formCurso.descricao,
-          pk_usuario: pk_usuario[0].pk_usuario
+          tipoCurso: this.formCurso.tipoCurso,
+          email: dadosUsuario[0].email,
+          pk_usuario: dadosUsuario[0].pk_usuario
         })
       })
       if(!response.ok){
@@ -40,7 +48,7 @@ export default {
 
       }else{
         const dados = await response.json()
-        console.log(dados)
+        //console.log(dados)
         if(dados[0].pk_curso == true){
           //console.log("cadastrado")
           this.mensagemAlerta(1)
@@ -54,8 +62,8 @@ export default {
     },
     enableBotaoCadastrar(){
       if((this.formCurso.nome != "") &&
+        (this.formCurso.tipoCurso != "") &&
         (this.formCurso.totalHoras > 0) &&
-        (this.formCurso.valor > 0) &&
         (this.formCurso.descricao != "")){
         this.botaoCadastrar = true
 
@@ -94,6 +102,19 @@ export default {
   mounted(){
     this.url = import.meta.env.VITE_ROOT_API
 
+  },
+  watch: {
+    'formCurso.totalHoras': function(valor){
+      if(valor <= 0){
+        this.formCurso.totalHoras = null
+        this.formCurso.valor = null
+        
+      }else{
+        this.formCurso.totalHoras = valor
+        this.formCurso.valor = valor * 5
+
+      }
+    }
   }
 };
 </script>
@@ -123,16 +144,32 @@ export default {
             <label for="floatingInput">Informe o nome:</label>
           </div>
           <div class="form-floating">
+            <b-form-select
+              v-model="formCurso.tipoCurso"
+              :options="formCurso.opcoes"
+              @change="enableBotaoCadastrar()"
+            >
+              <template #first>
+                <b-form-select-option :value="null" disabled
+                  >Selecionar tipo</b-form-select-option
+                >
+              </template>
+            </b-form-select>
+            
+          </div>
+          <div class="form-floating">
             <b-form-input
+              required
               v-model="formCurso.totalHoras"
               type="number"
               placeholder="Informe o total de horas: "
               @input="enableBotaoCadastrar()"
             ></b-form-input>
-            <label for="floatingInput">Informe o total de horas:</label>
+            <label for="floatingInput">Total de horas: (Min. 1 hora)</label>
           </div>
           <div class="form-floating">
             <b-form-input
+              disabled
               v-model="formCurso.valor"
               type="number"
               placeholder="Informe o valor: "
@@ -244,6 +281,10 @@ export default {
   box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.5);
   color: black;
 }
+#cadastro-curso form input:disabled{
+  background-color: rgba(255, 255, 255, 0.8);
+
+}
 #cadastro-curso form textarea {
   margin: 5px 0px;
   border: .5px solid black; 
@@ -260,6 +301,22 @@ export default {
 #cadastro-curso form label::after{
   background-color: transparent;
 
+}
+#cadastro-curso form select {
+  width: 100%;
+  margin: 5px 0px;
+  border: .5px solid black;
+  height: 3.5rem;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.5);
+  color: black;
+  padding-left: 0.5rem;
+
+  option:nth-child(1) {
+    background-color: #6c63ff;
+    color: white;
+  }
 }
 #cadastro-curso div .botao-cadastrar {
   display: flex;

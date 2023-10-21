@@ -41,7 +41,7 @@ const routes = [
                 return
 
             }else{
-                next('/')
+                next(url)
                 return
 
             }
@@ -75,14 +75,19 @@ const routes = [
                 return
 
             }else{
-                next('/')
+                next(url)
                 return
 
             }
         }
     },
     {
-        path: '/*',
+        path: '/:pathMatch(.*)*',
+        redirect: url
+
+    },
+    {
+        path: '/',
         redirect: url
 
     }

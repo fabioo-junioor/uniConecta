@@ -40,7 +40,7 @@ export default {
           this.$emit('mensagemAlerta', 1)
 
         }else{
-          console.log("Email ou senha incorreto!")
+          //console.log("Email ou senha incorreto!")
           this.$emit('mensagemAlerta', 2)                  
 
         }

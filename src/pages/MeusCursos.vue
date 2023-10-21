@@ -23,6 +23,7 @@ export default {
       dadosInfo: {
         pk_curso: null,
         cursoNome: "",
+        tipoCurso: "",
         usuarioNome: "",
         totalHoras: null,
         valorCurso: null,
@@ -66,8 +67,10 @@ export default {
 
       }else{
         const dados = await response.json()
+        //console.log(dados)
         this.dadosInfo.pk_curso = dados[0].pk_curso
         this.dadosInfo.cursoNome = dados[0].cursoNome
+        this.dadosInfo.tipoCurso = dados[0].tipoCurso
         this.dadosInfo.usuarioNome = dados[0].usuarioNome
         this.dadosInfo.totalHoras = dados[0].totalHoras
         this.dadosInfo.valorCurso = dados[0].valorCurso
@@ -109,6 +112,7 @@ export default {
     <ModalInfoCurso
       :pk_curso="dadosInfo.pk_curso"
       :cursoNome="dadosInfo.cursoNome"
+      :tipoCurso="dadosInfo.tipoCurso"
       :usuarioNome="dadosInfo.usuarioNome"
       :totalHoras="dadosInfo.totalHoras"
       :valorCurso="dadosInfo.valorCurso"
@@ -138,13 +142,16 @@ export default {
             v-for="i in meusCursos" :key="i"
             :pk_curso="i.pk_curso"
             :cursoNome="i.cursoNome"
+            :tipoCurso="i.tipoCurso"
             :usuarioNome="i.usuarioNome"
             :cursoDescricao="i.cursoDescricao"
             :totalFavoritos="i.totalFavoritos"
             :ativarFavorito="false"
             :desativarBotao="true"
+            :ativarDelete="true"
             :tipo="2"
-            @infoCurso="infoCurso" />
+            @infoCurso="infoCurso"
+            @deletarCurso="deletarCurso" />
         </div>
       </div>
     </div>
@@ -160,6 +167,7 @@ export default {
   flex-direction: row;
   justify-content: space-around;
   //background-color: red;
+  padding-bottom: 1rem;
 
   .lado-user {
     width: 20%;

@@ -304,6 +304,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  padding-bottom: 1rem;
   //background-color: red;
 
   .lado-user {

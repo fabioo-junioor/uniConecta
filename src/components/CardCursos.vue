@@ -1,6 +1,4 @@
 <script>
-import { getDadosUsuarioLocal } from '../config/global.js'
-
 export default {
   name: "CardCursos",
   data() {
@@ -12,13 +10,16 @@ export default {
   props: {
     pk_curso: Number,
     cursoNome: String,
+    tipoCurso: String,
     usuarioNome: String,
+    compradorNome: String,
     cursoDescricao: String,
     totalFavoritos: Number,
-    fk_usuarioFavorito: Boolean,
+    favoritou: Boolean,
     desativarBotao: Boolean,
     tipo: Number,
-    ativarFavorito: Boolean
+    ativarFavorito: Boolean,
+    ativarDelete: Boolean
 
   },
   methods: {
@@ -37,12 +38,21 @@ export default {
     infoCurso(pk_curso){
       this.$emit('infoCurso', pk_curso)
 
+    },
+    deletarCurso(pk_curso){
+      this.$emit('deletarCurso', pk_curso)
+
+    },
+    avaliarCurso(pk_curso){
+      this.$emit('avaliarCurso', pk_curso)
+
+    },
+    comprarCurso(pk_curso){
+      this.$emit('comprarCurso', pk_curso)
+
     }
   },
   mounted(){
-    let dadosUsuario = getDadosUsuarioLocal()
-    this.idUsuario = dadosUsuario[0].pk_usuario
-    //console.log(this.idUsuario)
 
   }
 };
@@ -51,14 +61,12 @@ export default {
 <template>
   <div id="card-cursos">
      <div class="header-status">
-        <div class="total-favoritos">
-          <span>{{totalFavoritos}}</span>
-        </div>
+      <div class="favorito">
         <div
           v-if="ativarFavorito"
           class="favoritar-curso">
             <b-button
-              v-if="fk_usuarioFavorito"
+              v-if="favoritou"
               @click="adicionarFavorito(pk_curso)" >
                 <i class="bx bx-heart" />
             </b-button>
@@ -68,13 +76,28 @@ export default {
                 <i class="bx bxs-heart" />
             </b-button>
         </div>
+        <div class="total-favoritos">
+          <span>{{totalFavoritos}}</span>
+        </div>
+      </div>
+      <div
+        v-if="ativarDelete"
+        class="deletar-curso">
+        <b-button
+          @click="deletarCurso(pk_curso)" >
+          <i class="bx bx-trash" />
+        </b-button>
+      </div>
     </div>
     <b-card
       tag="div"
       class="mb-2">
-      <b-card-title>{{cursoNome}}</b-card-title>
-      <b-card-text>{{usuarioNome}}</b-card-text>
-      <b-card-text>{{cursoDescricao}}</b-card-text>
+      <b-card-title>Titulo: {{cursoNome}}</b-card-title>
+      <b-card-text>Tipo: {{tipoCurso}}</b-card-text>
+      <b-card-text>Autor: {{usuarioNome}}</b-card-text>
+      <b-card-text
+        v-if="compradorNome">Comprador: {{compradorNome}}</b-card-text>
+      <b-card-text>Descrição: {{cursoDescricao}}</b-card-text>
       <div>
         <b-button
           @click="infoCurso(pk_curso)"
@@ -84,12 +107,13 @@ export default {
         <b-button
           v-if="tipo == 1"
           :disabled="desativarBotao"
-          @click="avaliarCurso()"
+          @click="avaliarCurso(pk_curso)"
           variant="outline-success">Avaliar  
         </b-button>
         <b-button
           v-else-if="tipo == 2"
           :disabled="desativarBotao"
+          @click="comprarCurso(pk_curso)"
           variant="outline-success">Comprar  
         </b-button>
         <b-button
@@ -121,33 +145,64 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: .2rem 1rem;
+    padding: .2rem;
     border-bottom: 1px solid #6C63FF;
-    //background-color: blue;
 
-    .total-favoritos{
-      font-weight: 600;
-      font-size: .9rem;
-      padding: 5px;
-      color: black;
+    .favorito{
+      width: 70%;
+      display: flex;
+      align-items: center;
 
+      .total-favoritos{
+        font-weight: 600;
+        font-size: .9rem;
+        padding: 5px;
+        color: #6C63FF;
+
+      }
+      .favoritar-curso{
+        padding-right: .5rem;
+        
+        .btn{
+          background-color: transparent;
+          border: none;
+          padding: 2px;
+
+          i{
+            color: #6C63FF;
+            font-size: 1.7rem;
+            font-weight: 500;
+            
+          }
+        }
+        .btn:hover i{
+          font-weight: 600;
+      
+        }
+      }
     }
-    .favoritar-curso{
+    .deletar-curso{
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      width: 30%;
+      padding: 2px;
+
       .btn{
         background-color: transparent;
         border: none;
-        padding: .2rem;
+        padding: 2px;
 
         i{
-          color: #6C63FF;
+          color: black;
           font-size: 1.7rem;
           font-weight: 500;
-          
+            
         }
       }
       .btn:hover i{
-        font-weight: 600;
-    
+        color: rgba(0, 0, 0, 0.6);
+      
       }
     }
   }

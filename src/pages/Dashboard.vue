@@ -25,6 +25,7 @@ export default {
       dadosInfo: {
         pk_curso: null,
         cursoNome: "",
+        tipoCurso: "",
         usuarioNome: "",
         totalHoras: null,
         valorCurso: null,
@@ -116,6 +117,7 @@ export default {
         const dados = await response.json()
         this.dadosInfo.pk_curso = dados[0].pk_curso
         this.dadosInfo.cursoNome = dados[0].cursoNome
+        this.dadosInfo.tipoCurso = dados[0].tipoCurso
         this.dadosInfo.usuarioNome = dados[0].usuarioNome
         this.dadosInfo.totalHoras = dados[0].totalHoras
         this.dadosInfo.valorCurso = dados[0].valorCurso
@@ -136,7 +138,8 @@ export default {
         method: 'POST',
         body: JSON.stringify({
           fk_curso: pk_curso,
-          fk_usuario: this.pk_usuario
+          fk_usuario: this.pk_usuario,
+          email: this.email
         })
       })
       if(!response.ok){
@@ -154,7 +157,8 @@ export default {
         method: 'POST',
         body: JSON.stringify({
           fk_curso: pk_curso,
-          fk_usuario: this.pk_usuario
+          fk_usuario: this.pk_usuario,
+          email: this.email
         })
       })
       if(!response.ok){
@@ -163,8 +167,12 @@ export default {
       }else{
         const dados = await response.json()
         console.log("deletou favorito")
+        location.reload()
         
       }
+    },
+    async deletarCurso(pk_curso){
+      console.log(pk_curso)
 
     },
     async atualizaDadosPreview(dadosUsuario){
@@ -197,6 +205,7 @@ export default {
     <ModalInfoCurso
       :pk_curso="dadosInfo.pk_curso"
       :cursoNome="dadosInfo.cursoNome"
+      :tipoCurso="dadosInfo.tipoCurso"
       :usuarioNome="dadosInfo.usuarioNome"
       :totalHoras="dadosInfo.totalHoras"
       :valorCurso="dadosInfo.valorCurso"
@@ -223,13 +232,17 @@ export default {
             v-for="i in cursosVendidos" :key="i"
             :pk_curso="i.pk_curso"
             :cursoNome="i.cursoNome"
+            :tipoCurso="i.tipoCurso"
             :usuarioNome="i.usuarioNome"
+            :compradorNome="i.compradorNome"
             :cursoDescricao="i.cursoDescricao"
             :totalFavoritos="i.totalFavoritos"
             :tipo="1"
             :desativarBotao="false"
             :ativarFavorito="false"
-            @infoCurso="infoCurso" />
+            :ativarDelete="true"
+            @infoCurso="infoCurso"
+            @deletarCurso="deletarCurso" />
         </div>
       </div>
       <div
@@ -242,13 +255,15 @@ export default {
             v-for="i in cursosComprados" :key="i"
             :pk_curso="i.pk_curso"
             :cursoNome="i.cursoNome"
+            :tipoCurso="i.tipoCurso"
             :usuarioNome="i.usuarioNome"
             :cursoDescricao="i.cursoDescricao"
             :totalFavoritos="i.totalFavoritos"
-            :fk_usuarioFavorito="i.fk_usuarioFavorito != pk_usuario ? true : false"
+            :favoritou="i.favoritou != pk_usuario ? true : false"
             :tipo="1"
             :desativarBotao="false"
             :ativarFavorito="true"
+            :ativarDelete="false"
             @infoCurso="infoCurso"
             @adicionarFavorito="adicionarFavorito"
             @deletarFavorito="deletarFavorito" />
@@ -264,16 +279,20 @@ export default {
             v-for="i in cursosAvaliados" :key="i"
             :pk_curso="i.pk_curso"
             :cursoNome="i.cursoNome"
+            :tipoCurso="i.tipoCurso"
             :usuarioNome="i.usuarioNome"
+            :compradorNome="i.compradorNome"
             :cursoDescricao="i.cursoDescricao"
             :totalFavoritos="i.totalFavoritos"
-            :fk_usuarioFavorito="i.fk_usuarioFavorito != pk_usuario ? true : false"
+            :favoritou="i.favoritou != pk_usuario ? true : false"
             :tipo="3"
             :desativarBotao="true"
             :ativarFavorito="i.fk_usuarioCurso != pk_usuario ? true : false"
+            :ativarDelete="i.fk_usuarioCurso === pk_usuario ? true : false"
             @infoCurso="infoCurso"
             @adicionarFavorito="adicionarFavorito"
-            @deletarFavorito="deletarFavorito" />
+            @deletarFavorito="deletarFavorito"
+            @deletarCurso="deletarCurso" />
         </div>
       </div>
     </div>
@@ -288,6 +307,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  padding-bottom: 1rem;
   //background-color: red;
   
   .lado-user{

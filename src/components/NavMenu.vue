@@ -27,7 +27,7 @@ export default {
         this.alerta.isAlert = true
 
       }else if(id == 2){
-        this.alerta.mensagem = "Senha incorreta!"
+        this.alerta.mensagem = "Email ou senha incorreto!"
         this.alerta.tipo = "danger"
         this.alerta.isAlert = true
 
@@ -96,7 +96,7 @@ export default {
           <b-nav-item disabled>
               <router-link to="/sobre">SOBRE</router-link>
           </b-nav-item>
-          <b-nav-item disabled>
+          <b-nav-item>
             <router-link to="/cursos">CURSOS</router-link>
           </b-nav-item>
         </div>
