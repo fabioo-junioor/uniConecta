@@ -9,6 +9,8 @@ export default {
   },
   props: {
     pk_curso: Number,
+    fk_usuarioCurso: Number,
+    fk_comprador: Number,
     cursoNome: String,
     tipoCurso: String,
     usuarioNome: String,
@@ -101,13 +103,14 @@ export default {
       <b-card-text>Tipo: {{tipoCurso}}</b-card-text>
       <b-card-text>Autor: 
         <router-link
-          :to="{name: 'perfilUsuario', params:{ pk: pk_curso } }" 
-          >{{usuarioNome}}
+          :to="{name: 'perfilUsuario', params:{ pk: fk_usuarioCurso } }">{{usuarioNome}}
         </router-link>
       </b-card-text>
       <b-card-text
         v-if="compradorNome">Comprador:
-         <router-link to="/perfilUsuario">{{compradorNome}}</router-link>
+        <router-link 
+          :to="{name: 'perfilUsuario', params:{ pk: fk_comprador } }">{{compradorNome}}
+        </router-link>
       </b-card-text>
       <b-card-text>Descrição: {{cursoDescricao}}</b-card-text>
       <div>
@@ -250,6 +253,17 @@ export default {
       }
       h4::first-letter, p::first-letter{
         text-transform: uppercase;
+
+      }
+      a{
+        text-decoration: none;
+        color: #6C63FF;
+        font-weight: bold;
+        font-size: .9rem;
+        
+      }
+      a:hover{
+        text-decoration: underline;
 
       }
     }

@@ -1,5 +1,5 @@
 <script>
-import { getDadosUsuarioLocal, dadosUsuarioPreview } from "../config/global.js";
+import { getDadosUsuarioLocal, dadosUsuarioPreview, deleteDadosUsuario } from "../config/global.js";
 import Alerta from "../components/Alerta.vue";
 import LadoUsuario from "../components/LadoUsuario.vue";
 
@@ -48,6 +48,7 @@ export default {
         this.formEdicao.telefone != "" &&
         this.formEdicao.graduacao != null &&
         this.formEdicao.senha != "" &&
+        /*this.formEdicao.senha.length > 6 &&*/
         this.formEdicao.adicionouImagem == true) {
         this.botaoSalvar = true;
 
@@ -105,13 +106,13 @@ export default {
 
       }else{
         const dados = await response.json()
+        deleteDadosUsuario()
         dadosUsuarioPreview(dados[0].pk_usuario)
-        console.log("salvo");
-        this.atualizaDadosPreview();
         this.alerta.mensagem = "Edição realizada";
         this.alerta.tipo = "success";
         this.alerta.isAlert = true;
-        this.resetaAlerta();
+        this.resetaAlerta(1);
+        console.log("salvo");
 
       }
     },
@@ -120,7 +121,8 @@ export default {
       const response = await fetch(this.url + "buscaDadosUsuario.php?dadosEdicao=1", {
         method: "POST",
         body: JSON.stringify({
-          pk_usuario: dadosUsuario[0].pk_usuario,
+          pk_usuario: dadosUsuario[0].pk_usuario
+          
         }),
       })
       if(!response.ok){
@@ -171,11 +173,14 @@ export default {
       this.formEdicao.permissaoTelefone = dadosUsuario[0].permissaoTelefone
       
     },
-    resetaAlerta() {
+    resetaAlerta(id) {
       setTimeout(() => {
         this.alerta.mensagem = "";
         this.alerta.tipo = "";
         this.alerta.isAlert = false;
+
+        return (id == 1) ? location.reload() : false
+
       }, 4050);
     },
   },
@@ -227,31 +232,31 @@ export default {
             <b-form-input
               v-model="formEdicao.nome"
               type="text"
-              placeholder="Informe seu nome:"
+              placeholder="Seu nome:"
               @input="enableBotaoSalvar()"
             ></b-form-input>
-            <label for="floatingInput">Informe seu nome:</label>
+            <label for="floatingInput">Seu nome:</label>
           </div>
           <div class="form-floating">
             <b-form-input
               disabled
               v-model="formEdicao.email"
               type="email"
-              placeholder="Informe seu email:"
+              placeholder="Email: (contato@mail) "
               @input="enableBotaoSalvar()"
             ></b-form-input>
-            <label for="floatingInput">Informe seu email:</label>
+            <label for="floatingInput">Email: (contato@mail)</label>
           </div>
           <div class="form-floating">
             <b-form-input
               v-model="formEdicao.telefone"
               type="tel"
-              placeholder="Informe seu telefone:"
+              placeholder="Telefone: (55 99999 9999) "
               maxlength="15"
               @keyup="handlePhone($event.target)"
               @input="enableBotaoSalvar()"
             ></b-form-input>
-            <label for="floatingInput">Informe seu telefone:</label>
+            <label for="floatingInput">Telefone: (55 99999 9999)</label>
           </div>
           <div>
             <b-form-select
@@ -270,10 +275,10 @@ export default {
             <b-form-input
               v-model="formEdicao.senha"
               type="password"
-              placeholder="Informe sua senha:"
+              placeholder="Senha: (Min. 6 caracteres) "
               @input="enableBotaoSalvar()"
             ></b-form-input>
-            <label for="floatingInput">Informe sua senha:</label>
+            <label for="floatingInput">Senha: (Min. 6 caracteres)</label>
           </div>
           <div class="checkWhatsapp">
             <b-form-checkbox
@@ -287,8 +292,7 @@ export default {
               @click="salvarEdicao()"
               variant="primary"
               :disabled="!botaoSalvar"
-              >Salvar</b-button
-            >
+              >Salvar</b-button>
           </div>
         </div>
       </b-form>

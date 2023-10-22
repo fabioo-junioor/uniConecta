@@ -111,7 +111,7 @@ export default {
       if((this.form.nome != "") &&
         (this.form.email != "") &&
         (this.form.telefone != "") &&
-        (this.form.senha != "")){
+        (this.form.senha.length > 6)){
           this.botaoSalvar = true
 
       }else{
@@ -143,10 +143,10 @@ export default {
               <b-form-input
                 v-model="form.email"
                 type="email"
-                placeholder="Informe seu email: "
+                placeholder="Email: (contato@mail) "
                 @input="enableBotaoAcessar()"
               ></b-form-input>
-              <label for="floatingInput">Informe seu email:</label>
+              <label for="floatingInput">Email: (contato@mail)</label>
             </div>
             <div class="form-floating">
               <b-form-input
@@ -155,7 +155,7 @@ export default {
                 placeholder="Informe sua senha: "
                 @input="enableBotaoAcessar()"
               ></b-form-input>
-              <label for="floatingInput">Informe sua senha:</label>
+              <label for="floatingInput">Senha:</label>
             </div>
             <div class="buttons-login-user">
               <b-button
@@ -172,39 +172,39 @@ export default {
               <b-form-input
                 v-model="form.nome"
                 type="text"
-                placeholder="Informe seu nome: "
+                placeholder="Seu nome: "
                 @input="enableBotaoSalvar()"
               ></b-form-input>
-              <label for="floatingInput">Informe seu nome:</label>
+              <label for="floatingInput">Seu nome:</label>
             </div>
             <div class="form-floating">
               <b-form-input
                 v-model="form.email"
                 type="email"
-                placeholder="Informe seu email: "
+                placeholder="Email: (contato@mail) "
                 @input="enableBotaoSalvar()"
               ></b-form-input>
-              <label for="floatingInput">Informe seu email:</label>
+              <label for="floatingInput">Email: (contato@mail)</label>
             </div>
             <div class="form-floating">
               <b-form-input
                 v-model="form.telefone"
                 type="tel"
-                placeholder="Informe seu telefone: "
+                placeholder="Telefone: (55 99999 9999) "
                 maxlength="15"
                 @input="enableBotaoSalvar()"
                 @keyup="handlePhone($event.target)"
               ></b-form-input>
-              <label for="floatingInput">Informe seu telefone:</label>
+              <label for="floatingInput">Telefone: (55 99999 9999)</label>
             </div>
             <div class="form-floating">
               <b-form-input
                 v-model="form.senha"
                 type="password"
-                placeholder="Informe sua senha: "
+                placeholder="Senha: (Min. 6 caracteres) "
                 @input="enableBotaoSalvar()"
               ></b-form-input>
-              <label for="floatingInput">Informe sua senha:</label>
+              <label for="floatingInput">Senha: (Min. 6 caracteres)</label>
             </div>
             <div class="checkWhatsapp">
               <b-form-checkbox

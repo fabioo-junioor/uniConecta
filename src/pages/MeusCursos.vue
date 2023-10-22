@@ -13,8 +13,8 @@ export default {
       imagemPerfil: null,
       nomeUsuario: "",
       graduacao: "",
-      totalPontos: 626,
-      totalMoedas: 515,
+      totalPontos: null,
+      totalMoedas: null,
       telefone: "",
       email: "",
       permissaoTelefone: null,
@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     async buscaMeusCursos(dadosUsuario){
-      const response = await fetch(this.url+'buscaMeusCursos.php?buscaMeusCursos=1', {
+      const response = await fetch(this.url+'buscaCursos.php?buscaMeusCursos=1', {
         method: 'POST',
         body: JSON.stringify({
           pk_usuario: dadosUsuario[0].pk_usuario
@@ -45,7 +45,7 @@ export default {
 
       }else{
         const dados = await response.json()
-        //console.log(dados)
+        console.log(dados)
         if(dados[0].pk_curso != null){
           this.meusCursos = dados
 
@@ -141,6 +141,7 @@ export default {
           <CardCursos
             v-for="i in meusCursos" :key="i"
             :pk_curso="i.pk_curso"
+            :fk_usuarioCurso="pk_usuario"            
             :cursoNome="i.cursoNome"
             :tipoCurso="i.tipoCurso"
             :usuarioNome="i.usuarioNome"
@@ -167,7 +168,7 @@ export default {
   flex-direction: row;
   justify-content: space-around;
   //background-color: red;
-  padding-bottom: 1rem;
+  padding: 0 1rem 1rem 0;
 
   .lado-user {
     width: 20%;
@@ -180,10 +181,10 @@ export default {
     //background-color: greenyellow;
 
     .meus-cursos-header {
-      //background-color: red;
       display: flex;
       justify-content: space-between;
-      padding: 0.2rem;
+      padding: .2rem .5rem .2rem .2rem;
+      //background-color: green;
 
       h4 {
         font-size: 1.3rem;

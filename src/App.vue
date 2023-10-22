@@ -33,6 +33,16 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  //background-color: green;
+
+  .app-nav-corpo{
+    //background-color: blue;
+
+  }
+  .app-rodape{
+    //background-color: red;
+
+  }
 
 }
 /* Responsive */

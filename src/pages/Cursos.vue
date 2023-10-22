@@ -145,11 +145,14 @@ export default {
       :descricao="dadosInfo.descricao" />
     <div class="titulo-pagina-cursos">
       <h3>Cursos</h3>
+      <hr>
     </div>
     <div class="lado-cursos">
       <CardCursos
         v-for="i in todosCursos" :key="i"
         :pk_curso="i.pk_curso"
+        :fk_usuarioCurso="i.fk_usuarioCurso"
+        :fk_comprador="i.fk_comprador"
         :cursoNome="i.cursoNome"
         :tipoCurso="i.tipoCurso"
         :usuarioNome="i.usuarioNome"
@@ -177,14 +180,22 @@ export default {
   padding: 2rem .5rem 0 .5rem;
 
   .titulo-pagina-cursos{
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 1rem 0;
 
     h3{
       color: black;
-      font-weight: 600;
-      font-size: 2rem;
+      font-weight: 500;
+      font-size: 2.5rem;
 
+    }
+    hr{
+      border: 1px solid #6C63FF;
+      margin: .5rem 0 1rem 0;
+      width: 80%;
+        
     }
   }
   .lado-cursos{
@@ -193,8 +204,7 @@ export default {
     justify-content: center;
 
     #card-cursos{
-      margin: .1rem;
-      align-items: stretch;
+      margin: .2rem;
       width: 15rem;
       
     }

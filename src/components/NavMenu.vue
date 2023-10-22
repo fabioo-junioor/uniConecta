@@ -166,7 +166,7 @@ export default {
 
     .navbar-brand{
       padding: 0;
-      margin: .2rem .1rem;
+      margin: 0 .1rem;
       border: 1px solid white;
       border-radius: 5px;
 
@@ -188,15 +188,15 @@ export default {
     #nav-collapse{
       .navbar-nav{
         min-width: 90%;
+        height: 100%;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        //background-color: purple;
+        align-items: center;
 
         .menu-estatico{
           display: flex;
           align-items: center;
-          //background-color: blue;
           padding: 0 0 0 1rem;
 
           a{
@@ -208,13 +208,11 @@ export default {
           a:hover{
             color: white;
             text-decoration: underline 3px;
-            text-underline-offset: 100%;
+            text-underline-offset: 130%;
 
           }
         }
-        .menu-user{
-          //background-color: green;
-          
+        .menu-user{          
           .menu-user-nao-logado{
             a{
               color: white !important;
@@ -290,6 +288,14 @@ export default {
           a{
             font-size: .9rem;
             padding: .5rem;
+
+          }
+          a:hover{
+            text-decoration: none;
+
+          }
+          a:active{
+            color: rgba(0, 0, 0, 0.7) !important;
 
           }
         }

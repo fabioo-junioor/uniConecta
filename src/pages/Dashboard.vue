@@ -49,7 +49,7 @@ export default {
 
       }else{
         const dados = await response.json()
-        //console.log(dados)
+        //console.log("vendido-> ", dados)
         if(dados[0].pk_curso != null){
           this.cursosVendidos = dados
 
@@ -71,7 +71,7 @@ export default {
 
       }else{
         const dados = await response.json()
-        //console.log(dados)
+        //console.log("comprado-> ", dados)
         if(dados[0].pk_curso != null){
           this.cursosComprados = dados
 
@@ -93,7 +93,7 @@ export default {
 
       }else{
         const dados = await response.json()
-        //console.log(dados)
+        //console.log("avaliado-> ", dados)
         if(dados[0].pk_curso != null){
           this.cursosAvaliados = dados
 
@@ -130,7 +130,6 @@ export default {
     async infoCurso(pk_curso){
       await this.buscaInfoCurso(pk_curso)
       this.$root.$emit('bv::show::modal', 'modalInfoCurso')    
-      //console.log("info curso ", pk_curso)
 
     },
     async adicionarFavorito(pk_curso){
@@ -231,6 +230,8 @@ export default {
           <CardCursos 
             v-for="i in cursosVendidos" :key="i"
             :pk_curso="i.pk_curso"
+            :fk_usuarioCurso="i.fk_usuarioCurso"
+            :fk_comprador="i.fk_comprador"
             :cursoNome="i.cursoNome"
             :tipoCurso="i.tipoCurso"
             :usuarioNome="i.usuarioNome"
@@ -254,6 +255,8 @@ export default {
           <CardCursos 
             v-for="i in cursosComprados" :key="i"
             :pk_curso="i.pk_curso"
+            :fk_usuarioCurso="i.fk_usuarioCurso"
+            :fk_comprador="i.fk_comprador"
             :cursoNome="i.cursoNome"
             :tipoCurso="i.tipoCurso"
             :usuarioNome="i.usuarioNome"
@@ -278,6 +281,8 @@ export default {
           <CardCursos 
             v-for="i in cursosAvaliados" :key="i"
             :pk_curso="i.pk_curso"
+            :fk_usuarioCurso="i.fk_usuarioCurso"
+            :fk_comprador="i.fk_comprador"
             :cursoNome="i.cursoNome"
             :tipoCurso="i.tipoCurso"
             :usuarioNome="i.usuarioNome"

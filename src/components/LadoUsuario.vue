@@ -42,11 +42,11 @@ export default {
          <a :href="urlWp+telefone+msgWp" target="_blank">Whatsapp</a></h4>
         <div>
             <img src="../assets/gifs/coin.gif" />
-            {{ totalMoedas }}
+            {{ totalMoedas }} - Moedas
         </div>
         <div>
-            <img src="../assets/img/trophy.png" />
-            {{ totalPontos }}
+            <img src="../assets/gifs/points.gif" />
+            {{ totalPontos }} - Pontos
         </div>
         </div>
     </div>
@@ -134,12 +134,12 @@ export default {
         padding: 0.5rem 0;
         font-size: 0.8rem;
         font-weight: bold;
-        //background-color: gray;
 
         img {
-          height: 2rem;
-          margin: 0.1rem;
-          //background-color: red;
+          max-height: 2rem;
+          max-width: 2rem;
+          margin: .1rem .5rem .1rem 0;
+          
         }
       }
     }

@@ -137,19 +137,21 @@ export default{
 <style lang="scss" scoped>
 #inicio {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   padding: .5rem;
-  margin: 2rem 0 0 0;
+  margin: 5rem 0 1rem 0;
+  //background-color: red;
   
   .inicio-img-draw{
-    width: 40%;
+    width: 35%;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 1rem;
 
     img{
-      width: 70%;
+      width: 80%;
 
     }
   }

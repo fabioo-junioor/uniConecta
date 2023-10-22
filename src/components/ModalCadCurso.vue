@@ -138,10 +138,10 @@ export default {
             <b-form-input
               v-model="formCurso.nome"
               type="text"
-              placeholder="Informe o nome: "
+              placeholder="Titulo : "
               @input="enableBotaoCadastrar()"
             ></b-form-input>
-            <label for="floatingInput">Informe o nome:</label>
+            <label for="floatingInput">Titulo:</label>
           </div>
           <div class="form-floating">
             <b-form-select
@@ -151,7 +151,7 @@ export default {
             >
               <template #first>
                 <b-form-select-option :value="null" disabled
-                  >Selecionar tipo</b-form-select-option
+                  >Selecione o tipo:</b-form-select-option
                 >
               </template>
             </b-form-select>
@@ -172,10 +172,10 @@ export default {
               disabled
               v-model="formCurso.valor"
               type="number"
-              placeholder="Informe o valor: "
+              placeholder="Valor: (Moedas) "
               @input="enableBotaoCadastrar()"
             ></b-form-input>
-            <label for="floatingInput">Informe o valor:</label>
+            <label for="floatingInput">Valor: (Moedas)</label>
           </div>
           <div class="form-floating">
             <b-form-textarea
