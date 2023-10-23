@@ -166,7 +166,7 @@ export default {
 
     .navbar-brand{
       padding: 0;
-      margin: 0 .1rem;
+      margin: .2rem .1rem;
       border: 1px solid white;
       border-radius: 5px;
 
@@ -208,7 +208,7 @@ export default {
           a:hover{
             color: white;
             text-decoration: underline 3px;
-            text-underline-offset: 130%;
+            text-underline-offset: 100%;
 
           }
         }

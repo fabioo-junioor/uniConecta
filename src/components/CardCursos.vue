@@ -49,12 +49,12 @@ export default {
       this.$emit('avaliarCurso', pk_curso)
 
     },
-    comprarCurso(pk_curso){
-      this.$emit('comprarCurso', pk_curso)
+    comprarCurso(pk_curso, fk_usuarioCurso){
+      this.$emit('comprarCurso', pk_curso, fk_usuarioCurso)
 
     },
     perfilUsuario(pk_curso){
-      console.log("pk", pk_curso)
+      //console.log("pk", pk_curso)
       this.$router.push({name: 'perfilUsuario'})
       
     }
@@ -128,7 +128,7 @@ export default {
         <b-button
           v-else-if="tipo == 2"
           :disabled="desativarBotao"
-          @click="comprarCurso(pk_curso)"
+          @click="comprarCurso(pk_curso, fk_usuarioCurso)"
           variant="outline-success">Comprar  
         </b-button>
         <b-button
@@ -160,7 +160,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: .2rem;
+    padding: .3rem 0;
     border-bottom: 1px solid #6C63FF;
 
     .favorito{
@@ -171,21 +171,21 @@ export default {
       .total-favoritos{
         font-weight: 600;
         font-size: .9rem;
-        padding: 5px;
+        padding: .1rem 0 .1rem .5rem;
         color: #6C63FF;
 
       }
       .favoritar-curso{
-        padding-right: .5rem;
+        padding: .1rem 0 .1rem .5rem;
         
         .btn{
           background-color: transparent;
           border: none;
-          padding: 2px;
+          padding: 0;
 
           i{
             color: #6C63FF;
-            font-size: 1.7rem;
+            font-size: 1.5rem;
             font-weight: 500;
             
           }

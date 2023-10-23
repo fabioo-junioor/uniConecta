@@ -34,8 +34,12 @@ const routes = [
     {
         path: '/perfilUsuario/:pk',
         name: 'perfilUsuario',
-        component: PerfilUsuario
-        
+        component: PerfilUsuario,
+        beforeEnter: (_, __, next) => {
+            next()
+            return
+
+        }        
     },
     {
         path: '/meusCursos',

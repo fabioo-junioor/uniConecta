@@ -55,12 +55,14 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap");
 
 #alerta{
+  position: absolute;
+  
   .alert{
-      width: 30%;
-      position: absolute;
-      top: 10%;
+      width: 20%;
+      position: fixed;
+      top: 7%;
       right: 2%;
-      z-index: 2000;
+      z-index: 2;
 
       p{
           font-family: 'Work Sans', sans-serif;

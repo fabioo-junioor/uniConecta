@@ -1,11 +1,12 @@
 <script>
 import { getDadosUsuarioLocal } from '../config/global'
 import CardCursos from '../components/CardCursos.vue'
+import Alerta from '../components/Alerta.vue'
 import ModalInfoCurso from '../components/ModalInfoCurso.vue'
 
 export default {
   name: "Cursos",
-  components: {CardCursos, ModalInfoCurso},
+  components: {CardCursos, ModalInfoCurso, Alerta},
   data() {
     return {
       pk_usuario: null,
@@ -23,7 +24,12 @@ export default {
         totalFavoritos: null,
         pk_favorito: null
 
-      }       
+      },
+      alerta: {
+        mensagem: "",
+        tipo: "",
+        isAlert: false,
+      },     
     }
   },
   methods: {
@@ -94,7 +100,7 @@ export default {
       }else{
         const dados = await response.json()
         console.log("adicionou favorito")
-        location.reload()
+        this.mensagemAlerta(2)
         
       }
     },
@@ -113,7 +119,27 @@ export default {
       }else{
         const dados = await response.json()
         console.log("deletou favorito")
-        location.reload()
+        this.mensagemAlerta(3)
+        
+      }
+    },
+    async comprarCurso(pk_curso, fk_usuarioCurso){
+      const response = await fetch(this.url+'compraCurso.php?compraCurso=1', {
+        method: 'POST',
+        body: JSON.stringify({
+          fk_comprador: this.pk_usuario,
+          fk_vendedor: fk_usuarioCurso,
+          fk_curso: pk_curso
+
+        })
+      })
+      if(!response.ok){
+        console.log(response.status)
+
+      }else{
+        const dados = await response.json()
+        console.log("comprou", dados)
+        this.mensagemAlerta(1)
         
       }
     },
@@ -121,6 +147,36 @@ export default {
       this.pk_usuario = dadosUsuario == null ? null : dadosUsuario[0].pk_usuario
       this.email = dadosUsuario == null ? "" : dadosUsuario[0].email
 
+    },
+    mensagemAlerta(id) {
+      if(id == 1){
+        this.alerta.mensagem = "Curso comprado!"
+        this.alerta.tipo = "success"
+        this.alerta.isAlert = true
+
+      }else if(id == 2){
+        this.alerta.mensagem = "Favoritou curso!"
+        this.alerta.tipo = "info"
+        this.alerta.isAlert = true
+
+      }else if(id == 3){
+        this.alerta.mensagem = "Desfavoritou curso!"
+        this.alerta.tipo = "info"
+        this.alerta.isAlert = true
+
+      }
+      this.resetaAlerta()
+
+    },
+    resetaAlerta(){
+      setTimeout(() => {
+        this.alerta.mensagem = ""
+        this.alerta.tipo = ""
+        this.alerta.isAlert = false
+
+        return location.reload()
+
+      }, 5000)
     }
   },
   async mounted(){
@@ -135,6 +191,10 @@ export default {
 
 <template>
   <div id="cursos">
+    <Alerta
+      v-if="alerta.isAlert"
+      :mensagem="alerta.mensagem"
+      :tipo="alerta.tipo" />
     <ModalInfoCurso
       :pk_curso="dadosInfo.pk_curso"
       :cursoNome="dadosInfo.cursoNome"
@@ -165,7 +225,8 @@ export default {
         :tipo="2"
         @infoCurso="infoCurso"
         @adicionarFavorito="adicionarFavorito"
-        @deletarFavorito="deletarFavorito" />
+        @deletarFavorito="deletarFavorito"
+        @comprarCurso="comprarCurso" />
     </div>
   </div>
 </template>

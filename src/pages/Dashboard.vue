@@ -3,10 +3,11 @@ import { getDadosUsuarioLocal } from '../config/global.js'
 import CardCursos from '../components/CardCursos.vue'
 import LadoUsuario from '../components/LadoUsuario.vue'
 import ModalInfoCurso from '../components/ModalInfoCurso.vue'
+import Alerta from '../components/Alerta.vue'
 
 export default {
   name: "Dashboard",
-  components: {CardCursos, LadoUsuario, ModalInfoCurso},
+  components: {CardCursos, Alerta, LadoUsuario, ModalInfoCurso},
   data() {
     return {
       pk_usuario: null,
@@ -33,7 +34,12 @@ export default {
         totalFavoritos: null,
         pk_favorito: null
 
-      }      
+      },
+      alerta: {
+        mensagem: "",
+        tipo: "",
+        isAlert: false,
+      }     
     }
   },
   methods: {
@@ -147,7 +153,7 @@ export default {
       }else{
         const dados = await response.json()
         console.log("adicionou favorito")
-        location.reload()
+        this.mensagemAlerta(2)
         
       }
     },
@@ -166,13 +172,32 @@ export default {
       }else{
         const dados = await response.json()
         console.log("deletou favorito")
-        location.reload()
+        this.mensagemAlerta(3)
         
       }
     },
     async deletarCurso(pk_curso){
-      console.log(pk_curso)
+      const response = await fetch(this.url+'deletarCurso.php?deletarCurso=1', {
+        method: 'POST',
+        body: JSON.stringify({
+          pk_curso: pk_curso,
+          pk_usuario: this.pk_usuario
 
+        })
+      })
+      if(!response.ok){
+        console.log(response.status)
+
+      }else{
+        const dados = await response.json()
+        if(dados[0].pk_avaliacao != null){
+          this.mensagemAlerta(5)
+
+        }else{
+          this.mensagemAlerta(4)
+
+        }        
+      }
     },
     async atualizaDadosPreview(dadosUsuario){
       this.pk_usuario = dadosUsuario[0].pk_usuario
@@ -185,6 +210,46 @@ export default {
       this.telefone = dadosUsuario[0].telefone
       this.permissaoTelefone = dadosUsuario[0].permissaoTelefone
 
+    },
+    mensagemAlerta(id) {
+      if(id == 1){
+        this.alerta.mensagem = "Curso comprado!"
+        this.alerta.tipo = "success"
+        this.alerta.isAlert = true
+
+      }else if(id == 2){
+        this.alerta.mensagem = "Favoritou curso!"
+        this.alerta.tipo = "info"
+        this.alerta.isAlert = true
+
+      }else if(id == 3){
+        this.alerta.mensagem = "Desfavoritou curso!"
+        this.alerta.tipo = "info"
+        this.alerta.isAlert = true
+
+      }else if(id == 4){
+        this.alerta.mensagem = "Curso apagado!"
+        this.alerta.tipo = "info"
+        this.alerta.isAlert = true
+
+      }else if(id == 5){
+        this.alerta.mensagem = "Avaliação pendente"
+        this.alerta.tipo = "info"
+        this.alerta.isAlert = true
+
+      }
+      this.resetaAlerta()
+
+    },
+    resetaAlerta(){
+      setTimeout(() => {
+        this.alerta.mensagem = ""
+        this.alerta.tipo = ""
+        this.alerta.isAlert = false
+
+        return location.reload()
+
+      }, 5000)
     }
   },
   async mounted(){
@@ -201,6 +266,10 @@ export default {
 
 <template>
   <div id="dashboard">
+    <Alerta
+      v-if="alerta.isAlert"
+      :mensagem="alerta.mensagem"
+      :tipo="alerta.tipo" />
     <ModalInfoCurso
       :pk_curso="dadosInfo.pk_curso"
       :cursoNome="dadosInfo.cursoNome"
