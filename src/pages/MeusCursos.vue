@@ -45,7 +45,7 @@ export default {
 
       }else{
         const dados = await response.json()
-        console.log(dados)
+        //console.log(dados)
         if(dados[0].pk_curso != null){
           this.meusCursos = dados
 
@@ -240,7 +240,9 @@ export default {
   }
 }
 @media only screen and (max-width: 992px) {
-  #meus-cursos{  
+  #meus-cursos{
+    padding: 0 0 1rem 0;
+
     .lado-user{
       width: 25%;
 

@@ -11,6 +11,7 @@ export default {
     pk_curso: Number,
     fk_usuarioCurso: Number,
     fk_comprador: Number,
+    pk_compra_venda: Number,
     cursoNome: String,
     tipoCurso: String,
     usuarioNome: String,
@@ -33,10 +34,6 @@ export default {
       this.$emit('deletarFavorito', pk_curso)
 
     },
-    avaliarCurso(){
-      console.log("avaliar ")
-
-    },
     infoCurso(pk_curso){
       this.$emit('infoCurso', pk_curso)
 
@@ -45,8 +42,8 @@ export default {
       this.$emit('deletarCurso', pk_curso)
 
     },
-    avaliarCurso(pk_curso){
-      this.$emit('avaliarCurso', pk_curso)
+    avaliarCurso(pk_compra_venda, fk_comprador, cursoNome){
+      this.$emit('avaliarCurso', pk_compra_venda, fk_comprador, cursoNome)
 
     },
     comprarCurso(pk_curso, fk_usuarioCurso){
@@ -54,7 +51,6 @@ export default {
 
     },
     perfilUsuario(pk_curso){
-      //console.log("pk", pk_curso)
       this.$router.push({name: 'perfilUsuario'})
       
     }
@@ -122,7 +118,7 @@ export default {
         <b-button
           v-if="tipo == 1"
           :disabled="desativarBotao"
-          @click="avaliarCurso(pk_curso)"
+          @click="avaliarCurso(pk_compra_venda, fk_comprador, cursoNome)"
           variant="outline-success">Avaliar  
         </b-button>
         <b-button

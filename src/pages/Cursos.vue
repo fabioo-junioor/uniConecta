@@ -138,7 +138,7 @@ export default {
 
       }else{
         const dados = await response.json()
-        console.log("comprou", dados)
+        //console.log("comprou", dados)
         this.mensagemAlerta(1)
         
       }
@@ -176,7 +176,7 @@ export default {
 
         return location.reload()
 
-      }, 5000)
+      }, 4500)
     }
   },
   async mounted(){

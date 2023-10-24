@@ -152,10 +152,10 @@ export default {
               <b-form-input
                 v-model="form.senha"
                 type="password"
-                placeholder="Informe sua senha: "
+                placeholder="Senha: (Min. 6 caracteres) "
                 @input="enableBotaoAcessar()"
               ></b-form-input>
-              <label for="floatingInput">Senha:</label>
+              <label for="floatingInput">Senha: (Min. 6 caracteres)</label>
             </div>
             <div class="buttons-login-user">
               <b-button

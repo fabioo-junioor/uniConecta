@@ -62,7 +62,7 @@ export default {
       position: fixed;
       top: 7%;
       right: 2%;
-      z-index: 2;
+      z-index: 2000;
 
       p{
           font-family: 'Work Sans', sans-serif;
@@ -79,10 +79,12 @@ export default {
 }
 @media only screen and (max-width: 990px) {
   #alerta{
+    position: absolute;
+
     .alert{
-        width: 40%;
-        position: absolute;
-        top: 10%;
+        width: 20%;
+        position: fixed;
+        top: 5%;
         right: 2%;
         z-index: 2000;
 

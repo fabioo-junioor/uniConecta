@@ -3,11 +3,12 @@ import { getDadosUsuarioLocal } from '../config/global.js'
 import CardCursos from '../components/CardCursos.vue'
 import LadoUsuario from '../components/LadoUsuario.vue'
 import ModalInfoCurso from '../components/ModalInfoCurso.vue'
+import ModalAvaliarCurso from '../components/ModalAvaliarCurso.vue'
 import Alerta from '../components/Alerta.vue'
 
 export default {
   name: "Dashboard",
-  components: {CardCursos, Alerta, LadoUsuario, ModalInfoCurso},
+  components: {CardCursos, Alerta, LadoUsuario, ModalInfoCurso, ModalAvaliarCurso},
   data() {
     return {
       pk_usuario: null,
@@ -33,6 +34,12 @@ export default {
         descricao: "",
         totalFavoritos: null,
         pk_favorito: null
+
+      },
+      dadosAvaliacao: {
+        pk_compra_venda: null,
+        pk_comprador: null,
+        cursoNome: ""
 
       },
       alerta: {
@@ -132,6 +139,14 @@ export default {
         this.dadosInfo.pk_favorito = dados[0].pk_favorito
         
       }
+    },
+    async avaliarCurso(pk_compra_venda, fk_comprador, cursoNome){
+      this.dadosAvaliacao.pk_compra_venda = pk_compra_venda
+      this.dadosAvaliacao.pk_comprador = fk_comprador
+      this.dadosAvaliacao.cursoNome = cursoNome
+
+      this.$root.$emit('bv::show::modal', 'modalAvaliarCurso')    
+
     },
     async infoCurso(pk_curso){
       await this.buscaInfoCurso(pk_curso)
@@ -238,18 +253,18 @@ export default {
         this.alerta.isAlert = true
 
       }
-      this.resetaAlerta()
+      this.resetaAlerta(id)
 
     },
-    resetaAlerta(){
+    resetaAlerta(id){
       setTimeout(() => {
         this.alerta.mensagem = ""
         this.alerta.tipo = ""
         this.alerta.isAlert = false
 
-        return location.reload()
+        return (id != 5) ? location.reload() : false
 
-      }, 5000)
+      }, 4500)
     }
   },
   async mounted(){
@@ -278,6 +293,10 @@ export default {
       :totalHoras="dadosInfo.totalHoras"
       :valorCurso="dadosInfo.valorCurso"
       :descricao="dadosInfo.descricao" />
+    <ModalAvaliarCurso
+      :pk_compra_venda="dadosAvaliacao.pk_compra_venda"
+      :pk_comprador="dadosAvaliacao.pk_comprador"
+      :cursoNome="dadosAvaliacao.cursoNome" />
     <div class="lado-user">
       <LadoUsuario
         :imagemPerfil="imagemPerfil"
@@ -301,6 +320,7 @@ export default {
             :pk_curso="i.pk_curso"
             :fk_usuarioCurso="i.fk_usuarioCurso"
             :fk_comprador="i.fk_comprador"
+            :pk_compra_venda="i.pk_compra_venda"
             :cursoNome="i.cursoNome"
             :tipoCurso="i.tipoCurso"
             :usuarioNome="i.usuarioNome"
@@ -312,7 +332,8 @@ export default {
             :ativarFavorito="false"
             :ativarDelete="true"
             @infoCurso="infoCurso"
-            @deletarCurso="deletarCurso" />
+            @deletarCurso="deletarCurso"
+            @avaliarCurso="avaliarCurso" />
         </div>
       </div>
       <div
@@ -326,6 +347,7 @@ export default {
             :pk_curso="i.pk_curso"
             :fk_usuarioCurso="i.fk_usuarioCurso"
             :fk_comprador="i.fk_comprador"
+            :pk_compra_venda="i.pk_compra_venda"
             :cursoNome="i.cursoNome"
             :tipoCurso="i.tipoCurso"
             :usuarioNome="i.usuarioNome"
@@ -338,7 +360,8 @@ export default {
             :ativarDelete="false"
             @infoCurso="infoCurso"
             @adicionarFavorito="adicionarFavorito"
-            @deletarFavorito="deletarFavorito" />
+            @deletarFavorito="deletarFavorito"
+            @avaliarCurso="avaliarCurso" />
         </div>
       </div>
       <div
