@@ -13,6 +13,7 @@ export default {
       email: "",
       todosCursos: null,
       url: null,
+      spinner: true,
       dadosInfo: {
         pk_curso: null,
         cursoNome: "",
@@ -40,6 +41,10 @@ export default {
           pk_usuario: this.pk_usuario
         })
       })
+      .catch(
+        this.spinner = true
+
+      )
       if(!response.ok){
         console.log(response.status)
 
@@ -47,9 +52,11 @@ export default {
         const dados = await response.json()
         if(dados[0].pk_curso != null){
           this.todosCursos = dados
+          this.spinner = false
 
         }else{
           this.todosCursos = null
+          this.spinner = false
 
         }
       }
@@ -191,7 +198,17 @@ export default {
     this.url = import.meta.env.VITE_ROOT_API
     let dadosUsuario = getDadosUsuarioLocal()
     this.atualizaDados(dadosUsuario)
-    this.buscaTodosCursos()
+    var tempoResponse = setInterval(() => {
+      if(this.spinner){
+        console.log("buscando")
+        this.buscaTodosCursos()
+
+      }else{
+        clearInterval(tempoResponse)
+        console.log("achou")
+
+      }
+    }, 2000)
 
   }
 }
@@ -216,25 +233,30 @@ export default {
       <hr>
     </div>
     <div class="lado-cursos">
-      <CardCursos
-        v-for="i in todosCursos" :key="i"
-        :pk_curso="i.pk_curso"
-        :fk_usuarioCurso="i.fk_usuarioCurso"
-        :fk_comprador="i.fk_comprador"
-        :cursoNome="i.cursoNome"
-        :tipoCurso="i.tipoCurso"
-        :usuarioNome="i.usuarioNome"
-        :cursoDescricao="i.cursoDescricao"
-        :totalFavoritos="i.totalFavoritos"
-        :ativarFavorito="((i.fk_usuarioCurso != pk_usuario)&&(pk_usuario != null)) ? true : false"
-        :favoritou="i.favoritou != pk_usuario ? true : false"
-        :ativarDelete="false"
-        :desativarBotao="((i.fk_usuarioCurso == pk_usuario)||(pk_usuario == null)/*||(i.cursoComprado == pk_usuario)*/) ? true : false"
-        :tipo="2"
-        @infoCurso="infoCurso"
-        @adicionarFavorito="adicionarFavorito"
-        @deletarFavorito="deletarFavorito"
-        @comprarCurso="comprarCurso" />
+      <div v-if="!spinner">
+        <CardCursos
+          v-for="i in todosCursos" :key="i"
+          :pk_curso="i.pk_curso"
+          :fk_usuarioCurso="i.fk_usuarioCurso"
+          :fk_comprador="i.fk_comprador"
+          :cursoNome="i.cursoNome"
+          :tipoCurso="i.tipoCurso"
+          :usuarioNome="i.usuarioNome"
+          :cursoDescricao="i.cursoDescricao"
+          :totalFavoritos="i.totalFavoritos"
+          :ativarFavorito="((i.fk_usuarioCurso != pk_usuario)&&(pk_usuario != null)) ? true : false"
+          :favoritou="i.favoritou != pk_usuario ? true : false"
+          :ativarDelete="false"
+          :desativarBotao="((i.fk_usuarioCurso == pk_usuario)||(pk_usuario == null)/*||(i.cursoComprado == pk_usuario)*/) ? true : false"
+          :tipo="2"
+          @infoCurso="infoCurso"
+          @adicionarFavorito="adicionarFavorito"
+          @deletarFavorito="deletarFavorito"
+          @comprarCurso="comprarCurso" />
+      </div>
+      <div v-else>
+        <b-spinner variant="primary"></b-spinner>
+      </div>
     </div>
   </div>
 </template>
@@ -268,14 +290,16 @@ export default {
     }
   }
   .lado-cursos{
-    padding: .5rem 0;
-    display: flex;
-    justify-content: center;
-
-    #card-cursos{
-      margin: .2rem;
-      width: 15rem;
-      
+    div{
+      padding: .5rem 0;
+      display: flex;
+      justify-content: center;
+  
+      #card-cursos{
+        margin: .2rem;
+        width: 15rem;
+        
+      }
     }
   }
 }
