@@ -86,15 +86,16 @@ const routes = [
                 return
 
             }else{
-                next(url)
+                next(Inicio)
                 return
 
             }
         }
     },
     {
-        path: '/:pathMatch(.*)*',
-        redirect: url
+        path: '/:pathMatch(.*)',
+        name: 'inicio',
+        component: Inicio
 
     },
     {
@@ -104,7 +105,7 @@ const routes = [
     }
 ]
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes
 
 })

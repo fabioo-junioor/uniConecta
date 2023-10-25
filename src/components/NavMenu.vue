@@ -57,7 +57,6 @@ export default {
 
     },
     atualizaDadosPreview(dadosUsuario){
-      //this.imagemPerfil = dadosUsuario[0].img
       this.logado = (dadosUsuario != null) ? true : false
       this.imagemPerfil = (dadosUsuario != null) ? dadosUsuario[0].img : null
       this.nomeUsuario = (dadosUsuario != null) ? dadosUsuario[0].nome.split(" ")[0] : ""

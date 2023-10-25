@@ -147,9 +147,9 @@ export default {
   font-family: 'Work Sans', sans-serif;
   background-color: white;
   border: 1px solid #6C63FF;
-  //box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 2px 2px 0px 0px #6C63FF;
   border-radius: 5px;
+  padding: 0 !important;
 
   .header-status{
     display: flex;
@@ -157,7 +157,7 @@ export default {
     align-items: center;
     padding: .3rem 0;
     border-bottom: 1px solid #6C63FF;
-    margin: .1rem;
+    margin: .2rem;
 
     .favorito{
       width: 70%;
@@ -244,6 +244,14 @@ export default {
 
     }
     .card-body{
+      h4{
+        font-size: 1.3rem;
+
+      }
+      p{
+        font-size: 1rem;
+
+      }
       h4, p{
         overflow: hidden;
         text-overflow: ellipsis;
