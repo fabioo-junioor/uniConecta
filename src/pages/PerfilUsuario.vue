@@ -5,6 +5,7 @@ import ModalCadCurso from "../components/ModalCadCurso.vue";
 import LadoUsuario from '../components/LadoUsuario.vue'
 import ModalInfoCurso from '../components/ModalInfoCurso.vue'
 import Alerta from '../components/Alerta.vue'
+
 export default {
   name: "PerfilUsuario",
   components: { CardCursos, Alerta, LadoUsuario, ModalCadCurso, ModalInfoCurso },
@@ -18,7 +19,8 @@ export default {
       totalPontos: null,
       totalMoedas: null,
       telefone: "",
-      email: "",
+      emailUsuarioLogado: "",
+      emailUsuarioPerfil: "",
       permissaoTelefone: null,
       cursosUsuario: null,
       url: null,
@@ -35,7 +37,8 @@ export default {
       alerta: {
         mensagem: "",
         tipo: "",
-        isAlert: false,
+        isAlert: false
+
       },
     };
   },
@@ -54,7 +57,6 @@ export default {
 
       }else{
         const dados = await response.json()
-        //console.log(dados)
         if(dados[0].pk_curso != null){
           this.cursosUsuario = dados
 
@@ -77,9 +79,8 @@ export default {
 
       }else{
         const dados = await response.json()
-        //console.log("--> ", dados)
         this.nomeUsuario = dados[0].nome
-        this.email = dados[0].email
+        this.emailUsuarioPerfil = dados[0].email
         this.imagemPerfil = dados[0].img
         this.telefone = dados[0].telefone
         this.graduacao = dados[0].graduacao
@@ -90,13 +91,12 @@ export default {
       }
     },
     async adicionarFavorito(pk_curso){
-      let dadosUsuario = getDadosUsuarioLocal()
       const response = await fetch(this.url+'adicionaDeletaFavorito.php?adicionaFavorito=1', {
         method: 'POST',
         body: JSON.stringify({
           fk_curso: pk_curso,
-          fk_usuario: dadosUsuario[0].pk_usuario,
-          email: dadosUsuario[0].email
+          fk_usuario: this.pk_usuarioLogado,
+          email: this.emailUsuarioLogado
 
         })
       })
@@ -111,13 +111,12 @@ export default {
       }
     },
     async deletarFavorito(pk_curso){
-      let dadosUsuario = getDadosUsuarioLocal()
       const response = await fetch(this.url+'adicionaDeletaFavorito.php?deletaFavorito=1', {
         method: 'POST',
         body: JSON.stringify({
           fk_curso: pk_curso,
-          fk_usuario: dadosUsuario[0].pk_usuario,
-          email: dadosUsuario[0].email
+          fk_usuario: this.pk_usuarioLogado,
+          email: this.emailUsuarioLogado
 
         })
       })
@@ -126,7 +125,6 @@ export default {
 
       }else{
         const dados = await response.json()
-        console.log("deletou favorito")
         this.mensagemAlerta(3)
         
       }
@@ -157,8 +155,7 @@ export default {
     },
     async infoCurso(pk_curso){
       await this.buscaInfoCurso(pk_curso)
-      this.$root.$emit('bv::show::modal', 'modalInfoCurso')    
-      //console.log("info curso ", pk_curso)
+      this.$root.$emit('bv::show::modal', 'modalInfoCurso')
 
     },
     async comprarCurso(pk_curso, fk_usuarioCurso){
@@ -176,10 +173,19 @@ export default {
 
       }else{
         const dados = await response.json()
-        console.log("comprou")
-        this.mensagemAlerta(1)
-        
+        if(dados[0].pk_compra_venda != null){
+          this.mensagemAlerta(1)
+
+        }else{
+          this.mensagemAlerta(4)
+
+        }        
       }
+    },
+    async atualizaDados(dadosUsuario){
+      this.pk_usuarioLogado = (dadosUsuario == null) ? null : dadosUsuario[0].pk_usuario
+      this.emailUsuarioLogado = (dadosUsuario == null) ? "" : dadosUsuario[0].email
+      
     },
     mensagemAlerta(id) {
       if(id == 1){
@@ -197,29 +203,33 @@ export default {
         this.alerta.tipo = "info"
         this.alerta.isAlert = true
 
+      }else if(id == 4){
+        this.alerta.mensagem = "Moedas insuficientes!"
+        this.alerta.tipo = "info"
+        this.alerta.isAlert = true
+
       }
-      this.resetaAlerta()
+      this.resetaAlerta(id)
 
     },
-    resetaAlerta(){
+    resetaAlerta(id){
       setTimeout(() => {
         this.alerta.mensagem = ""
         this.alerta.tipo = ""
         this.alerta.isAlert = false
 
-        return location.reload()
+        return (id != 4) ? location.reload() : false
 
-      }, 5000)
+      }, 4500)
     }
   },
   async mounted(){
     this.url = import.meta.env.VITE_ROOT_API
     let dadosUsuario = getDadosUsuarioLocal()
+    this.atualizaDados(dadosUsuario)
     this.pk_usuarioPerfil = parseInt(this.$route.params.pk)
-    this.pk_usuarioLogado = (dadosUsuario == null) ? null : dadosUsuario[0].pk_usuario
     this.buscaCursosUsuario(this.pk_usuarioPerfil)
     this.buscaDadosUsuario(this.pk_usuarioPerfil)
-    //console.log("logado-> ", this.pk_usuarioLogado, "perfil-> ",this.pk_usuarioPerfil)
 
   }
 };
@@ -247,7 +257,7 @@ export default {
         :totalMoedas="totalMoedas"
         :totalPontos="totalPontos"
         :telefone="telefone"
-        :email="email"
+        :email="emailUsuarioPerfil"
         :permissaoTelefone="permissaoTelefone" />
     </div>
     <div class="lado-meus-cursos">
@@ -267,7 +277,7 @@ export default {
             :totalFavoritos="i.totalFavoritos"
             :ativarFavorito="((pk_usuarioPerfil != pk_usuarioLogado)&&(pk_usuarioLogado != null)) ? true : false"
             :favoritou="i.favoritou != pk_usuarioLogado ? true : false"
-            :desativarBotao="((pk_usuarioPerfil == pk_usuarioLogado)||(pk_usuarioLogado == null)||(i.cursoComprado == pk_usuarioLogado)) ? true : false"
+            :desativarBotao="((pk_usuarioPerfil == pk_usuarioLogado)||(pk_usuarioLogado == null)/*||(i.cursoComprado == pk_usuarioLogado)*/) ? true : false"
             :ativarDelete="false"
             :tipo="2"
             @infoCurso="infoCurso"

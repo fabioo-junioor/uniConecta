@@ -1,6 +1,5 @@
 <script>
 import ListRanking from '../components/ListRanking.vue'
-import dadosTemp from '../config/dadosTemp.js'
 
 export default{
   name: 'Inicio',
@@ -8,9 +7,9 @@ export default{
   data(){
     return{
       configRanking: {
-        ranking: [],
-        titulo: "Maior Pontuação",
-        tituloTipo: "Total",
+        rankingPontuacao: null,
+        rankingCompras: null,
+        tituloRanking: "Maior Pontuação",
         tipoRanking: false,
         responseRanking: true
 
@@ -22,19 +21,17 @@ export default{
   },
   methods: {
     alternaRanking(){
-      if(this.configRanking.titulo === "Maior Pontuação"){
+      if(this.configRanking.tituloRanking === "Maior Pontuação"){
         this.buscarMaisComprados()
-        this.configRanking.titulo = "Mais Comprados"
+        this.configRanking.tituloRanking = "Mais Comprados"
         this.configRanking.tipoRanking = !this.configRanking.tipoRanking
         this.tituloButton = "+ PONTOS"
-        this.tipoRanking = !this.tipoRanking
  
       }else{
         this.buscarMaioresPontuacoes()
-        this.configRanking.titulo = "Maior Pontuação"
+        this.configRanking.tituloRanking = "Maior Pontuação"
         this.configRanking.tipoRanking = !this.configRanking.tipoRanking
         this.tituloButton = "+ COMPRADOS"
-        this.tipoRanking = !this.tipoRanking
 
       }
     },
@@ -51,9 +48,12 @@ export default{
 
       }else{
         const dados = await response.json()
+        //console.log(dados)
         if(dados[0].pk_usuario != null){
-          this.configRanking.ranking = []
-          this.configRanking.ranking = dados
+          this.configRanking.rankingPontuacao = dados
+          this.configRanking.responseRanking = false
+
+        }else{
           this.configRanking.responseRanking = false
 
         }
@@ -72,9 +72,12 @@ export default{
         
       }else{
         const dados = await response.json()
+        //console.log(dados)
         if(dados[0].pk_usuario != null){
-          this.configRanking.ranking = []
-          this.configRanking.ranking = dados
+          this.configRanking.rankingCompras = dados
+          this.configRanking.responseRanking = false
+
+        }else{
           this.configRanking.responseRanking = false
 
         }
@@ -110,24 +113,12 @@ export default{
         variant="success"
         v-on:click="alternaRanking()">{{tituloButton}}</b-button>
       <div
-        v-if="tipoRanking"
         class="inicio-ranking-likes">
         <ListRanking
-          :ranking=configRanking.ranking
-          :titulo=configRanking.titulo
-          :tituloTipo=configRanking.tituloTipo
+          :ranking= "(configRanking.tipoRanking) ? configRanking.rankingCompras : configRanking.rankingPontuacao" 
+          :tituloRanking=configRanking.tituloRanking
           :tipoRanking=configRanking.tipoRanking
           :responseRanking="configRanking.responseRanking" />      
-      </div>
-      <div 
-        v-else
-        class="inicio-ranking-best-sellers">
-        <ListRanking
-          :ranking=configRanking.ranking
-          :titulo=configRanking.titulo 
-          :tituloTipo=configRanking.tituloTipo
-          :tipoRanking=configRanking.tipoRanking
-          :responseRanking="configRanking.responseRanking" />     
       </div>
     </div>
   </div>

@@ -254,12 +254,12 @@ export default {
       a{
         text-decoration: none;
         color: #6C63FF;
-        font-weight: bold;
-        font-size: .9rem;
+        text-decoration: underline;
+        font-size: 1rem;
         
       }
       a:hover{
-        text-decoration: underline;
+        font-weight: bold;
 
       }
     }

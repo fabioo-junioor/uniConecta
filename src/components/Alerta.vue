@@ -58,7 +58,7 @@ export default {
   position: absolute;
   
   .alert{
-      width: 20%;
+      width: 30%;
       position: fixed;
       top: 7%;
       right: 2%;
@@ -79,14 +79,8 @@ export default {
 }
 @media only screen and (max-width: 990px) {
   #alerta{
-    position: absolute;
-
     .alert{
-        width: 20%;
-        position: fixed;
-        top: 5%;
-        right: 2%;
-        z-index: 2000;
+        width: 40%;
 
     }
   }
@@ -96,11 +90,7 @@ export default {
 @media only screen and (max-width: 481px) {
   #alerta{
     .alert{
-        width: 60%;
-        position: absolute;
-        top: 10%;
-        right: 2%;
-        z-index: 2000;
+        width: 80%;
 
     }
   }
@@ -108,11 +98,7 @@ export default {
 @media only screen and (max-width: 360px) {
   #alerta{
     .alert{
-        width: 70%;
-        position: absolute;
-        top: 10%;
-        right: 2%;
-        z-index: 2000;
+        width: 90%;
 
     }
   }

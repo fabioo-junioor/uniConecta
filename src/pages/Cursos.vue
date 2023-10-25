@@ -45,7 +45,6 @@ export default {
 
       }else{
         const dados = await response.json()
-        //console.log("->", dados)
         if(dados[0].pk_curso != null){
           this.todosCursos = dados
 
@@ -138,9 +137,13 @@ export default {
 
       }else{
         const dados = await response.json()
-        //console.log("comprou", dados)
-        this.mensagemAlerta(1)
-        
+        if(dados[0].pk_compra_venda != null){
+          this.mensagemAlerta(1)
+
+        }else{
+          this.mensagemAlerta(4)
+
+        }        
       }
     },
     async atualizaDados(dadosUsuario){
@@ -164,17 +167,22 @@ export default {
         this.alerta.tipo = "info"
         this.alerta.isAlert = true
 
+      }else if(id == 4){
+        this.alerta.mensagem = "Moedas insuficientes!"
+        this.alerta.tipo = "info"
+        this.alerta.isAlert = true
+
       }
-      this.resetaAlerta()
+      this.resetaAlerta(id)
 
     },
-    resetaAlerta(){
+    resetaAlerta(id){
       setTimeout(() => {
         this.alerta.mensagem = ""
         this.alerta.tipo = ""
         this.alerta.isAlert = false
 
-        return location.reload()
+        return (id != 4) ? location.reload() : false
 
       }, 4500)
     }
@@ -221,7 +229,7 @@ export default {
         :ativarFavorito="((i.fk_usuarioCurso != pk_usuario)&&(pk_usuario != null)) ? true : false"
         :favoritou="i.favoritou != pk_usuario ? true : false"
         :ativarDelete="false"
-        :desativarBotao="((i.fk_usuarioCurso == pk_usuario)||(pk_usuario == null)||(i.cursoComprado == pk_usuario)) ? true : false"
+        :desativarBotao="((i.fk_usuarioCurso == pk_usuario)||(pk_usuario == null)/*||(i.cursoComprado == pk_usuario)*/) ? true : false"
         :tipo="2"
         @infoCurso="infoCurso"
         @adicionarFavorito="adicionarFavorito"

@@ -13,6 +13,7 @@ export default {
         valor: null,
         descricao: "",
         tipoCurso: null,
+        grupoApoio: false,
         opcoes: [
           { value: "Curso", text: "Curso" },
           { value: "Aula", text: "Aula" },
@@ -111,8 +112,17 @@ export default {
         
       }else{
         this.formCurso.totalHoras = valor
-        this.formCurso.valor = valor * 5
+        this.formCurso.valor = (this.formCurso.grupoApoio) ? 0 : (valor * 5)
 
+      }
+    },
+    'formCurso.grupoApoio': function(){
+      if(this.formCurso.grupoApoio){
+        this.formCurso.valor = 0
+
+      }else{
+        this.formCurso.valor = this.formCurso.totalHoras * 5
+        
       }
     }
   }
@@ -157,9 +167,15 @@ export default {
             </b-form-select>
             
           </div>
+          <div class="checkGrupoApoio">
+              <b-form-checkbox
+                v-model="formCurso.grupoApoio"
+                :value="true"
+                :unchecked-value="false"      
+              ></b-form-checkbox>Grupo de Apoio (Monitoria; Pet; etc)?
+            </div>
           <div class="form-floating">
             <b-form-input
-              required
               v-model="formCurso.totalHoras"
               type="number"
               placeholder="Informe o total de horas: "
@@ -284,6 +300,24 @@ export default {
 #cadastro-curso form input:disabled{
   background-color: rgba(255, 255, 255, 0.8);
 
+}
+#cadastro-curso .checkGrupoApoio{
+  display: flex !important;
+  flex-direction: row;
+  height: 2.5rem;
+  color: white;
+  font-weight: 500;
+  font-size: .9rem;
+
+  .custom-control{
+    width: 1.5rem !important;
+
+    input{
+      height: 100% !important;
+      box-shadow: none;
+
+    }
+  }
 }
 #cadastro-curso form textarea {
   margin: 5px 0px;
