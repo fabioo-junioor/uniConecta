@@ -1,8 +1,7 @@
-import { createRouter, createWebHistory, createWebHashHistory } from "vue-router"
+import { createRouter, createWebHistory } from "vue-router"
 
 import { getDadosUsuarioLocal } from "./global.js"
 let dadosUsuario = getDadosUsuarioLocal()
-let url = import.meta.env.VITE_URL_FRONT
 
 import Inicio from '../pages/Inicio.vue'
 import Sobre from '../pages/Sobre.vue'
@@ -52,7 +51,7 @@ const routes = [
                 return
 
             }else{
-                next(url)
+                next('/')
                 return
 
             }
@@ -69,7 +68,7 @@ const routes = [
                 return
 
             }else{
-                next(url)
+                next('/')
                 return
                 
             }
@@ -86,7 +85,8 @@ const routes = [
                 return
 
             }else{
-                next(Inicio)
+                next('/')
+                console.log("edit-- ")
                 return
 
             }
@@ -95,13 +95,12 @@ const routes = [
     {
         path: '/:pathMatch(.*)',
         name: 'inicio',
-        component: Inicio
+        component: Inicio,
+        beforeEnter: (_, __, next) => {
+            next()
+            return
 
-    },
-    {
-        path: '/',
-        redirect: url
-
+        }
     }
 ]
 const router = createRouter({
