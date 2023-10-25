@@ -69,7 +69,7 @@ export default {
       align-items: center;
       margin: 0 0 1rem 0;
       border: 1px solid #6c63ff;
-      box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+      box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.2);
       border-radius: 5px;
       padding: .3rem;
       
@@ -95,7 +95,7 @@ export default {
       padding: 1rem 0 1rem 1rem;
       background-color: white;
       border: 1px solid #6c63ff;
-      box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
+      box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.3);
       border-radius: 5px;
 
       h2 {

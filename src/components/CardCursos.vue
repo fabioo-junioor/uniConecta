@@ -65,6 +65,9 @@ export default {
   <div id="card-cursos">
      <div class="header-status">
       <div class="favorito">
+        <div class="total-favoritos">
+          <span>{{totalFavoritos}}</span>
+        </div>
         <div
           v-if="ativarFavorito"
           class="favoritar-curso">
@@ -78,9 +81,6 @@ export default {
               @click="deletarFavorito(pk_curso)" >
                 <i class="bx bxs-heart" />
             </b-button>
-        </div>
-        <div class="total-favoritos">
-          <span>{{totalFavoritos}}</span>
         </div>
       </div>
       <div
@@ -146,10 +146,9 @@ export default {
   flex-direction: column;
   font-family: 'Work Sans', sans-serif;
   background-color: white;
-
-  //padding: 1rem 0 1rem 1rem;
   border: 1px solid #6C63FF;
-  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
+  //box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 2px 0px 0px #6C63FF;
   border-radius: 5px;
 
   .header-status{
@@ -158,6 +157,7 @@ export default {
     align-items: center;
     padding: .3rem 0;
     border-bottom: 1px solid #6C63FF;
+    margin: .1rem;
 
     .favorito{
       width: 70%;
@@ -167,12 +167,17 @@ export default {
       .total-favoritos{
         font-weight: 600;
         font-size: .9rem;
-        padding: .1rem 0 .1rem .5rem;
-        color: #6C63FF;
+        padding: .2rem .8rem .2rem .8rem;
+        margin: .1rem;
+        color: black;
+        border-radius: 5px;
+        border: 1px solid #6C63FF;
+        box-shadow: 1px 1px 0px 0px #6C63FF;
+        
 
       }
       .favoritar-curso{
-        padding: .1rem 0 .1rem .5rem;
+        padding: .2rem .5rem 0 .5rem;
         
         .btn{
           background-color: transparent;

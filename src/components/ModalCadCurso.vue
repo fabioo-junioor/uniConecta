@@ -294,7 +294,7 @@ export default {
   height: 3.5rem;
   border-radius: 5px;
   background-color: white;
-  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.5);
   color: black;
 }
 #cadastro-curso form input:disabled{
@@ -324,7 +324,7 @@ export default {
   border: .5px solid black; 
   border-radius: 5px;
   background-color: white;
-  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.5);
   color: black;
 }
 #cadastro-curso form label{
@@ -343,12 +343,12 @@ export default {
   height: 3.5rem;
   border-radius: 5px;
   background-color: white;
-  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.5);
   color: black;
   padding-left: 0.5rem;
 
   option:nth-child(1) {
-    background-color: #6c63ff;
+    background-color: black;
     color: white;
   }
 }
@@ -361,7 +361,7 @@ export default {
 }
 #cadastro-curso .botao-cadastrar button {
   font-family: 'Work Sans', sans-serif;
-  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 1);
   width: 40%;
   height: 3rem;
   border-radius: 5px;

@@ -78,19 +78,20 @@ export default {
         margin: .5rem 0;
         display: flex;
         align-items: center;
-        border-right: 2px solid white;
+        border-radius: 5px;
+        border: 1px solid white;
+        box-shadow: 1px 1px 3px 1px rgba(255, 255, 255, 0.2);
 
         i{
           color: white;
-          font-size: 1.3rem;
+          font-size: 1.4rem;
           padding-right: .5rem;
 
         }
 
         h4, h5{
           margin: 0;
-          font-size: 1rem;
-          font-weight: bold;
+          font-size: 1.1rem;
           
         }
         span{

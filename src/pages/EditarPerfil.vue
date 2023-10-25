@@ -336,7 +336,7 @@ export default {
         border: 1px solid #6c63ff;
         border-radius: 5px;
         background-color: white;
-        box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
+        box-shadow: 1px 1px 0px 0px #6C63FF;
         color: black;
         font-weight: 500;
       }
@@ -354,7 +354,7 @@ export default {
       border: 1px solid #6c63ff;
       border-radius: 5px;
       background-color: rgb(240, 240, 240);
-      box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
+      box-shadow: 1px 1px 0px 0px #6C63FF;
       color: black;
       font-weight: 500;
 
@@ -386,7 +386,7 @@ export default {
         height: 4rem;
         border-radius: 5px;
         background-color: white;
-        box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
+        box-shadow: 1px 1px 0px 0px #6C63FF;
         color: rgba(0, 0, 0, 0.8);
       }
       input:disabled{
@@ -408,7 +408,7 @@ export default {
         height: 3rem;
         border-radius: 5px;
         background-color: white;
-        box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
+        box-shadow: 1px 1px 0px 0px #6C63FF;
         color: black;
         padding-left: 0.5rem;
 
@@ -446,7 +446,7 @@ export default {
 
         button {
           font-family: "Work Sans", sans-serif;
-          box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
+          box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 1);
           width: 90%;
           height: 4rem;
           border-radius: 5px;
