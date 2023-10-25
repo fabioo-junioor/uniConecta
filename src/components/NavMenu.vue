@@ -57,7 +57,10 @@ export default {
 
     },
     atualizaDadosPreview(dadosUsuario){
-      this.imagemPerfil = dadosUsuario[0].img
+      //this.imagemPerfil = dadosUsuario[0].img
+      this.logado = (dadosUsuario != null) ? true : false
+      this.imagemPerfil = (dadosUsuario != null) ? dadosUsuario[0].img : null
+      this.nomeUsuario = (dadosUsuario != null) ? dadosUsuario[0].nome.split(" ")[0] : ""
 
     },
     sair(){
@@ -69,9 +72,7 @@ export default {
   mounted() {
       let dadosUsuario = getDadosUsuarioLocal()
       //console.log(dadosUsuario)
-      this.logado = (dadosUsuario != null) ? true : false
-      //this.nomeUsuario = (dadosUsuario != null) ? dadosUsuario[0].nome.split(" ")[0] : ""
-      this.imagemPerfil = (dadosUsuario != null) ? dadosUsuario[0].img : null
+      this.atualizaDadosPreview(dadosUsuario)
 
   }
 };
@@ -118,13 +119,21 @@ export default {
             <b-nav-item-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret right>
               <template #button-content>
                 <img
+                  id="imagemPerfil"
                   class="img-icon-user"
                   v-if="!imagemPerfil"
                   src="../assets/img/person1.png" />
                 <img
+                  id="imagemPerfil"
                   class="img-icon-user"
                   v-else
                   :src="imagemPerfil" />
+                  <b-tooltip
+                    target="imagemPerfil"
+                    variant="primary" 
+                    placement="bottomleft">
+                    {{nomeUsuario}}
+                  </b-tooltip>
               </template>
               <b-dropdown-item>
                 <router-link to="/dashboard">Dashboard</router-link>
@@ -245,15 +254,15 @@ export default {
               padding: 0;
 
               .img-icon-user{
-                border: 1px solid white;
+                border: 2px solid #6C63FF;
                 border-radius: 50%;
-                width: 3rem;
-                height: 3rem;
+                width: 3.1rem;
+                height: 3.1rem;
 
               }
               .img-icon-user:hover{
-                border: 1px solid #6C63FF;
-                box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 1);
+                border: 2px solid white;
+                box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, .3);
 
               }
             }

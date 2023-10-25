@@ -139,10 +139,10 @@ export default {
     scrollable
     title="Cadastrar Curso">
     <div id="cadastro-curso">
+      <div>
+        <img src="../assets/draw/educator.svg" />
+      </div>
       <b-form>
-        <div>
-          <img src="../assets/draw/login.svg" />
-        </div>
         <div>
           <div class="form-floating">
             <b-form-input
@@ -227,10 +227,11 @@ export default {
   .modal-header{
     background-color: #6C63FF;
     border-bottom: 1px solid white;
+    height: 3rem;
   
     h5 {
       color: white;
-      font-size: 1.3rem;
+      font-size: 1.1rem;
       font-family: 'Work Sans', sans-serif;
 
     }
@@ -255,6 +256,13 @@ export default {
     justify-content: center !important;
     align-items: center !important;
     width: 100% !important;
+
+    img {
+      width: 11rem;
+      height: auto;
+      margin: 4rem 0 1rem 0;
+      filter: drop-shadow(1px 1px 2px black);
+    }
 
   }
   .modal-footer {
@@ -282,11 +290,6 @@ export default {
   flex-direction: column;
   align-items: center;
 
-}
-#cadastro-curso form img {
-  height: 7rem;
-  margin-bottom: 2rem;
-  filter: drop-shadow(1px 1px 3px #252525);
 }
 #cadastro-curso form input {
   margin: 5px 0px;

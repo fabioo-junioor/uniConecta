@@ -134,10 +134,10 @@ export default {
       scrollable
       title="Login Usuário">
       <div id="loginUser">
+        <div>
+          <img src="../assets/draw/login.svg" />
+        </div>
         <b-form>
-          <div>
-            <img src="../assets/draw/login.svg" />
-          </div>
           <div v-if="logar">
             <div class="form-floating">
               <b-form-input
@@ -233,7 +233,7 @@ export default {
     </b-modal>
   </div>
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap');
 
 .modal-content {
@@ -245,10 +245,11 @@ export default {
   .modal-header{
     background-color: #6C63FF;
     border-bottom: 1px solid white;
+    height: 3rem !important;
   
     h5 {
       color: white;
-      font-size: 1.3rem;
+      font-size: 1.1rem !important;
       font-family: 'Work Sans', sans-serif;
 
     }
@@ -274,6 +275,13 @@ export default {
     align-items: center !important;
     width: 100% !important;
 
+    img {
+      width: 10rem;
+      height: auto;
+      margin: 2rem 0 1rem 0;
+      filter: drop-shadow(1px 1px 2px black);
+
+    }
   }
   .modal-footer {
     display: none !important;
@@ -300,11 +308,6 @@ export default {
   flex-direction: column;
   align-items: center;
 
-}
-#loginUser form img {
-  height: 7rem;
-  margin-bottom: 2rem;
-  filter: drop-shadow(1px 1px 3px #252525);
 }
 #loginUser form input {
   margin: 5px 0px;
