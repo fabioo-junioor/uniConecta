@@ -108,13 +108,15 @@ export default {
 
       }else{
         const dados = await response.json()
-        await deleteDadosUsuario()
-        await dadosUsuarioPreview(dados[0].pk_usuario)
-        this.alerta.mensagem = "Edição realizada";
-        this.alerta.tipo = "success";
-        this.alerta.isAlert = true;
-        this.resetaAlerta(1);
+        if(dados[0].pk_usuario != null){
+          await deleteDadosUsuario()
+          await dadosUsuarioPreview(dados[0].pk_usuario)
+          this.alerta.mensagem = "Edição realizada";
+          this.alerta.tipo = "success";
+          this.alerta.isAlert = true;
+          this.resetaAlerta(1);
 
+        }
       }
     },
     async buscarDadosEdicao() {

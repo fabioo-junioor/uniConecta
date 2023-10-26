@@ -4,12 +4,14 @@ import CardCursos from "../components/CardCursos.vue";
 import ModalCadCurso from "../components/ModalCadCurso.vue";
 import LadoUsuario from '../components/LadoUsuario.vue'
 import ModalInfoCurso from '../components/ModalInfoCurso.vue'
+import Alerta from '../components/Alerta.vue'
 
 export default {
   name: "MeusCursos",
-  components: { CardCursos, ModalCadCurso, LadoUsuario, ModalInfoCurso },
+  components: { CardCursos, Alerta, ModalCadCurso, LadoUsuario, ModalInfoCurso },
   data() {
     return {
+      pk_usuario: null,
       imagemPerfil: null,
       nomeUsuario: "",
       graduacao: "",
@@ -29,7 +31,12 @@ export default {
         valorCurso: null,
         descricao: ""
 
-      }
+      },
+      alerta: {
+        mensagem: "",
+        tipo: "",
+        isAlert: false,
+      } 
     };
   },
   methods: {
@@ -83,8 +90,57 @@ export default {
       this.$root.$emit('bv::show::modal', 'modalInfoCurso')    
 
     },
-    async atualizaDadosPreview() {
-      let dadosUsuario = await getDadosUsuarioLocal();
+    async deletarCurso(pk_curso){
+      const response = await fetch(this.url+'deletarCurso.php?deletarCurso=1', {
+        method: 'POST',
+        body: JSON.stringify({
+          pk_curso: pk_curso,
+          pk_usuario: this.pk_usuario
+
+        })
+      })
+      if(!response.ok){
+        console.log(response.status)
+
+      }else{
+        const dados = await response.json()
+        if(dados[0].pk_avaliacao != null){
+          this.mensagemAlerta(2)
+
+        }else{
+          await deleteDadosUsuario()
+          await dadosUsuarioPreview(this.pk_usuario)
+          this.mensagemAlerta(1)
+
+        }        
+      }
+    },
+    mensagemAlerta(id) {
+      if(id == 1){
+        this.alerta.mensagem = "Curso apagado!"
+        this.alerta.tipo = "info"
+        this.alerta.isAlert = true
+
+      }else if(id == 2){
+        this.alerta.mensagem = "Avaliação pendente"
+        this.alerta.tipo = "info"
+        this.alerta.isAlert = true
+
+      }
+      this.resetaAlerta(id)
+
+    },
+    resetaAlerta(id){
+      setTimeout(() => {
+        this.alerta.mensagem = ""
+        this.alerta.tipo = ""
+        this.alerta.isAlert = false
+
+        return (id != 2) ? location.reload() : false
+
+      }, 4500)
+    },
+    async atualizaDadosPreview(dadosUsuario) {
       this.pk_usuario = dadosUsuario[0].pk_usuario;
       this.nomeUsuario = dadosUsuario[0].nome;
       this.graduacao = dadosUsuario[0].graduacao;
@@ -99,8 +155,8 @@ export default {
   },
   async mounted(){
     this.url = import.meta.env.VITE_ROOT_API
-    await this.atualizaDadosPreview()
     let dadosUsuario = getDadosUsuarioLocal()
+    await this.atualizaDadosPreview(dadosUsuario)
     this.buscaMeusCursos(dadosUsuario)
 
   }
@@ -109,6 +165,10 @@ export default {
 
 <template>
   <div id="meus-cursos">
+    <Alerta
+      v-if="alerta.isAlert"
+      :mensagem="alerta.mensagem"
+      :tipo="alerta.tipo" />
     <ModalInfoCurso
       :pk_curso="dadosInfo.pk_curso"
       :cursoNome="dadosInfo.cursoNome"
