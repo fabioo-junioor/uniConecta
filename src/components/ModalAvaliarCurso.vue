@@ -1,4 +1,5 @@
 <script>
+import { getDadosUsuarioLocal, dadosUsuarioPreview, deleteDadosUsuario } from "../config/global.js"
 import Alerta from '../components/Alerta.vue'
 
 export default {
@@ -29,6 +30,7 @@ export default {
   },
   methods: {
     async avaliarCursoComprado(pk_compra_venda){
+      let dadosUsuario = getDadosUsuarioLocal()
       const response = await fetch(this.url+'avaliarCurso.php?avaliarCursoComprado=1', {
         method: 'POST',
         body: JSON.stringify({
@@ -43,14 +45,15 @@ export default {
       }else{
         const dados = await response.json()
         if(dados[0].pk_compra_venda != null){
+          await deleteDadosUsuario()
+          await dadosUsuarioPreview(dadosUsuario[0].pk_usuario)
           this.mensagemAlerta(1)
-          
-        }else{
           
         }
       }
     },
     async avaliarCursoVendido(pk_compra_venda){
+      let dadosUsuario = getDadosUsuarioLocal()
       const response = await fetch(this.url+'avaliarCurso.php?avaliarCursoVendido=1', {
         method: 'POST',
         body: JSON.stringify({
@@ -65,9 +68,9 @@ export default {
       }else{
         const dados = await response.json()
         if(dados[0].pk_compra_venda != null){
+          await deleteDadosUsuario()
+          await dadosUsuarioPreview(dadosUsuario[0].pk_usuario)
           this.mensagemAlerta(1)
-
-        }else{
 
         }
       }

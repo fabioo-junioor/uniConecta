@@ -1,5 +1,6 @@
 <script>
 import { getDadosUsuarioLocal, dadosUsuarioPreview, deleteDadosUsuario } from "../config/global.js";
+import { encryptSenha } from '../config/auth.js'
 import Alerta from "../components/Alerta.vue";
 import LadoUsuario from "../components/LadoUsuario.vue";
 
@@ -48,7 +49,7 @@ export default {
         this.formEdicao.telefone != "" &&
         this.formEdicao.graduacao != null &&
         this.formEdicao.senha != "" &&
-        /*this.formEdicao.senha.length > 6 &&*/
+        this.formEdicao.senha.length >= 6 &&
         this.formEdicao.adicionouImagem == true) {
         this.botaoSalvar = true;
 
@@ -89,6 +90,7 @@ export default {
       }
     },
     async salvarEdicao() {
+      let hash = await encryptSenha(this.formEdicao.senha)
       const response = await fetch(this.url + "editarUsuario.php", {
         method: "POST",
         body: JSON.stringify({
@@ -97,7 +99,7 @@ export default {
           telefone: this.formEdicao.telefone,
           graduacao: this.formEdicao.graduacao,
           img: this.formEdicao.imagem,
-          senha: this.formEdicao.senha,
+          senha: hash,
           permissaoTelefone: this.formEdicao.permissaoTelefone
         }),
       })
@@ -106,13 +108,12 @@ export default {
 
       }else{
         const dados = await response.json()
-        deleteDadosUsuario()
-        dadosUsuarioPreview(dados[0].pk_usuario)
+        await deleteDadosUsuario()
+        await dadosUsuarioPreview(dados[0].pk_usuario)
         this.alerta.mensagem = "Edição realizada";
         this.alerta.tipo = "success";
         this.alerta.isAlert = true;
         this.resetaAlerta(1);
-        console.log("salvo");
 
       }
     },

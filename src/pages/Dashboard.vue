@@ -1,5 +1,5 @@
 <script>
-import { getDadosUsuarioLocal } from '../config/global.js'
+import { getDadosUsuarioLocal, dadosUsuarioPreview, deleteDadosUsuario } from "../config/global.js"
 import CardCursos from '../components/CardCursos.vue'
 import LadoUsuario from '../components/LadoUsuario.vue'
 import ModalInfoCurso from '../components/ModalInfoCurso.vue'
@@ -167,7 +167,8 @@ export default {
 
       }else{
         const dados = await response.json()
-        console.log("adicionou favorito")
+        await deleteDadosUsuario()
+        await dadosUsuarioPreview(this.pk_usuario)
         this.mensagemAlerta(2)
         
       }
@@ -186,7 +187,8 @@ export default {
 
       }else{
         const dados = await response.json()
-        console.log("deletou favorito")
+        await deleteDadosUsuario()
+        await dadosUsuarioPreview(this.pk_usuario)
         this.mensagemAlerta(3)
         
       }
@@ -209,6 +211,8 @@ export default {
           this.mensagemAlerta(5)
 
         }else{
+          await deleteDadosUsuario()
+          await dadosUsuarioPreview(this.pk_usuario)
           this.mensagemAlerta(4)
 
         }        

@@ -1,5 +1,5 @@
 <script>
-import { getDadosUsuarioLocal } from '../config/global'
+import { getDadosUsuarioLocal, dadosUsuarioPreview, deleteDadosUsuario } from "../config/global.js"
 import CardCursos from '../components/CardCursos.vue'
 import Alerta from '../components/Alerta.vue'
 import ModalInfoCurso from '../components/ModalInfoCurso.vue'
@@ -87,8 +87,7 @@ export default {
     },
     async infoCurso(pk_curso){
       await this.buscaInfoCurso(pk_curso)
-      this.$root.$emit('bv::show::modal', 'modalInfoCurso')    
-      console.log("info curso ", pk_curso)
+      this.$root.$emit('bv::show::modal', 'modalInfoCurso')
 
     },
     async adicionarFavorito(pk_curso){
@@ -106,6 +105,8 @@ export default {
       }else{
         const dados = await response.json()
         console.log("adicionou favorito")
+        await deleteDadosUsuario()
+        await dadosUsuarioPreview(this.pk_usuario)
         this.mensagemAlerta(2)
         
       }
@@ -125,6 +126,8 @@ export default {
       }else{
         const dados = await response.json()
         console.log("deletou favorito")
+        await deleteDadosUsuario()
+          await dadosUsuarioPreview(this.pk_usuario)
         this.mensagemAlerta(3)
         
       }
@@ -145,6 +148,8 @@ export default {
       }else{
         const dados = await response.json()
         if(dados[0].pk_compra_venda != null){
+          await deleteDadosUsuario()
+          await dadosUsuarioPreview(this.pk_usuario)
           this.mensagemAlerta(1)
 
         }else{

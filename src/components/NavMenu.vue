@@ -27,18 +27,23 @@ export default {
         this.alerta.isAlert = true
 
       }else if(id == 2){
-        this.alerta.mensagem = "Email ou senha incorreto!"
+        this.alerta.mensagem = "Email incorreto!"
         this.alerta.tipo = "danger"
         this.alerta.isAlert = true
 
       }else if(id == 3){
-        this.alerta.mensagem = "Email ja existe!"
-        this.alerta.tipo = "info"
+        this.alerta.mensagem = "Senha incorreta!"
+        this.alerta.tipo = "danger"
         this.alerta.isAlert = true
 
       }else if(id == 4){
         this.alerta.mensagem = "Cadastrado, efetue o login!"
         this.alerta.tipo = "success"
+        this.alerta.isAlert = true
+
+      }else if(id == 5){
+        this.alerta.mensagem = "Email já existe!"
+        this.alerta.tipo = "info"
         this.alerta.isAlert = true
 
       }
@@ -51,7 +56,7 @@ export default {
         this.alerta.tipo = ""
         this.alerta.isAlert = false
 
-        return ((id != 2)&&(id != 3)) ? location.reload() : false
+        return ((id != 2)&&(id != 3)&&(id != 5)) ? location.reload() : false
 
       }, 4050)
 
@@ -63,14 +68,17 @@ export default {
 
     },
     sair(){
-      deleteDadosUsuario()
-      location.reload()
-      
+      setTimeout(() => {
+        deleteDadosUsuario()
+        console.log("saiu...")
+
+        return location.reload()
+
+      }, 1500)      
     }
   },
-  mounted() {
-      let dadosUsuario = getDadosUsuarioLocal()
-      //console.log(dadosUsuario)
+  async mounted() {
+      let dadosUsuario = await getDadosUsuarioLocal()
       this.atualizaDadosPreview(dadosUsuario)
 
   }

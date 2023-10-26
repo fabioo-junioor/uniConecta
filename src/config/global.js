@@ -28,7 +28,7 @@ function getDadosUsuarioLocal(){
     return usuarioObj
 
 }
-function deleteDadosUsuario(){
+async function deleteDadosUsuario(){
     localStorage.removeItem('dadosUsuario')
 
 }

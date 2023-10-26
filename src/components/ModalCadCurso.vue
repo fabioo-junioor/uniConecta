@@ -1,5 +1,5 @@
 <script>
-import { getDadosUsuarioLocal } from '../config/global.js'
+import { dadosUsuarioPreview, deleteDadosUsuario, getDadosUsuarioLocal } from '../config/global.js'
 import Alerta from './Alerta.vue'
 
 export default {
@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     async cadastrarCurso() {
-      let dadosUsuario = getDadosUsuarioLocal()
+      let dadosUsuario = await getDadosUsuarioLocal()
       const response = await fetch(this.url+'cadastrarCurso.php', {
         method: "POST",
         body: JSON.stringify({
@@ -49,13 +49,13 @@ export default {
 
       }else{
         const dados = await response.json()
-        //console.log(dados)
         if(dados[0].pk_curso == true){
-          //console.log("cadastrado")
+          let pk_usuarioTemp = dadosUsuario[0].pk_usuario
+          await deleteDadosUsuario()
+          await dadosUsuarioPreview(pk_usuarioTemp)
           this.mensagemAlerta(1)
 
         }else{
-          //console.log("nao cadastrado!")
           this.mensagemAlerta(2)                  
 
         }

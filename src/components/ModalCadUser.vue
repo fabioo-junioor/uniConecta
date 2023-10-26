@@ -1,5 +1,6 @@
 <script>
 import { dadosUsuarioPreview } from '../config/global.js'
+import { encryptSenha, decryptSenha } from '../config/auth.js'
 import Alerta from './Alerta.vue'
 
 export default {
@@ -26,8 +27,8 @@ export default {
       const response = await fetch(this.url+'authUsuario.php', {
         method: "POST",
         body: JSON.stringify({
-          email: this.form.email,
-          senha: this.form.senha
+          email: this.form.email
+
         })
       })
       if(!response.ok){
@@ -35,25 +36,31 @@ export default {
 
       }else{
         const dados = await response.json()
-        if(dados[0].pk_usuario != null){
-          dadosUsuarioPreview(dados[0].pk_usuario)
-          this.$emit('mensagemAlerta', 1)
+        if(dados[0].email != null){
+          let valid = await decryptSenha(this.form.senha, dados[0].senha)
+          if(valid){
+            this.$emit('mensagemAlerta', 1)
+            dadosUsuarioPreview(dados[0].pk_usuario)
 
+          }else{
+            this.$emit('mensagemAlerta', 3)
+
+          }
         }else{
-          //console.log("Email ou senha incorreto!")
-          this.$emit('mensagemAlerta', 2)                  
+          this.$emit('mensagemAlerta', 2)                
 
         }
       }
     },
     async cadastrarUsuario(){
+      let hash = await encryptSenha(this.form.senha)
       const response = await fetch(this.url+'cadastrarUsuario.php', {
         method: 'POST',
         body: JSON.stringify({
           nome: this.form.nome,
           email: this.form.email,
           telefone: this.form.telefone,
-          senha: this.form.senha,
+          senha: hash,
           permissaoTelefone: this.form.permissaoTelefone
         })
       })
@@ -63,7 +70,7 @@ export default {
       }else{
         const dados = await response.json()
         if(dados[0].pk_usuario != null){
-          this.$emit('mensagemAlerta', 3) 
+          this.$emit('mensagemAlerta', 5) 
           
           }else{
           this.$emit('mensagemAlerta', 4) 
@@ -93,12 +100,11 @@ export default {
       this.form.senha = "";
       this.form.telefone = "";
       this.form.permNumber = null;
-      console.log("Resetou");
     
     },
     enableBotaoAcessar(){
       if((this.form.email != "") &&
-        (this.form.senha != "")){
+        (this.form.senha.length >= 6)){
         this.botaoAcessar = true
 
       }else{
@@ -107,11 +113,10 @@ export default {
       }
     },
     enableBotaoSalvar(){
-      //console.log(this.form.telefone)
       if((this.form.nome != "") &&
         (this.form.email != "") &&
         (this.form.telefone != "") &&
-        (this.form.senha.length > 6)){
+        (this.form.senha.length >= 6)){
           this.botaoSalvar = true
 
       }else{
