@@ -106,7 +106,7 @@ export default {
 
       }else{
         const dados = await response.json()
-        //console.log("avaliado-> ", dados)
+        console.log("avaliado-> ", dados)
         if(dados[0].pk_curso != null){
           this.cursosAvaliados = dados
 
@@ -382,7 +382,7 @@ export default {
             :cursoNome="i.cursoNome"
             :tipoCurso="i.tipoCurso"
             :usuarioNome="i.usuarioNome"
-            :compradorNome="i.compradorNome"
+            :compradorNome="i.fk_comprador != pk_usuario ? i.compradorNome : null"
             :cursoDescricao="i.cursoDescricao"
             :totalFavoritos="i.totalFavoritos"
             :favoritou="i.favoritou != pk_usuario ? true : false"
