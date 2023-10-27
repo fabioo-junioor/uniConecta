@@ -9,8 +9,6 @@ import Dashboard from '../pages/Dashboard.vue'
 import EditarPerfil from '../pages/EditarPerfil.vue'
 import PerfilUsuario from '../pages/PerfilUsuario.vue'
 
-let dadosUsuario = getDadosUsuarioLocal()
-
 const routes = [
     {
         path: '/',
@@ -44,7 +42,8 @@ const routes = [
         path: '/meusCursos',
         name: 'meusCursos',
         component: MeusCursos,
-        beforeEnter: (_, __, next) => {
+        beforeEnter: async (_, __, next) => {
+            let dadosUsuario = await getDadosUsuarioLocal()
             const userLogado = (dadosUsuario != null) ? true : false
             if(userLogado){
                 next()
@@ -61,7 +60,8 @@ const routes = [
         path: '/dashboard',
         name: 'dashboard',
         component: Dashboard,
-        beforeEnter: (_, __, next) => {
+        beforeEnter: async (_, __, next) => {
+            let dadosUsuario = await getDadosUsuarioLocal()
             const userLogado = (dadosUsuario != null) ? true : false
             if(userLogado){
                 next()
@@ -78,7 +78,8 @@ const routes = [
         path: '/editarPerfil',
         name: 'editarPerfil',
         component: EditarPerfil,
-        beforeEnter: (_, __, next) => {
+        beforeEnter: async (_, __, next) => {
+            let dadosUsuario = await getDadosUsuarioLocal()
             const userLogado = (dadosUsuario != null) ? true : false
             if(userLogado){
                 next()
