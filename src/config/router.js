@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router"
-
 import { getDadosUsuarioLocal } from "./global.js"
-let dadosUsuario = await getDadosUsuarioLocal()
 
 import Inicio from '../pages/Inicio.vue'
 import Sobre from '../pages/Sobre.vue'
@@ -10,6 +8,8 @@ import MeusCursos from '../pages/MeusCursos.vue'
 import Dashboard from '../pages/Dashboard.vue'
 import EditarPerfil from '../pages/EditarPerfil.vue'
 import PerfilUsuario from '../pages/PerfilUsuario.vue'
+
+let dadosUsuario = getDadosUsuarioLocal()
 
 const routes = [
     {
@@ -86,7 +86,6 @@ const routes = [
 
             }else{
                 next('/')
-                console.log("edit-- ")
                 return
 
             }
