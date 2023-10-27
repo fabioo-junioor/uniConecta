@@ -1,5 +1,5 @@
 <script>
-import { getDadosUsuarioLocal, dadosUsuarioPreview, deleteDadosUsuario } from "../config/global.js"
+import { getDadosUsuarioLocal } from "../config/global.js"
 import CardCursos from '../components/CardCursos.vue'
 import LadoUsuario from '../components/LadoUsuario.vue'
 import ModalInfoCurso from '../components/ModalInfoCurso.vue'
@@ -20,6 +20,7 @@ export default {
       email: "",
       telefone: "",
       permissaoTelefone: null,
+      mediaStars: 0,
       url: null,
       cursosVendidos: null,
       cursosComprados: null,
@@ -50,7 +51,8 @@ export default {
     }
   },
   methods: {
-    async buscaCursosVendidos(dadosUsuario){
+    async buscaCursosVendidos(){
+      let dadosUsuario = await getDadosUsuarioLocal()
       const response = await fetch(this.url+'buscaCursos.php?buscaCursosVendidos=1', {
         method: 'POST',
         body: JSON.stringify({
@@ -72,7 +74,8 @@ export default {
         }
       }
     },
-    async buscaCursosComprados(dadosUsuario){
+    async buscaCursosComprados(){
+      let dadosUsuario = await getDadosUsuarioLocal()
       const response = await fetch(this.url+'buscaCursos.php?buscaCursosComprados=1', {
         method: 'POST',
         body: JSON.stringify({
@@ -94,7 +97,8 @@ export default {
         }
       }
     },
-    async buscaCursosAvaliados(dadosUsuario){
+    async buscaCursosAvaliados(){
+      let dadosUsuario = await getDadosUsuarioLocal()
       const response = await fetch(this.url+'buscaCursos.php?buscaCursosAvaliados=1', {
         method: 'POST',
         body: JSON.stringify({
@@ -106,7 +110,7 @@ export default {
 
       }else{
         const dados = await response.json()
-        console.log("avaliado-> ", dados)
+        //console.log("avaliado-> ", dados)
         if(dados[0].pk_curso != null){
           this.cursosAvaliados = dados
 
@@ -167,8 +171,7 @@ export default {
 
       }else{
         const dados = await response.json()
-        await deleteDadosUsuario()
-        await dadosUsuarioPreview(this.pk_usuario)
+        await this.atualizaDadosPreview()
         this.mensagemAlerta(2)
         
       }
@@ -187,8 +190,7 @@ export default {
 
       }else{
         const dados = await response.json()
-        await deleteDadosUsuario()
-        await dadosUsuarioPreview(this.pk_usuario)
+        await this.atualizaDadosPreview()
         this.mensagemAlerta(3)
         
       }
@@ -211,14 +213,14 @@ export default {
           this.mensagemAlerta(5)
 
         }else{
-          await deleteDadosUsuario()
-          await dadosUsuarioPreview(this.pk_usuario)
+          await this.atualizaDadosPreview()
           this.mensagemAlerta(4)
 
         }        
       }
     },
-    async atualizaDadosPreview(dadosUsuario){
+    async atualizaDadosPreview(){
+      let dadosUsuario = await getDadosUsuarioLocal()
       this.pk_usuario = dadosUsuario[0].pk_usuario
       this.nomeUsuario = dadosUsuario[0].nome
       this.graduacao = dadosUsuario[0].graduacao
@@ -228,6 +230,7 @@ export default {
       this.email = dadosUsuario[0].email
       this.telefone = dadosUsuario[0].telefone
       this.permissaoTelefone = dadosUsuario[0].permissaoTelefone
+      this.mediaStars = parseFloat(dadosUsuario[0].mediaStars).toFixed(2)
 
     },
     mensagemAlerta(id) {
@@ -273,11 +276,10 @@ export default {
   },
   async mounted(){
     this.url = import.meta.env.VITE_ROOT_API
-    let dadosUsuario = getDadosUsuarioLocal()
-    await this.atualizaDadosPreview(dadosUsuario)
-    await this.buscaCursosVendidos(dadosUsuario)
-    await this.buscaCursosComprados(dadosUsuario)
-    await this.buscaCursosAvaliados(dadosUsuario)
+    await this.atualizaDadosPreview()
+    await this.buscaCursosVendidos()
+    await this.buscaCursosComprados()
+    await this.buscaCursosAvaliados()
 
   }
 }
@@ -301,7 +303,7 @@ export default {
       :pk_compra_venda="dadosAvaliacao.pk_compra_venda"
       :pk_comprador="dadosAvaliacao.pk_comprador"
       :cursoNome="dadosAvaliacao.cursoNome" />
-    <div class="lado-user">
+    <div class="lado-user-pagina-dashboard">
       <LadoUsuario
         :imagemPerfil="imagemPerfil"
         :nomeUsuario="nomeUsuario"
@@ -310,15 +312,16 @@ export default {
         :totalPontos="totalPontos"
         :telefone="telefone"
         :email="email"
-        :permissaoTelefone="permissaoTelefone" />
+        :permissaoTelefone="permissaoTelefone"
+        :mediaStars="mediaStars" />
     </div>
-    <div class="lado-cursos">
+    <div class="lado-cursos-pagina-dashboard">
       <div
         class="cursos-vendidos"
         v-if="cursosVendidos != null">
         <h4>Vendidos</h4>
         <hr>
-        <div class="cards-cursos">
+        <div class="cards-cursos-pagina-dashboard">
           <CardCursos 
             v-for="i in cursosVendidos" :key="i"
             :pk_curso="i.pk_curso"
@@ -345,7 +348,7 @@ export default {
         v-if="cursosComprados != null">
         <h4>Comprados</h4>
         <hr>
-        <div class="cards-cursos">
+        <div class="cards-cursos-pagina-dashboard">
           <CardCursos 
             v-for="i in cursosComprados" :key="i"
             :pk_curso="i.pk_curso"
@@ -373,7 +376,7 @@ export default {
         v-if="cursosAvaliados != null">
         <h4>Avaliados</h4>
         <hr>
-        <div class="cards-cursos">
+        <div class="cards-cursos-pagina-dashboard">
           <CardCursos 
             v-for="i in cursosAvaliados" :key="i"
             :pk_curso="i.pk_curso"
@@ -408,22 +411,20 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  padding-bottom: 1rem;
-  //background-color: red;
+  padding: .5rem .2rem .5rem 1rem;
   
-  .lado-user{
+  .lado-user-pagina-dashboard{
     width: 20%;
         
   }
-  .lado-cursos{
+  .lado-cursos-pagina-dashboard{
     width: calc(100vw - 22%);
-    padding: 3rem 1rem 0 1rem;
+    padding: 2rem 2rem 1rem 1rem;
     //background-color: red;
 
     .cursos-comprados,
     .cursos-vendidos,
     .cursos-avaliados{
-      //background-color: blue;
       margin-bottom: 2.5rem;
 
       h4{
@@ -439,11 +440,10 @@ export default {
         width: 100%;
         
       }
-      .cards-cursos{
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: .5rem;
-        align-items: stretch;
+      .cards-cursos-pagina-dashboard{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
         
       }
     }
@@ -453,41 +453,19 @@ export default {
 @media only screen and (max-width: 1560px) {
 }
 @media only screen and (max-width: 1200px) {
-#dashboard{
-  .lado-cursos{
-    .cursos-comprados,
-    .cursos-vendidos,
-    .cursos-avaliados{
-      .cards-cursos{
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: .3rem;
-        
-      }
-    }
-  }
-}
 }
 @media only screen and (max-width: 992px) {
-#dashboard{  
-  .lado-user{
-    width: 25%;
+  #dashboard{  
+    .lado-user-pagina-dashboard{
+      width: 30%;
 
-  }
-  .lado-cursos{
-    width: 70%;
-    .cursos-comprados,
-    .cursos-vendidos,
-    .cursos-avaliados{
-      .cards-cursos{
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: .3rem;
-        
-      }
+    }
+    .lado-cursos-pagina-dashboard{
+      width: 69%;
+      padding: 2rem 1rem 1rem 1rem;
+      
     }
   }
-}
 }
 @media only screen and (max-width: 720px) {
 #dashboard{
@@ -495,22 +473,26 @@ export default {
   flex-direction: column;
   align-items: center;
   padding-bottom: 1rem;
+  padding: .5rem .2rem .5rem .2rem;
 
-  .lado-user{
+  .lado-user-pagina-dashboard{
     width: 95%;
+    padding: .5rem 0;
 
   }
-  .lado-cursos{
+  .lado-cursos-pagina-dashboard{
     width: 95%;
-    padding: 3rem 0 0 0;
+    padding: 2rem 0 0 0;
 
     .cursos-comprados,
     .cursos-vendidos,
     .cursos-avaliados{
-      .cards-cursos{
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: .3rem;
+      h4{
+        text-align: center;
+
+      }
+      .cards-cursos-pagina-dashboard{
+        justify-content: center;        
         
       }
     }
@@ -518,20 +500,6 @@ export default {
 }
 }
 @media only screen and (max-width: 481px) {
-#dashboard{
-  .lado-cursos{
-    .cursos-comprados,
-    .cursos-vendidos,
-    .cursos-avaliados{
-      .cards-cursos{
-        display: grid;
-        grid-template-columns: repeat(1, 1fr);
-        gap: .3rem;
-        
-      }
-    }
-  }
-}
 }
 @media only screen and (max-width: 360px) {
 }

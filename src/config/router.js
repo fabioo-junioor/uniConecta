@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router"
 
 import { getDadosUsuarioLocal } from "./global.js"
-let dadosUsuario = getDadosUsuarioLocal()
+let dadosUsuario = await getDadosUsuarioLocal()
 
 import Inicio from '../pages/Inicio.vue'
 import Sobre from '../pages/Sobre.vue'

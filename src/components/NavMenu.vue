@@ -61,7 +61,8 @@ export default {
       }, 4050)
 
     },
-    atualizaDadosPreview(dadosUsuario){
+    async atualizaDadosPreview(){
+      let dadosUsuario = await getDadosUsuarioLocal()
       this.logado = (dadosUsuario != null) ? true : false
       this.imagemPerfil = (dadosUsuario != null) ? dadosUsuario[0].img : null
       this.nomeUsuario = (dadosUsuario != null) ? dadosUsuario[0].nome.split(" ")[0] : ""
@@ -74,12 +75,11 @@ export default {
 
         return location.reload()
 
-      }, 1500)      
+      }, 1100)      
     }
   },
   async mounted() {
-      let dadosUsuario = await getDadosUsuarioLocal()
-      this.atualizaDadosPreview(dadosUsuario)
+      this.atualizaDadosPreview()
 
   }
 };

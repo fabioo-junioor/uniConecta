@@ -20,6 +20,7 @@ export default {
       telefone: "",
       email: "",
       permissaoTelefone: null,
+      mediaStars: 0,
       meusCursos: null,
       url: null,
       dadosInfo: {
@@ -40,7 +41,8 @@ export default {
     };
   },
   methods: {
-    async buscaMeusCursos(dadosUsuario){
+    async buscaMeusCursos(){
+      let dadosUsuario = await getDadosUsuarioLocal()
       const response = await fetch(this.url+'buscaCursos.php?buscaMeusCursos=1', {
         method: 'POST',
         body: JSON.stringify({
@@ -52,7 +54,6 @@ export default {
 
       }else{
         const dados = await response.json()
-        //console.log(dados)
         if(dados[0].pk_curso != null){
           this.meusCursos = dados
 
@@ -74,7 +75,6 @@ export default {
 
       }else{
         const dados = await response.json()
-        //console.log(dados)
         this.dadosInfo.pk_curso = dados[0].pk_curso
         this.dadosInfo.cursoNome = dados[0].cursoNome
         this.dadosInfo.tipoCurso = dados[0].tipoCurso
@@ -108,8 +108,7 @@ export default {
           this.mensagemAlerta(2)
 
         }else{
-          await deleteDadosUsuario()
-          await dadosUsuarioPreview(this.pk_usuario)
+          await this.atualizaDadosPreview()
           this.mensagemAlerta(1)
 
         }        
@@ -140,7 +139,8 @@ export default {
 
       }, 4500)
     },
-    async atualizaDadosPreview(dadosUsuario) {
+    async atualizaDadosPreview() {
+      let dadosUsuario = await getDadosUsuarioLocal()
       this.pk_usuario = dadosUsuario[0].pk_usuario;
       this.nomeUsuario = dadosUsuario[0].nome;
       this.graduacao = dadosUsuario[0].graduacao;
@@ -150,14 +150,14 @@ export default {
       this.telefone = dadosUsuario[0].telefone
       this.email = dadosUsuario[0].email
       this.permissaoTelefone = dadosUsuario[0].permissaoTelefone
+      this.mediaStars = parseFloat(dadosUsuario[0].mediaStars).toFixed(2)
 
     }
   },
   async mounted(){
     this.url = import.meta.env.VITE_ROOT_API
-    let dadosUsuario = getDadosUsuarioLocal()
-    await this.atualizaDadosPreview(dadosUsuario)
-    this.buscaMeusCursos(dadosUsuario)
+    await this.atualizaDadosPreview()
+    await this.buscaMeusCursos()
 
   }
 };
@@ -177,7 +177,7 @@ export default {
       :totalHoras="dadosInfo.totalHoras"
       :valorCurso="dadosInfo.valorCurso"
       :descricao="dadosInfo.descricao" />
-    <div class="lado-user">
+    <div class="lado-user-pagina-meus-cursos">
       <LadoUsuario
         :imagemPerfil="imagemPerfil"
         :nomeUsuario="nomeUsuario"
@@ -186,7 +186,8 @@ export default {
         :totalPontos="totalPontos"
         :telefone="telefone"
         :email="email"
-        :permissaoTelefone="permissaoTelefone" />
+        :permissaoTelefone="permissaoTelefone"
+        :mediaStars="mediaStars" />
     </div>
     <div class="lado-meus-cursos">
       <div class="meus-cursos-header">
@@ -197,7 +198,7 @@ export default {
       </div>
       <div class="meus-cursos-body">
         <hr />
-        <div class="cards-cursos">
+        <div class="cards-cursos-pagina-meus-cursos">
           <CardCursos
             v-for="i in meusCursos" :key="i"
             :pk_curso="i.pk_curso"
@@ -227,29 +228,27 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  //background-color: red;
-  padding: 0 1rem 1rem 0;
+  padding: .5rem .2rem .5rem 1rem;
 
-  .lado-user {
+  .lado-user-pagina-meus-cursos {
     width: 20%;
-    //background-color: rebeccapurple;
+    padding: 0;
     
   }
   .lado-meus-cursos {
     width: calc(100vw - 22%);
-    padding: 3rem 1rem 0 1rem;
-    //background-color: greenyellow;
+    padding: 2rem 2rem 1rem 1rem;
 
     .meus-cursos-header {
       display: flex;
       justify-content: space-between;
       padding: .2rem .5rem .2rem .2rem;
-      //background-color: green;
 
       h4 {
         font-size: 1.3rem;
         margin: 0;
         padding: 5px 0 2px 0;
+        
       }
       button {
         font-family: "Work Sans", sans-serif;
@@ -273,11 +272,11 @@ export default {
         width: 100%;
         margin-bottom: 1rem;
       }
-      .cards-cursos {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 0.5rem;
-        align-items: stretch;
+      .cards-cursos-pagina-meus-cursos {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+
       }
     }
   }
@@ -286,37 +285,17 @@ export default {
 @media only screen and (max-width: 1560px) {
 }
 @media only screen and (max-width: 1200px) {
-  #meus-cursos {
-    .lado-meus-cursos {
-      .meus-cursos-body {
-        .cards-cursos {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: .3rem;
-
-        }
-      }
-    }
-  }
 }
 @media only screen and (max-width: 992px) {
   #meus-cursos{
-    padding: 0 0 1rem 0;
-
-    .lado-user{
-      width: 25%;
+    .lado-user-pagina-meus-cursos{
+      width: 30%;
 
     }
     .lado-meus-cursos{
-      width: 70%;
-      .meus-cursos-body{
-        .cards-cursos{
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: .3rem;
-          
-        }
-      }
+      width: 69%;
+      padding: 2rem 1rem 1rem 1rem;
+
     }
   }
 }
@@ -325,39 +304,36 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-bottom: 1rem;
+    padding: .5rem .2rem .5rem .2rem;
 
-    .lado-user{
+    .lado-user-pagina-meus-cursos{
       width: 95%;
 
     }
     .lado-meus-cursos{
       width: 95%;
-      padding: 3rem 0 0 0;
+      padding: 2rem 0 0 0;
+      
+      .meus-cursos-header{
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+
+        h4{
+          padding: 1rem 0;
+
+        }
+      }
       .meus-cursos-body{
-        .cards-cursos{
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: .3rem;
-          
+        .cards-cursos-pagina-meus-cursos{
+          justify-content: center;
+
         }
       }
     }
   }
 }
 @media only screen and (max-width: 481px) {
-  #meus-cursos{
-    .lado-meus-cursos{
-      .meus-cursos-body{
-        .cards-cursos{
-          display: grid;
-          grid-template-columns: repeat(1, 1fr);
-          gap: .3rem;
-          
-        }
-      }
-    }
-  }
 }
 @media only screen and (max-width: 360px) {
 }

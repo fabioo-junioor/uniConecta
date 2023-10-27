@@ -1,5 +1,5 @@
 <script>
-import { dadosUsuarioPreview, deleteDadosUsuario, getDadosUsuarioLocal } from '../config/global.js'
+import { getDadosUsuarioLocal } from '../config/global.js'
 import Alerta from './Alerta.vue'
 
 export default {
@@ -7,6 +7,8 @@ export default {
   components: {Alerta},
   data() {
     return {
+      pk_usuario: null,
+      email: "",
       formCurso: {
         nome: "",
         totalHoras: null,
@@ -15,9 +17,10 @@ export default {
         tipoCurso: null,
         grupoApoio: false,
         opcoes: [
-          { value: "Curso", text: "Curso" },
           { value: "Aula", text: "Aula" },
-          { value: "Ofcina", text: "Oficina" },
+          { value: "Oficina", text: "Oficina" },
+          { value: "Curso", text: "Curso" },
+          { value: "Palestra", text: "Palestra" },
         ],
       },
       alerta: {
@@ -31,7 +34,6 @@ export default {
   },
   methods: {
     async cadastrarCurso() {
-      let dadosUsuario = await getDadosUsuarioLocal()
       const response = await fetch(this.url+'cadastrarCurso.php', {
         method: "POST",
         body: JSON.stringify({
@@ -40,8 +42,8 @@ export default {
           valor: this.formCurso.valor,
           descricao: this.formCurso.descricao,
           tipoCurso: this.formCurso.tipoCurso,
-          email: dadosUsuario[0].email,
-          pk_usuario: dadosUsuario[0].pk_usuario
+          email: this.email,
+          pk_usuario: this.pk_usuario
         })
       })
       if(!response.ok){
@@ -50,9 +52,7 @@ export default {
       }else{
         const dados = await response.json()
         if(dados[0].pk_curso == true){
-          let pk_usuarioTemp = dadosUsuario[0].pk_usuario
-          await deleteDadosUsuario()
-          await dadosUsuarioPreview(pk_usuarioTemp)
+          await this.atualizaDados()
           this.mensagemAlerta(1)
 
         }else{
@@ -72,6 +72,12 @@ export default {
         this.botaoCadastrar = false
 
       }
+    },
+    async atualizaDados(){
+      let dadosUsuario = await getDadosUsuarioLocal()
+      this.pk_usuario = dadosUsuario != null ? dadosUsuario[0].pk_usuario : null
+      this.email = dadosUsuario != null ? dadosUsuario[0].email : ""
+
     },
     mensagemAlerta(id) {
       if(id == 1){
@@ -96,12 +102,13 @@ export default {
 
         return ((id != 2)&&(id != 3)) ? location.reload() : false
 
-      }, 4100)
+      }, 4500)
 
     }
   },
   mounted(){
     this.url = import.meta.env.VITE_ROOT_API
+    this.atualizaDados()
 
   },
   watch: {

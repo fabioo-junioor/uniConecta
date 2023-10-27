@@ -1,5 +1,5 @@
 <script>
-import { getDadosUsuarioLocal, dadosUsuarioPreview, deleteDadosUsuario } from "../config/global.js";
+import { getDadosUsuarioLocal } from "../config/global.js";
 import { encryptSenha } from '../config/auth.js'
 import Alerta from "../components/Alerta.vue";
 import LadoUsuario from "../components/LadoUsuario.vue";
@@ -15,6 +15,7 @@ export default {
       telefone: "",
       email: "",
       permissaoTelefone: null,
+      mediaStars: 0,
       imagemPerfil: null,
       totalPontos: 0,
       totalMoedas: 0,
@@ -28,8 +29,9 @@ export default {
         graduacao: null,
         opcoes: [
           { value: "Sistemas de informação", text: "Sistemas de informação" },
-          { value: "Medicina", text: "Medicina" },
-          { value: "Engenharia Eletrica", text: "Engenharia Eletrica" },
+          { value: "Ciência da computação", text: "Ciência da computação" },
+          { value: "Sistemas para internet", text: "Sistemas para internet" },
+          { value: "Engenharia da computação", text: "Engenharia da computação" }
         ],
         senha: "",
       },
@@ -65,7 +67,6 @@ export default {
         var reader = new FileReader();
         reader.onload = (e) => {
           this.formEdicao.imagem = e.target.result;
-          //console.log("aqui")
           this.enableBotaoSalvar()
 
         };
@@ -78,7 +79,6 @@ export default {
       const tamanho = await e.files[0].size /1024/1024
       if(tamanho > 3){
         this.formEdicao.adicionouImagem = false
-        //console.log("Imagem muito grande!")
         this.alerta.mensagem = "Imagem muito grande!";
         this.alerta.tipo = "warning";
         this.alerta.isAlert = true;
@@ -109,18 +109,14 @@ export default {
       }else{
         const dados = await response.json()
         if(dados[0].pk_usuario != null){
-          await deleteDadosUsuario()
-          await dadosUsuarioPreview(dados[0].pk_usuario)
-          this.alerta.mensagem = "Edição realizada";
-          this.alerta.tipo = "success";
-          this.alerta.isAlert = true;
-          this.resetaAlerta(1);
+          await this.atualizaDadosPreview()
+          this.mensagemAlerta(1)
 
         }
       }
     },
     async buscarDadosEdicao() {
-      let dadosUsuario = getDadosUsuarioLocal();
+      let dadosUsuario = await getDadosUsuarioLocal();
       const response = await fetch(this.url + "buscaDadosUsuario.php?dadosEdicao=1", {
         method: "POST",
         body: JSON.stringify({
@@ -164,6 +160,7 @@ export default {
       this.telefone = dadosUsuario[0].telefone
       this.email = dadosUsuario[0].email
       this.permissaoTelefone = dadosUsuario[0].permissaoTelefone
+      this.mediaStars = parseFloat(dadosUsuario[0].mediaStars).toFixed(2)
       
 
     },
@@ -176,16 +173,26 @@ export default {
       this.formEdicao.permissaoTelefone = dadosUsuario[0].permissaoTelefone
       
     },
-    resetaAlerta(id) {
+    mensagemAlerta(id) {
+      if(id == 1){
+        this.alerta.mensagem = "Edição realizada";
+        this.alerta.tipo = "success";
+        this.alerta.isAlert = true;
+
+      }
+      this.resetaAlerta(id)
+
+    },
+    resetaAlerta(id){
       setTimeout(() => {
-        this.alerta.mensagem = "";
-        this.alerta.tipo = "";
-        this.alerta.isAlert = false;
+        this.alerta.mensagem = ""
+        this.alerta.tipo = ""
+        this.alerta.isAlert = false
 
         return (id == 1) ? location.reload() : false
 
-      }, 4050);
-    },
+      }, 4500)
+    }
   },
   async mounted() {
     this.url = import.meta.env.VITE_ROOT_API;
@@ -203,17 +210,17 @@ export default {
       :mensagem="alerta.mensagem"
       :tipo="alerta.tipo"
     />
-    <div class="lado-user">
+    <div class="lado-user-pagina-edital-perfil">
       <LadoUsuario
         :imagemPerfil="imagemPerfil"
         :nomeUsuario="nomeUsuario"
         :graduacao="graduacao"
-        :totalMoedas="totalPontos"
+        :totalMoedas="totalMoedas"
         :totalPontos="totalPontos"
         :telefone="telefone"
         :email="email"
         :permissaoTelefone="permissaoTelefone"
-      />
+        :mediaStars="mediaStars" />
     </div>
     <div class="lado-edicao">
       <b-form>
@@ -311,18 +318,16 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  padding-bottom: 1rem;
-  //background-color: red;
+  padding: .5rem .2rem .5rem 1rem;
 
-  .lado-user {
+  .lado-user-pagina-edital-perfil {
     width: 20%;
     //background-color: brown;
   }
   .lado-edicao {
     width: calc(100vw - 22%);
-    padding: 3rem 1rem 0 1rem;
+    padding: 2rem 2rem 1rem 1rem;
     display: flex;
-    //background-color: red;
 
     .imagem-profile {
       //background-color: red;
@@ -466,32 +471,39 @@ export default {
 }
 @media only screen and (max-width: 992px) {
   #editar-perfil {
+    .lado-user-pagina-edital-perfil{
+      width: 30%;
+
+    }
     .lado-edicao {
-      width: 70%;
+      width: 69%;
+      padding: 2rem 1rem 1rem 1rem;
+      
     }
   }
 }
 @media only screen and (max-width: 720px) {
   #editar-perfil {
-    //background-color: red;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    padding: .5rem .2rem .5rem .2rem;
 
-    .lado-user {
-      width: 100%;
+    .lado-user-pagina-edital-perfil {
+      width: 95%;
     }
     .lado-edicao {
       width: 95%;
-      //background-color: aquamarine;
+      padding: 2rem .2rem 1rem .2rem;
+      
     }
   }
 }
 @media only screen and (max-width: 481px) {
   #editar-perfil {
     .lado-edicao {
-      width: 95%;
+      padding: 2rem .1rem 1rem .1rem;
 
       form {
         padding: 0;

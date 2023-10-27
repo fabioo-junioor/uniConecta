@@ -62,7 +62,7 @@ export default {
 </script>
 
 <template>
-  <div id="card-cursos">
+  <div id="card-curso">
      <div class="header-status">
       <div class="favorito">
         <div class="total-favoritos">
@@ -137,19 +137,21 @@ export default {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import url('https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css');
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap');
 
-#card-cursos {
-  display: flex;
-  flex-direction: column;
+#card-curso {
+  display: flex !important;
+  flex-direction: column !important;
   font-family: 'Work Sans', sans-serif;
-  background-color: white;
   border: 1px solid #6C63FF;
   box-shadow: 2px 2px 0px 0px #6C63FF;
   border-radius: 5px;
   padding: 0 !important;
+  width: 18rem;
+  margin: .3rem;
+  background-color: white !important;
 
   .header-status{
     display: flex;
@@ -158,6 +160,7 @@ export default {
     padding: .3rem 0;
     border-bottom: 1px solid #6C63FF;
     margin: .2rem;
+    background-color: white;
 
     .favorito{
       width: 70%;
@@ -174,7 +177,6 @@ export default {
         border: 1px solid #6C63FF;
         box-shadow: 1px 1px 0px 0px #6C63FF;
         
-
       }
       .favoritar-curso{
         padding: .2rem .5rem 0 .5rem;
@@ -223,27 +225,18 @@ export default {
     }
   }
   .card{
-    background-color: transparent;
     border-radius: 0px !important;
     border: none;
     min-height: 10rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    height: 100%;
 
-    img{
-      border-radius: 0px !important;
-      min-height: 100px;
-      
-    }
-    div{
-      display: flex;
-      justify-content: space-between;
-      padding: .2rem;
-      //background-color: red;
-
-    }
     .card-body{
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+
       h4{
         font-size: 1.3rem;
 
@@ -273,6 +266,12 @@ export default {
       }
       a:hover{
         font-weight: bold;
+
+      }
+      div{
+        display: flex;
+        justify-content: space-between;
+        padding: .2rem;
 
       }
     }

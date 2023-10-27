@@ -1,5 +1,5 @@
 <script>
-import { getDadosUsuarioLocal, dadosUsuarioPreview, deleteDadosUsuario } from "../config/global.js"
+import { getDadosUsuarioLocal } from "../config/global.js"
 import CardCursos from "../components/CardCursos.vue";
 import ModalCadCurso from "../components/ModalCadCurso.vue";
 import LadoUsuario from '../components/LadoUsuario.vue'
@@ -22,6 +22,7 @@ export default {
       emailUsuarioLogado: "",
       emailUsuarioPerfil: "",
       permissaoTelefone: null,
+      mediaStars: 0,
       cursosUsuario: null,
       url: null,
       dadosInfo: {
@@ -57,7 +58,6 @@ export default {
 
       }else{
         const dados = await response.json()
-        //console.log(dados)
         if(dados[0].pk_curso != null){
           this.cursosUsuario = dados
 
@@ -88,6 +88,7 @@ export default {
         this.totalPontos = dados[0].total_pontos
         this.totalMoedas = dados[0].total_moedas
         this.permissaoTelefone = dados[0].permissaoTelefone
+        this.mediaStars = parseFloat(dados[0].mediaStars).toFixed(2)
 
       }
     },
@@ -106,8 +107,7 @@ export default {
 
       }else{
         const dados = await response.json()
-        await deleteDadosUsuario()
-        await dadosUsuarioPreview(this.pk_usuarioLogado)
+        await getDadosUsuarioLocal()
         this.mensagemAlerta(2)
         
       }
@@ -127,8 +127,7 @@ export default {
 
       }else{
         const dados = await response.json()
-        await deleteDadosUsuario()
-        await dadosUsuarioPreview(this.pk_usuarioLogado)
+        await getDadosUsuarioLocal()
         this.mensagemAlerta(3)
         
       }
@@ -178,8 +177,7 @@ export default {
       }else{
         const dados = await response.json()
         if(dados[0].pk_compra_venda != null){
-          await deleteDadosUsuario()
-          await dadosUsuarioPreview(this.pk_usuarioLogado)
+          await getDadosUsuarioLocal()
           this.mensagemAlerta(1)
 
         }else{
@@ -188,7 +186,8 @@ export default {
         }        
       }
     },
-    async atualizaDados(dadosUsuario){
+    async atualizaDados(){
+      let dadosUsuario = await getDadosUsuarioLocal()
       this.pk_usuarioLogado = (dadosUsuario == null) ? null : dadosUsuario[0].pk_usuario
       this.emailUsuarioLogado = (dadosUsuario == null) ? "" : dadosUsuario[0].email
       
@@ -231,8 +230,7 @@ export default {
   },
   async mounted(){
     this.url = import.meta.env.VITE_ROOT_API
-    let dadosUsuario = getDadosUsuarioLocal()
-    this.atualizaDados(dadosUsuario)
+    this.atualizaDados()
     this.pk_usuarioPerfil = parseInt(this.$route.params.pk)
     this.buscaCursosUsuario(this.pk_usuarioPerfil)
     this.buscaDadosUsuario(this.pk_usuarioPerfil)
@@ -255,7 +253,7 @@ export default {
       :totalHoras="dadosInfo.totalHoras"
       :valorCurso="dadosInfo.valorCurso"
       :descricao="dadosInfo.descricao" />
-    <div class="lado-user">
+    <div class="lado-user-pagina-perfil">
       <LadoUsuario
         :imagemPerfil="imagemPerfil"
         :nomeUsuario="nomeUsuario"
@@ -264,15 +262,16 @@ export default {
         :totalPontos="totalPontos"
         :telefone="telefone"
         :email="emailUsuarioPerfil"
-        :permissaoTelefone="permissaoTelefone" />
+        :permissaoTelefone="permissaoTelefone"
+        :mediaStars="mediaStars" />
     </div>
-    <div class="lado-meus-cursos">
+    <div class="lado-cursos-pagina-perfil">
       <div class="meus-cursos-header">
         <h4>Cursos de: {{nomeUsuario}}</h4>
       </div>
       <div class="meus-cursos-body">
         <hr />
-        <div class="cards-cursos">
+        <div class="cards-cursos-pagina-perfil">
           <CardCursos
             v-for="i in cursosUsuario" :key="i"
             :pk_curso="i.pk_curso"
@@ -304,17 +303,16 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  padding-bottom: 1rem;
+  padding: .5rem .2rem .5rem 1rem;
 
-  .lado-user {
+  .lado-user-pagina-perfil {
     width: 20%;
     //background-color: rebeccapurple;
     
   }
-  .lado-meus-cursos {
+  .lado-cursos-pagina-perfil {
     width: calc(100vw - 22%);
-    padding: 3rem 1rem 0 1rem;
-    //background-color: greenyellow;
+    padding: 2rem 2rem 1rem 1rem;
 
     .meus-cursos-header {
       //background-color: red;
@@ -341,8 +339,6 @@ export default {
       }
     }
     .meus-cursos-body {
-      //background-color: blue;
-
       hr {
         border: 1px solid #6c63ff;
         margin: 0 0 0.5rem 0;
@@ -350,11 +346,10 @@ export default {
         margin-bottom: 1rem;
 
       }
-      .cards-cursos {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 0.5rem;
-        align-items: stretch;
+      .cards-cursos-pagina-perfil {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
         
       }
     }
@@ -364,35 +359,17 @@ export default {
 @media only screen and (max-width: 1560px) {
 }
 @media only screen and (max-width: 1200px) {
-  #perfil-usuario {
-    .lado-meus-cursos {
-      .meus-cursos-body {
-        .cards-cursos {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: .3rem;
-
-        }
-      }
-    }
-  }
 }
 @media only screen and (max-width: 992px) {
   #perfil-usuario{  
-    .lado-user{
-      width: 25%;
+    .lado-user-pagina-perfil{
+      width: 30%;
 
     }
-    .lado-meus-cursos{
-      width: 70%;
-      .meus-cursos-body{
-        .cards-cursos{
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: .3rem;
-          
-        }
-      }
+    .lado-cursos-pagina-perfil{
+      width: 69%;
+      padding: 2rem 1rem 1rem 1rem;
+
     }
   }
 }
@@ -401,21 +378,25 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-bottom: 1rem;
+    padding: .5rem .2rem .5rem .2rem;
+    
 
-    .lado-user{
+    .lado-user-pagina-perfil{
       width: 95%;
 
     }
-    .lado-meus-cursos{
+    .lado-cursos-pagina-perfil{
       width: 95%;
-      padding: 3rem 0 0 0;
+      padding: 2rem 0 0 0;
 
+      h4{
+        text-align: center;
+        width: 95%;
+
+      }
       .meus-cursos-body{
-        .cards-cursos{
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: .3rem;
+        .cards-cursos-pagina-perfil{
+          justify-content: center;
           
         }
       }
@@ -423,18 +404,6 @@ export default {
   }
 }
 @media only screen and (max-width: 481px) {
-  #perfil-usuario{
-    .lado-meus-cursos{
-      .meus-cursos-body{
-        .cards-cursos{
-          display: grid;
-          grid-template-columns: repeat(1, 1fr);
-          gap: .3rem;
-          
-        }
-      }
-    }
-  }
 }
 @media only screen and (max-width: 360px) {
 }

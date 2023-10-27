@@ -1,5 +1,5 @@
 <script>
-import { getDadosUsuarioLocal, dadosUsuarioPreview, deleteDadosUsuario } from "../config/global.js"
+import { getDadosUsuarioLocal } from "../config/global.js"
 import CardCursos from '../components/CardCursos.vue'
 import Alerta from '../components/Alerta.vue'
 import ModalInfoCurso from '../components/ModalInfoCurso.vue'
@@ -104,9 +104,7 @@ export default {
 
       }else{
         const dados = await response.json()
-        console.log("adicionou favorito")
-        await deleteDadosUsuario()
-        await dadosUsuarioPreview(this.pk_usuario)
+        await this.atualizaDados()
         this.mensagemAlerta(2)
         
       }
@@ -125,9 +123,7 @@ export default {
 
       }else{
         const dados = await response.json()
-        console.log("deletou favorito")
-        await deleteDadosUsuario()
-          await dadosUsuarioPreview(this.pk_usuario)
+        await this.atualizaDados()
         this.mensagemAlerta(3)
         
       }
@@ -148,8 +144,7 @@ export default {
       }else{
         const dados = await response.json()
         if(dados[0].pk_compra_venda != null){
-          await deleteDadosUsuario()
-          await dadosUsuarioPreview(this.pk_usuario)
+          await this.atualizaDados()
           this.mensagemAlerta(1)
 
         }else{
@@ -158,7 +153,8 @@ export default {
         }        
       }
     },
-    async atualizaDados(dadosUsuario){
+    async atualizaDados(){
+      let dadosUsuario = await getDadosUsuarioLocal()
       this.pk_usuario = dadosUsuario == null ? null : dadosUsuario[0].pk_usuario
       this.email = dadosUsuario == null ? "" : dadosUsuario[0].email
 
@@ -201,8 +197,7 @@ export default {
   },
   async mounted(){
     this.url = import.meta.env.VITE_ROOT_API
-    let dadosUsuario = getDadosUsuarioLocal()
-    this.atualizaDados(dadosUsuario)
+    this.atualizaDados()
     var tempoResponse = setInterval(() => {
       if(this.spinner){
         console.log("buscando")
@@ -214,7 +209,6 @@ export default {
 
       }
     }, 2000)
-
   }
 }
 </script>
@@ -237,8 +231,10 @@ export default {
       <h3>Cursos</h3>
       <hr>
     </div>
-    <div class="lado-cursos">
-      <div v-if="!spinner">
+    <div class="cursos-pagina-cursos">
+      <div
+        class="cards-pagina-cursos"
+        v-if="!spinner">
         <CardCursos
           v-for="i in todosCursos" :key="i"
           :pk_curso="i.pk_curso"
@@ -259,7 +255,9 @@ export default {
           @deletarFavorito="deletarFavorito"
           @comprarCurso="comprarCurso" />
       </div>
-      <div v-else>
+      <div
+        class="spinner-pagina-curso" 
+        v-else>
         <b-spinner variant="primary"></b-spinner>
       </div>
     </div>
@@ -270,9 +268,10 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap');
 
 #cursos {
-  font-family: 'Work Sans', sans-serif;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 2rem .5rem 0 .5rem;
 
   .titulo-pagina-cursos{
@@ -280,6 +279,7 @@ export default {
     flex-direction: column;
     align-items: center;
     padding: 1rem 0;
+    width: 100%;
 
     h3{
       color: black;
@@ -294,17 +294,18 @@ export default {
         
     }
   }
-  .lado-cursos{
-    div{
+  .cursos-pagina-cursos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    .cards-pagina-cursos{
       padding: .5rem 0;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
+      flex-wrap: wrap;
   
-      #card-cursos{
-        margin: .2rem;
-        width: 15rem;
-        
-      }
     }
   }
 }
@@ -314,34 +315,19 @@ export default {
 @media only screen and (max-width: 1200px) {
 }
 @media only screen and (max-width: 990px) {
+  #cursos {
+    .cursos-pagina-cursos{
+      .cards-pagina-cursos{
+        justify-content: center;
+    
+      }
+    }
+  }
 }
 @media only screen and (max-width: 720px) {
 }
 @media only screen and (max-width: 481px) {
-  #cursos{
-    .lado-cursos{
-      padding: .5rem 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      #card-cursos{
-        margin: .3rem 0;
-        width: 20rem;
-        
-      }
-    }
-  }
 }
 @media only screen and (max-width: 360px) {
-  #cursos{
-    .lado-cursos{
-      #card-cursos{
-        margin: .3rem 0;
-        width: 15rem;
-        
-      }
-    }
-  }
 }
 </style>

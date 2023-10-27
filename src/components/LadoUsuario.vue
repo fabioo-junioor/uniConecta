@@ -16,7 +16,8 @@ export default {
     totalPontos: Number,
     email: String,
     telefone: String,
-    permissaoTelefone: Number
+    permissaoTelefone: Number,
+    mediaStars: Number
 
   }
 };
@@ -32,35 +33,43 @@ export default {
             :src="imagemPerfil" />
         </div>
         <div class="dados-user">
-        <h2>{{ nomeUsuario }}</h2>
-        <h3 
-          v-if="graduacao">{{ graduacao }}</h3>
-        <h4
-          v-if="true">{{ email }}</h4>
-        <h4 
-         v-if="permissaoTelefone == 1" >
-         <a :href="urlWp+telefone+msgWp" target="_blank">Whatsapp</a></h4>
-        <div>
-            <img src="../assets/gifs/coin.gif" />
-            {{ totalMoedas }} - Moedas
-        </div>
-        <div>
-            <img src="../assets/gifs/points.gif" />
-            {{ totalPontos }} - Pontos
-        </div>
+          <div class="identificacao">
+            <h2>{{ nomeUsuario }}</h2>
+            <h3 
+              v-if="graduacao">{{ graduacao }}</h3>
+            <h4
+              v-if="true">{{ email }}</h4>
+            <h4 
+            v-if="permissaoTelefone == 1" >
+            <a :href="urlWp+telefone+msgWp" target="_blank">Whatsapp</a></h4>
+            <div>
+                <img src="../assets/gifs/coin.gif" />
+                {{ totalMoedas }} - Moedas
+            </div>
+            <div>
+                <img src="../assets/gifs/points.gif" />
+                {{ totalPontos }} - Pontos
+            </div>
+          </div>
+          <div class="stars">
+            <span>{{ mediaStars }}</span>
+            <i class='bx bx-star'></i>
+          </div>
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap');
 
 #lado-user {
+    font-family: 'Work Sans', sans-serif;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 3rem 0 0 0;
+    padding: 2rem 0 1rem 0;
     height: 100%;
 
     .foto-user {
@@ -90,24 +99,46 @@ export default {
     .dados-user {
       width: 100%;
       display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      padding: 1rem 0 1rem 1rem;
-      background-color: white;
+      flex-direction: row;
       border: 1px solid #6c63ff;
       box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.3);
       border-radius: 5px;
+      background-color: white;
 
+      .identificacao{
+        width: 80%;
+        padding: 1rem 0 0 .5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+      }
+      .stars{
+        width: 20%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        font-size: .9rem;
+
+        i{
+          color: #6c63ff;
+          font-size: 1.2rem;
+          padding-left: .3rem;
+
+        }
+      }
       h2 {
-        padding: 1rem 0 0 0;
+        padding: .2rem 0;
         font-size: 1rem;
         width: 100%;
       }
       h3 {
+        padding: .2rem 0;
         font-size: 0.9rem;
         width: 100%;
       }
       h4{
+        padding: .2rem 0;
         font-size: .8rem;
 
         a{
@@ -136,8 +167,8 @@ export default {
         font-weight: bold;
 
         img {
-          max-height: 2rem;
-          max-width: 2rem;
+          max-height: 1.8rem;
+          max-width: 1.8rem;
           margin: .1rem .5rem .1rem 0;
           
         }
@@ -163,13 +194,19 @@ export default {
       }
       .dados-user {
         width: 95%;
+        
+        .identificacao{
+          width: 75%;
 
-        div {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: flex-start;
+        }
+        .stars{
+          width: 25%;
+          font-size: .8rem;
 
+          i{
+            font-size: 1.1rem;
+
+          }
         }
       }
     }
@@ -191,11 +228,12 @@ export default {
       .dados-user {
         width: 95%;
 
-        div {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: flex-start;
+        .identificacao{
+          width: 70%;
+
+        }
+        .stars{
+          width: 30%;
 
         }
       }
@@ -203,66 +241,96 @@ export default {
 }
 @media only screen and (max-width: 720px) {
   #lado-user{
-      .dados-user {
-        width: 70%;
+    .foto-user {        
+      max-width: 16rem !important;
+      max-height: 16rem !important;
+      min-width: 15rem !important;
+      min-height: 15rem !important;
+
+      img {
+        border-radius: 5px;
+        max-width: 15.5rem;
+        max-height: 15.5rem;
+        min-width: auto;
+        min-height: auto;
+
+    }
+  }
+    .dados-user {
+      width: 85%;
+      flex-direction: column-reverse;
+      align-items: center;
+      padding: .2rem;
+
+      .identificacao{
+        width: 95%;
+        padding: 0;
+        align-items: center;
+
+      }
+      .stars{
+        width: 95%;
+        justify-content: flex-end;
+        font-size: .9rem;
+
+        i{
+          font-size: 1.2rem;
+          padding-left: .3rem;
+
+        }
+      }
+      h2, h3, h4 {
+        text-align: center;
+
+      }
+      div {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        align-items: center;
         justify-content: center;
-        padding: 0;
-
-        h2, h3, h4 {
-          text-align: center;
-
-        }
-        div {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: center;
-
-        }
-      }
-    }
-}
-@media only screen and (max-width: 481px) {
-  #editar-perfil{
-    .lado-user{
-      .dados-user {
-        width: 80%;
-
-        div {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: center;
-
-        }
-      }
-    }
-    .lado-edicao{
-      width: 95%;
-
-      form{
-        padding: 0;
 
       }
     }
   }
 }
+@media only screen and (max-width: 481px) {
+  #lado-user{
+    .foto-user {        
+      max-width: 16rem !important;
+      max-height: 16rem !important;
+      min-width: 15rem !important;
+      min-height: 15rem !important;
+
+      img {
+        border-radius: 5px;
+        max-width: 15.5rem;
+        max-height: 15.5rem;
+        min-width: auto;
+        min-height: auto;
+
+      }
+    }
+    .dados-user {
+      width: 90%;
+      padding: .2rem 0;
+
+    }
+  }
+}
 @media only screen and (max-width: 360px) {
-  #editar-perfil{
-    .lado-edicao{
-      .preview-imagem{
-        max-width: 16rem !important;
-        max-height: auto !important;
-        min-width: 15rem !important;
-        min-height: 15rem !important;
+  #lado-user{
+    .foto-user {        
+      max-width: 15rem !important;
+      max-height: 15rem !important;
+      min-width: 14rem !important;
+      min-height: 14rem !important;
 
-        img{
-          max-height: 15rem;
-          max-width: 15rem;
+      img {
+        max-width: 14.5rem;
+        max-height: 14.5rem;
+        min-width: auto;
+        min-height: auto;
 
-        }
       }
     }
   }
