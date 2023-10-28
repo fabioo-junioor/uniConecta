@@ -12,7 +12,7 @@ export default {
       formCurso: {
         nome: "",
         totalHoras: null,
-        valorFinal: null,
+        valorFinal: 0,
         tipoValor: null,
         valores: [
           {item: 0, name: 'Valor 1'},
@@ -39,7 +39,8 @@ export default {
         isAlert: false
       },
       botaoCadastrar: false,
-      url: null
+      url: null,
+      isValid: false
     };
   },
   methods: {
@@ -127,19 +128,32 @@ export default {
   },
   watch: {
     'formCurso.totalHoras': function(valor){
-      if(parseInt(valor) <= 0){
-        this.formCurso.totalHoras = null
-        this.formCurso.valorFinal = null
-        
-      }else{
-        this.formCurso.totalHoras = parseInt(valor)
-        this.formCurso.valorFinal = this.formCurso.tipoValor + parseInt(valor)
+      console.log(valor)
+      if(valor > '0'){
+        if(this.formCurso.grupoApoio){
+          this.formCurso.valorFinal = 0
 
-      }
+        }else{
+          console.log(this.formCurso.tipoValor, parseInt(valor))
+          this.formCurso.valorFinal = (this.formCurso.tipoValor === null) ? 0 : parseInt(this.formCurso.tipoValor) + parseInt(valor)
+
+        }
+      }else{
+        this.formCurso.valorFinal = 0
+        this.formCurso.totalHoras = valor
+
+      }    
     },
     'formCurso.grupoApoio': function(){
       if(this.formCurso.grupoApoio){
-        this.formCurso.valorFinal = 0
+        this.formCurso.valorFinal = '0'
+        this.formCurso.tipoValor = null
+        this.isValid = true
+
+      }else{
+        this.formCurso.valorFinal = '0'
+        this.formCurso.valorFinal = parseInt(this.formCurso.totalHoras) + 0
+        this.isValid = false
 
       }
     },
@@ -165,8 +179,9 @@ export default {
 
       }
     },
-    'formCurso.valor': function(){
-      console.log(this.formCurso.valorFinal)
+    'formCurso.tipoValor': function(valor){
+      //console.log(this.formCurso.valorFinal, valor)
+      this.formCurso.valorFinal = parseInt(this.formCurso.totalHoras) + parseInt(valor)
 
     }
   }
@@ -225,7 +240,7 @@ export default {
             <label for="floatingInput">*Total de horas: (Min. 1 hora)</label>
           </div>
           <div
-            v-if="!formCurso.grupoApoio"
+            v-if="!isValid"
             class="checks-valores">
             <b-form-radio-group
               v-model="formCurso.tipoValor"
