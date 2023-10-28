@@ -27,6 +27,8 @@ export default {
         telefone: "",
         permissaoTelefone: null,
         graduacao: null,
+        mostrarSenha: false,
+        tipoSenha: "password",
         opcoes: [
           { value: "Sistemas de informação", text: "Sistemas de informação" },
           { value: "Ciência da computação", text: "Ciência da computação" },
@@ -200,6 +202,17 @@ export default {
     await this.buscarDadosEdicao();
 
   },
+  watch: {
+    'formEdicao.mostrarSenha': function(){
+      if(this.formEdicao.mostrarSenha){
+        this.formEdicao.tipoSenha = "text"
+
+      }else{
+        this.formEdicao.tipoSenha = "password"
+
+      }
+    }
+  }
 };
 </script>
 
@@ -268,6 +281,13 @@ export default {
             ></b-form-input>
             <label for="floatingInput">Telefone: (55 99999 9999)</label>
           </div>
+          <div class="checkWhatsapp">
+            <b-form-checkbox
+              v-model="formEdicao.permissaoTelefone"
+              value="1"
+              unchecked-value="0"      
+            ></b-form-checkbox>Permitir contato via whatsapp
+          </div>
           <div>
             <b-form-select
               v-model="formEdicao.graduacao"
@@ -284,18 +304,18 @@ export default {
           <div class="form-floating">
             <b-form-input
               v-model="formEdicao.senha"
-              type="password"
+              :type="formEdicao.tipoSenha"
               placeholder="Senha: (Min. 6 caracteres) "
               @input="enableBotaoSalvar()"
             ></b-form-input>
             <label for="floatingInput">Senha: (Min. 6 caracteres)</label>
           </div>
-          <div class="checkWhatsapp">
+          <div class="checkMostrarSenha">
             <b-form-checkbox
-              v-model="formEdicao.permissaoTelefone"
-              value="1"
-              unchecked-value="0"      
-            ></b-form-checkbox>Permitir contato via whatsapp
+              v-model="formEdicao.mostrarSenha"
+              :value="true"
+              :unchecked-value="false"      
+            ></b-form-checkbox>Mostrar senha
           </div>
           <div class="botao-salvar">
             <b-button
@@ -387,6 +407,7 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
+        
       }
       input {
         margin: 0 0 1rem 0;
@@ -426,6 +447,7 @@ export default {
         }
       }
       .checkWhatsapp{
+        margin: 0 0 1rem 0;
         display: flex !important;
         flex-direction: row;
         height: 2.5rem;
@@ -437,6 +459,26 @@ export default {
           width: 1.5rem !important;
 
           input{
+            height: 100% !important;
+            box-shadow: none;
+
+          }
+        }
+      }
+      .checkMostrarSenha{
+        margin: 0 0 1rem 0;
+        display: flex !important;
+        flex-direction: row;
+        height: 2.5rem;
+        color: black;
+        font-weight: 500;
+        font-size: .9rem;
+
+        .custom-control{
+          width: 1.5rem !important;
+
+          input{
+            color: red !important;
             height: 100% !important;
             box-shadow: none;
 

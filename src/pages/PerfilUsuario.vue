@@ -107,7 +107,6 @@ export default {
 
       }else{
         const dados = await response.json()
-        await getDadosUsuarioLocal()
         this.mensagemAlerta(2)
         
       }
@@ -127,7 +126,6 @@ export default {
 
       }else{
         const dados = await response.json()
-        await getDadosUsuarioLocal()
         this.mensagemAlerta(3)
         
       }
@@ -177,7 +175,6 @@ export default {
       }else{
         const dados = await response.json()
         if(dados[0].pk_compra_venda != null){
-          await getDadosUsuarioLocal()
           this.mensagemAlerta(1)
 
         }else{
@@ -188,8 +185,8 @@ export default {
     },
     async atualizaDados(){
       let dadosUsuario = await getDadosUsuarioLocal()
-      this.pk_usuarioLogado = (dadosUsuario == null) ? null : dadosUsuario[0].pk_usuario
-      this.emailUsuarioLogado = (dadosUsuario == null) ? "" : dadosUsuario[0].email
+      this.pk_usuarioLogado = (dadosUsuario != null) ? dadosUsuario[0].pk_usuario : null
+      this.emailUsuarioLogado = (dadosUsuario != null) ? dadosUsuario[0].email : ""
       
     },
     mensagemAlerta(id) {
@@ -230,7 +227,7 @@ export default {
   },
   async mounted(){
     this.url = import.meta.env.VITE_ROOT_API
-    this.atualizaDados()
+    await this.atualizaDados()
     this.pk_usuarioPerfil = parseInt(this.$route.params.pk)
     this.buscaCursosUsuario(this.pk_usuarioPerfil)
     this.buscaDadosUsuario(this.pk_usuarioPerfil)

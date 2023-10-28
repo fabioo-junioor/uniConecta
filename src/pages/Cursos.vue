@@ -14,6 +14,7 @@ export default {
       todosCursos: null,
       url: null,
       spinner: true,
+      search: "",
       dadosInfo: {
         pk_curso: null,
         cursoNome: "",
@@ -104,7 +105,6 @@ export default {
 
       }else{
         const dados = await response.json()
-        await this.atualizaDados()
         this.mensagemAlerta(2)
         
       }
@@ -123,7 +123,6 @@ export default {
 
       }else{
         const dados = await response.json()
-        await this.atualizaDados()
         this.mensagemAlerta(3)
         
       }
@@ -144,7 +143,6 @@ export default {
       }else{
         const dados = await response.json()
         if(dados[0].pk_compra_venda != null){
-          await this.atualizaDados()
           this.mensagemAlerta(1)
 
         }else{
@@ -200,15 +198,21 @@ export default {
     this.atualizaDados()
     var tempoResponse = setInterval(() => {
       if(this.spinner){
-        console.log("buscando")
         this.buscaTodosCursos()
 
       }else{
         clearInterval(tempoResponse)
-        console.log("achou")
 
       }
-    }, 2000)
+    }, 1500)
+  },
+  computed: {
+    filtrarLista(){
+      return this.todosCursos.filter(i => {
+        return i.cursoNome.toLowerCase().includes(this.search.toLocaleLowerCase())
+
+      })
+    }
   }
 }
 </script>
@@ -230,13 +234,21 @@ export default {
     <div class="titulo-pagina-cursos">
       <h3>Cursos</h3>
       <hr>
+      <div class="input-buscar-pagina-cursos">
+        <b-form-input
+          debounce="500"
+          v-model="search"
+          type="text"
+          placeholder="Buscar pelo titulo... "
+          ></b-form-input>
+      </div>
     </div>
     <div class="cursos-pagina-cursos">
       <div
         class="cards-pagina-cursos"
         v-if="!spinner">
         <CardCursos
-          v-for="i in todosCursos" :key="i"
+          v-for="i in filtrarLista" :key="i"
           :pk_curso="i.pk_curso"
           :fk_usuarioCurso="i.fk_usuarioCurso"
           :fk_comprador="i.fk_comprador"
@@ -293,6 +305,19 @@ export default {
       width: 80%;
         
     }
+    .input-buscar-pagina-cursos{
+      width: 30%;
+
+      input{
+        height: 3rem;
+        border: 1px solid #6c63ff;
+        border-radius: 5px;
+        background-color: white;
+        box-shadow: 1px 1px 0px 0px #6C63FF;
+        color: black;
+        
+      }
+    }
   }
   .cursos-pagina-cursos{
     display: flex;
@@ -316,6 +341,12 @@ export default {
 }
 @media only screen and (max-width: 990px) {
   #cursos {
+    .titulo-pagina-cursos{
+      .input-buscar-pagina-cursos{
+        width: 60%;
+
+      }
+    }
     .cursos-pagina-cursos{
       .cards-pagina-cursos{
         justify-content: center;
@@ -325,6 +356,14 @@ export default {
   }
 }
 @media only screen and (max-width: 720px) {
+  #cursos {
+    .titulo-pagina-cursos{
+      .input-buscar-pagina-cursos{
+        width: 70%;
+
+      }
+    }
+  }
 }
 @media only screen and (max-width: 481px) {
 }

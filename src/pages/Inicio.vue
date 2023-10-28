@@ -48,7 +48,6 @@ export default{
 
       }else{
         const dados = await response.json()
-        //console.log(dados)
         if(dados[0].pk_usuario != null){
           this.configRanking.rankingPontuacao = dados
           this.configRanking.responseRanking = false
@@ -72,7 +71,6 @@ export default{
         
       }else{
         const dados = await response.json()
-        //console.log(dados)
         if(dados[0].pk_usuario != null){
           this.configRanking.rankingCompras = dados
           this.configRanking.responseRanking = false
@@ -86,7 +84,6 @@ export default{
   },
   mounted(){
     this.url = import.meta.env.VITE_ROOT_API
-    //this.configRanking.ranking = dadosTemp
     var tempoResponse = setInterval(() => {
       if(this.configRanking.responseRanking){
         console.log("buscando")

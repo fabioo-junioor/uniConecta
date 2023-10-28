@@ -52,7 +52,6 @@ export default {
       }else{
         const dados = await response.json()
         if(dados[0].pk_curso == true){
-          await this.atualizaDados()
           this.mensagemAlerta(1)
 
         }else{

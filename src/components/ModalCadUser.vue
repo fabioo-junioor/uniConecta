@@ -14,6 +14,8 @@ export default {
         telefone: "",
         senha: "",
         permissaoTelefone: null,
+        mostrarSenha: false,
+        tipoSenha: "password"
       },
       logar: true,
       botaoAcessar: false,
@@ -128,6 +130,17 @@ export default {
   mounted(){
     this.url = import.meta.env.VITE_ROOT_API
     
+  },
+  watch: {
+    'form.mostrarSenha': function(){
+      if(this.form.mostrarSenha){
+        this.form.tipoSenha = "text"
+
+      }else{
+        this.form.tipoSenha = "password"
+
+      }
+    }
   }
 };
 </script>
@@ -156,11 +169,18 @@ export default {
             <div class="form-floating">
               <b-form-input
                 v-model="form.senha"
-                type="password"
+                :type="form.tipoSenha"
                 placeholder="Senha: (Min. 6 caracteres) "
                 @input="enableBotaoAcessar()"
-              ></b-form-input>
-              <label for="floatingInput">Senha: (Min. 6 caracteres)</label>
+                ></b-form-input>
+                <label for="floatingInput">Senha: (Min. 6 caracteres)</label>
+            </div>
+            <div class="checkMostrarSenha">
+              <b-form-checkbox
+                v-model="form.mostrarSenha"
+                :value="true"
+                :unchecked-value="false"      
+              ></b-form-checkbox>Mostrar senha
             </div>
             <div class="buttons-login-user">
               <b-button
@@ -202,21 +222,28 @@ export default {
               ></b-form-input>
               <label for="floatingInput">Telefone: (55 99999 9999)</label>
             </div>
-            <div class="form-floating">
-              <b-form-input
-                v-model="form.senha"
-                type="password"
-                placeholder="Senha: (Min. 6 caracteres) "
-                @input="enableBotaoSalvar()"
-              ></b-form-input>
-              <label for="floatingInput">Senha: (Min. 6 caracteres)</label>
-            </div>
             <div class="checkWhatsapp">
               <b-form-checkbox
                 v-model="form.permissaoTelefone"
                 value="1"
                 unchecked-value="0"      
               ></b-form-checkbox>Permitir contato via whatsapp
+            </div>
+            <div class="form-floating">
+              <b-form-input
+                v-model="form.senha"
+                :type="form.tipoSenha"
+                placeholder="Senha: (Min. 6 caracteres) "
+                @input="enableBotaoSalvar()"
+              ></b-form-input>
+              <label for="floatingInput">Senha: (Min. 6 caracteres)</label>
+            </div>
+            <div class="checkMostrarSenha">
+              <b-form-checkbox
+                v-model="form.mostrarSenha"
+                :value="true"
+                :unchecked-value="false"      
+              ></b-form-checkbox>Mostrar senha
             </div>
             <div class="buttons-login-user">
               <b-button
@@ -324,9 +351,27 @@ export default {
   color: black;
 }
 #loginUser .checkWhatsapp{
+  margin: 5px 0px;
   display: flex !important;
   flex-direction: row;
-  height: 2.5rem;
+  color: white;
+  font-weight: 500;
+  font-size: .9rem;
+
+  .custom-control{
+    width: 1.5rem !important;
+
+    input{
+      height: 100% !important;
+      box-shadow: none;
+
+    }
+  }
+}
+#loginUser .checkMostrarSenha{
+  margin: 5px 0px;
+  display: flex !important;
+  flex-direction: row;
   color: white;
   font-weight: 500;
   font-size: .9rem;

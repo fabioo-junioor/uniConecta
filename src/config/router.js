@@ -44,8 +44,8 @@ const routes = [
         component: MeusCursos,
         beforeEnter: async (_, __, next) => {
             let dadosUsuario = await getDadosUsuarioLocal()
-            const userLogado = (dadosUsuario != null) ? true : false
-            if(userLogado){
+            //const userLogado = (dadosUsuario != null) ? true : false
+            if(dadosUsuario != null){
                 next()
                 return
 
@@ -62,8 +62,8 @@ const routes = [
         component: Dashboard,
         beforeEnter: async (_, __, next) => {
             let dadosUsuario = await getDadosUsuarioLocal()
-            const userLogado = (dadosUsuario != null) ? true : false
-            if(userLogado){
+            //const userLogado = (dadosUsuario != null) ? true : false
+            if(dadosUsuario != null){
                 next()
                 return
 
@@ -80,8 +80,8 @@ const routes = [
         component: EditarPerfil,
         beforeEnter: async (_, __, next) => {
             let dadosUsuario = await getDadosUsuarioLocal()
-            const userLogado = (dadosUsuario != null) ? true : false
-            if(userLogado){
+            //const userLogado = (dadosUsuario != null) ? true : false
+            if(dadosUsuario != null){
                 next()
                 return
 

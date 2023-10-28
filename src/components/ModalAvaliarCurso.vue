@@ -44,7 +44,6 @@ export default {
       }else{
         const dados = await response.json()
         if(dados[0].pk_compra_venda != null){
-          await getDadosUsuarioLocal()
           this.mensagemAlerta(1)
           
         }
@@ -65,7 +64,6 @@ export default {
       }else{
         const dados = await response.json()
         if(dados[0].pk_compra_venda != null){
-          await getDadosUsuarioLocal()
           this.mensagemAlerta(1)
 
         }
