@@ -12,10 +12,20 @@ export default {
       formCurso: {
         nome: "",
         totalHoras: null,
-        valor: null,
+        valorFinal: null,
+        tipoValor: null,
+        valores: [
+          {item: 0, name: 'Valor 1'},
+          {item: 0, name: 'Valor 2'},
+          {item: 0, name: 'Valor 3'}
+        ],
+        data: "",
+        horario: "",
+        local: "",
         descricao: "",
-        tipoCurso: null,
+        linkMaterial: "",
         grupoApoio: false,
+        tipoCurso: null,
         opcoes: [
           { value: "Aula", text: "Aula" },
           { value: "Oficina", text: "Oficina" },
@@ -34,6 +44,7 @@ export default {
   },
   methods: {
     async cadastrarCurso() {
+      /*
       const response = await fetch(this.url+'cadastrarCurso.php', {
         method: "POST",
         body: JSON.stringify({
@@ -58,7 +69,11 @@ export default {
           this.mensagemAlerta(2)                  
 
         }
-      }
+      }*/
+      console.log(this.formCurso.local)
+      console.log(this.formCurso.data)
+      console.log(this.formCurso.horario)
+      console.log(this.formCurso.linkMaterial)
     },
     enableBotaoCadastrar(){
       if((this.formCurso.nome != "") &&
@@ -112,24 +127,47 @@ export default {
   },
   watch: {
     'formCurso.totalHoras': function(valor){
-      if(valor <= 0){
+      if(parseInt(valor) <= 0){
         this.formCurso.totalHoras = null
-        this.formCurso.valor = null
+        this.formCurso.valorFinal = null
         
       }else{
-        this.formCurso.totalHoras = valor
-        this.formCurso.valor = (this.formCurso.grupoApoio) ? 0 : (valor * 5)
+        this.formCurso.totalHoras = parseInt(valor)
+        this.formCurso.valorFinal = this.formCurso.tipoValor + parseInt(valor)
 
       }
     },
     'formCurso.grupoApoio': function(){
       if(this.formCurso.grupoApoio){
-        this.formCurso.valor = 0
+        this.formCurso.valorFinal = 0
 
-      }else{
-        this.formCurso.valor = this.formCurso.totalHoras * 5
-        
       }
+    },
+    'formCurso.tipoCurso': function(){
+      if(this.formCurso.tipoCurso == "Aula"){
+        //console.log(this.formCurso.valores)
+        this.formCurso.valores[0].item = 2
+        this.formCurso.valores[0].name = 'Valor: 2'
+        this.formCurso.valores[1].item = 3
+        this.formCurso.valores[1].name = 'Valor: 3'
+        this.formCurso.valores[2].item = 4
+        this.formCurso.valores[2].name = 'Valor: 4'
+
+
+      }else if(this.formCurso.tipoCurso == "Oficina"){
+        this.formCurso.valores[0].item = 3
+        this.formCurso.valores[0].name = 'Valor: 3'
+        this.formCurso.valores[1].item = 4
+        this.formCurso.valores[1].name = 'Valor: 4'
+        this.formCurso.valores[2].item = 5
+        this.formCurso.valores[2].name = 'Valor: 5'
+    
+
+      }
+    },
+    'formCurso.valor': function(){
+      console.log(this.formCurso.valorFinal)
+
     }
   }
 };
@@ -145,19 +183,16 @@ export default {
     scrollable
     title="Cadastrar Curso">
     <div id="cadastro-curso">
-      <div>
-        <img src="../assets/draw/educator.svg" />
-      </div>
       <b-form>
         <div>
           <div class="form-floating">
             <b-form-input
               v-model="formCurso.nome"
               type="text"
-              placeholder="Titulo : "
+              placeholder="*Titulo : "
               @input="enableBotaoCadastrar()"
             ></b-form-input>
-            <label for="floatingInput">Titulo:</label>
+            <label for="floatingInput">*Titulo:</label>
           </div>
           <div class="form-floating">
             <b-form-select
@@ -167,7 +202,7 @@ export default {
             >
               <template #first>
                 <b-form-select-option :value="null" disabled
-                  >Selecione o tipo:</b-form-select-option
+                  >*Selecione o tipo:</b-form-select-option
                 >
               </template>
             </b-form-select>
@@ -184,20 +219,50 @@ export default {
             <b-form-input
               v-model="formCurso.totalHoras"
               type="number"
-              placeholder="Informe o total de horas: "
+              placeholder="*Total de horas: "
               @input="enableBotaoCadastrar()"
             ></b-form-input>
-            <label for="floatingInput">Total de horas: (Min. 1 hora)</label>
+            <label for="floatingInput">*Total de horas: (Min. 1 hora)</label>
           </div>
-          <div class="form-floating">
-            <b-form-input
-              disabled
-              v-model="formCurso.valor"
-              type="number"
-              placeholder="Valor: (Moedas) "
-              @input="enableBotaoCadastrar()"
-            ></b-form-input>
-            <label for="floatingInput">Valor: (Moedas)</label>
+          <div
+            v-if="!formCurso.grupoApoio"
+            class="checks-valores">
+            <b-form-radio-group
+              v-model="formCurso.tipoValor"
+              :options="formCurso.valores"
+              value-field="item"
+              text-field="name">
+            </b-form-radio-group>
+          </div>
+          <div class="valor-curso">
+            <p>Valor: {{formCurso.valorFinal}}</p>
+          </div>
+          <div class="data-horario">
+            <div class="form-floating">
+              <b-form-input
+                v-model="formCurso.local"
+                type="text"
+                placeholder="Local : "
+                @input="enableBotaoCadastrar()"
+                ></b-form-input>
+              <label for="floatingInput">Local:</label>
+            </div>
+            <div>
+              <b-form-input
+                v-model="formCurso.data"
+                type="date"
+                placeholder="Data : "
+                @input="enableBotaoCadastrar()"
+                ></b-form-input>
+            </div>
+            <div>
+              <b-form-input
+                v-model="formCurso.horario"
+                type="time"
+                placeholder="Horario : "
+                @input="enableBotaoCadastrar()"
+                ></b-form-input>              
+            </div>
           </div>
           <div class="form-floating">
             <b-form-textarea
@@ -205,10 +270,22 @@ export default {
               type="text"
               rows="3"
               max-rows="5"
-              placeholder="Descrição: "
+              placeholder="*Descrição: "
               @input="enableBotaoCadastrar()"
             ></b-form-textarea>
-            <label for="floatingInput">Descrição:</label>
+            <label for="floatingInput">*Descrição:</label>
+          </div>
+          <div class="form-floating">
+            <b-form-input
+              v-model="formCurso.linkMaterial"
+              type="text"
+              placeholder="Link material extra : "
+              @input="enableBotaoCadastrar()"
+            ></b-form-input>
+            <label for="floatingInput">Link material extra:</label>
+          </div>
+          <div class="campos-obrigatorios">
+            <p>* Campos obrigatorios </p>
           </div>
           <div class="botao-cadastrar">
             <b-button
@@ -262,13 +339,6 @@ export default {
     justify-content: center !important;
     align-items: center !important;
     width: 100% !important;
-
-    img {
-      width: 11rem;
-      height: auto;
-      margin: 4rem 0 1rem 0;
-      filter: drop-shadow(1px 1px 2px black);
-    }
 
   }
   .modal-footer {
@@ -328,6 +398,50 @@ export default {
     }
   }
 }
+#cadastro-curso .checks-valores{
+  background-color: red;
+  padding: .5rem 0;
+
+  .bv-no-focus-ring{
+    width: 100% !important;
+    display: flex;
+    flex-direction: row;
+      justify-content: space-around;
+
+    .custom-control{
+      display: flex;
+      flex-direction: row;
+      width: 33% !important;
+
+      input{
+        height: 100% !important;
+        box-shadow: none;
+
+      }
+    }
+  }
+}
+#cadastro-curso .valor-curso{
+  display: flex !important;
+  flex-direction: row;
+  color: white;
+  font-size: 1rem;
+
+}
+#cadastro-curso form .data-horario{
+  background-color: red;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+
+  div{
+    width: 33% !important;
+    padding: .2rem;
+
+  }
+
+
+}
 #cadastro-curso form textarea {
   margin: 5px 0px;
   border: .5px solid black; 
@@ -360,6 +474,16 @@ export default {
     background-color: black;
     color: white;
   }
+}
+#cadastro-curso .campos-obrigatorios{
+  display: flex !important;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: .5rem;
+  color: white;
+  font-weight: bold;
+  font-size: .9rem;
+
 }
 #cadastro-curso div .botao-cadastrar {
   display: flex;
