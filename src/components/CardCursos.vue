@@ -50,6 +50,10 @@ export default {
       this.$emit('comprarCurso', pk_curso, fk_usuarioCurso)
 
     },
+    editarCurso(pk_curso){
+      this.$emit('editarCurso', pk_curso)
+
+    },
     perfilUsuario(pk_curso){
       this.$router.push({name: 'perfilUsuario'})
       
@@ -131,6 +135,11 @@ export default {
           v-else-if="tipo == 3"
           :disabled="desativarBotao"
           variant="outline-success">Avaliado  
+        </b-button>
+        <b-button
+          v-else-if="tipo == 4"
+          @click="editarCurso(pk_curso)"
+          variant="outline-success">Editar  
         </b-button>
       </div>
     </b-card>

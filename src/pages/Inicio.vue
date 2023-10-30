@@ -90,6 +90,8 @@ export default {
 <template>
   <div id="inicio">
     <div class="inicio-texto">
+      <h2>UniConecta</h2>
+      <hr>
       <p>
         There are many variations of passages of Lorem Ipsum available, but the
         majority have suffered alteration in some form, by injected humour, or
@@ -129,24 +131,41 @@ export default {
 
 
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap');
+
 #inicio {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
   margin: 5rem 0 1rem 0;
-  //background-color: red;
 
   .inicio-texto {
-    width: 35%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 45%;
+    font-family: 'Work Sans', sans-serif;
     margin: 0 1rem;
+
+    h2{
+      color: #6c63ff;
+      font-weight: bold;
+
+    }
+    hr{
+      border: 2px solid #6C63FF;
+      width: 100%;
+      
+    }
+    p{
+      text-align: justify;
+      font-size: 1rem;
+      color: black;
+
+    }
 
   }
   .inicio-ranking {
-    width: 40%;
+    width: 45%;
+    margin: 0 1rem;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -185,14 +204,14 @@ export default {
     flex-direction: column;
     align-items: center;
     padding: 0;
+    margin: 1rem 0;
 
-    .inicio-img-draw {
+    .inicio-texto {
       width: 100%;
       margin: 1rem 0;
+      background-color: red;
+      padding: 0 1rem;
 
-      img {
-        max-width: 15rem;
-      }
     }
     .inicio-ranking {
       width: 90%;

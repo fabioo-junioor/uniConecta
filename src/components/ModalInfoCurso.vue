@@ -13,9 +13,13 @@ export default {
     usuarioNome: String,
     totalHoras: Number,
     valorCurso: Number,
-    descricao: String
+    dataCurso: String,
+    horario: String,
+    localCurso: String,
+    descricao: String,
+    linkMaterial: String
 
-  },
+  }
 };
 </script>
 <template>
@@ -50,10 +54,30 @@ export default {
         <h5>Valor: </h5>
         <span>{{valorCurso}} Moedas</span>
       </div>
+      <div v-if="dataCurso">
+        <i class='bx bxs-calendar'></i>
+        <h5>Data: </h5>
+        <span>{{dataCurso}}</span>
+      </div>
+      <div v-if="horario">
+        <i class='bx bxs-watch'></i>
+        <h5>Horario: </h5>
+        <span>{{horario}}</span>
+      </div>
+      <div v-if="localCurso">
+        <i class='bx bxs-map'></i>
+        <h5>Local: </h5>
+        <span>{{localCurso}}</span>
+      </div>
       <div>
         <i class='bx bx-book-open'></i>
         <h5>Descrição: </h5>
         <span>{{descricao}}</span>
+      </div>
+      <div v-if="linkMaterial">
+        <i class='bx bx-link-alt'></i>
+        <h5>Material extra: </h5>
+        <span><a target="_blank" :href="linkMaterial">Material extra</a></span>
       </div>
     </b-modal>
   </div>
@@ -74,7 +98,7 @@ export default {
       
       div{
         width: 100%;
-        padding: 1rem .3rem;
+        padding: .5rem .3rem;
         margin: .5rem 0;
         display: flex;
         align-items: center;
@@ -98,6 +122,12 @@ export default {
           padding: 0 0 0 .5rem;
           font-size: 1rem;
 
+          a{
+            color: white;
+            text-decoration: underline;
+            font-size: .9rem;
+          
+          }
         }
       }  
     }

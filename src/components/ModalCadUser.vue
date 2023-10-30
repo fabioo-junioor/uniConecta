@@ -330,7 +330,7 @@ export default {
 }
 #loginUser form {
   width: 100% !important;
-  padding: 1rem 1rem;
+  padding: .2rem .5rem .5rem .5rem;
   border-radius: 5px;
 
 }

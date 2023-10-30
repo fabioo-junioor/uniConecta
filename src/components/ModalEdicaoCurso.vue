@@ -1,9 +1,8 @@
 <script>
-import { getDadosUsuarioLocal } from '../config/global.js'
 import Alerta from './Alerta.vue'
 
 export default {
-  name: "ModalCadCurso",
+  name: "ModalEdicaoCurso",
   components: {Alerta},
   data() {
     return {
@@ -38,71 +37,92 @@ export default {
         tipo: "",
         isAlert: false
       },
-      botaoCadastrar: false,
+      botaoSalvar: false,
       url: null,
       isValidGrupoHoras: false,
-      isValidValor: false
+      isValidValor: false,
     };
   },
+  props:{
+    pk_curso: Number
+
+  },
   methods: {
-    async cadastrarCurso() {
-      const response = await fetch(this.url+'cadastrarCurso.php', {
+    async buscarDadosEdicaoCurso(pk_curso) {
+      const response = await fetch(this.url + "buscaDadosCurso.php?dadosEdicaoCurso=1", {
         method: "POST",
         body: JSON.stringify({
-          nome: this.formCurso.nome,
-          totalHoras: this.formCurso.totalHoras,
-          valor: this.formCurso.valorFinal,
-          descricao: this.formCurso.descricao,
-          tipoCurso: this.formCurso.tipoCurso,
-          localCurso: this.formCurso.local,
-          dataCurso: this.formCurso.data,
-          horario: this.formCurso.horario,
-          linkMaterial: this.formCurso.linkMaterial,
-          email: this.email,
-          pk_usuario: this.pk_usuario
-        })
+          pk_curso: pk_curso
+          
+        }),
       })
       if(!response.ok){
         console.log(response.status)
 
       }else{
         const dados = await response.json()
-        if(dados[0].pk_curso == true){
-          this.mensagemAlerta(1)
+        if(dados[0].pk_curso != null){
+          this.formCurso.nome = await dados[0].nome
+          this.formCurso.tipoCurso = await dados[0].tipoCurso
+          this.formCurso.totalHoras = await dados[0].totalHoras
+          //this.formCurso.valorFinal = await dados[0].valorCurso
+          this.formCurso.local = await dados[0].localCurso
+          this.formCurso.data = await dados[0].dataCurso
+          this.formCurso.horario = await dados[0].horario
+          this.formCurso.descricao = await dados[0].descricao
+          this.formCurso.linkMaterial = await dados[0].linkMaterial
 
+          this.botaoSalvar = true
         }else{
-          this.mensagemAlerta(2)                  
-
+          
         }
       }
     },
-    enableBotaoCadastrar(){
+    async salvarEdicao(pk_curso){
+      console.log(pk_curso)
+      const response = await fetch(this.url + "editarCurso.php", {
+        method: "POST",
+        body: JSON.stringify({
+          pk_curso: pk_curso,
+          nome: this.formCurso.nome,
+          tipoCurso: this.formCurso.tipoCurso,
+          totalHoras: this.formCurso.totalHoras,
+          valorCurso: this.formCurso.valorFinal,
+          localCurso: this.formCurso.local,
+          dataCurso: this.formCurso.data,
+          horario: this.formCurso.horario,
+          descricao: this.formCurso.descricao,
+          linkMaterial: this.formCurso.linkMaterial
+        }),
+      })
+      if(!response.ok){
+        console.log(response.status)
+
+      }else{
+        const dados = await response.json()
+        if(dados[0].pk_curso != null){
+          this.mensagemAlerta(1)
+
+        }
+      }
+
+    },
+    enableBotaoSalvar(){
       if((this.formCurso.nome != "") &&
         (this.formCurso.tipoCurso != "") &&
         (this.formCurso.totalHoras > 0) &&
         (this.formCurso.descricao != "")){
-        this.botaoCadastrar = true
+        this.botaoSalvar = true
 
       }else{
-        this.botaoCadastrar = false
+        this.botaoSalvar = false
 
       }
     },
-    async atualizaDados(){
-      let dadosUsuario = await getDadosUsuarioLocal()
-      this.pk_usuario = dadosUsuario != null ? dadosUsuario[0].pk_usuario : null
-      this.email = dadosUsuario != null ? dadosUsuario[0].email : ""
-
-    },
     mensagemAlerta(id) {
       if(id == 1){
-        this.alerta.mensagem = "Curso cadastrado"
+        this.alerta.mensagem = "Curso Editado"
         this.alerta.tipo = "success"
-        this.alerta.isAlert = true
-
-      }else if(id == 2){
-        this.alerta.mensagem = "Curso não cadastrado!"
-        this.alerta.tipo = "danger"
         this.alerta.isAlert = true
 
       }
@@ -115,25 +135,30 @@ export default {
         this.alerta.tipo = ""
         this.alerta.isAlert = false
 
-        return ((id != 2)&&(id != 3)) ? location.reload() : false
+        return location.reload()
 
       }, 4500)
 
     }
   },
-  mounted(){
+  async created(){
     this.url = import.meta.env.VITE_ROOT_API
-    this.atualizaDados()
+    this.isUpdate = false
 
   },
   watch: {
+    pk_curso: async function(){
+      await this.buscarDadosEdicaoCurso(this.pk_curso)
+
+    },
     'formCurso.totalHoras': function(valor){
+      //console.log("horas")
       if(valor > '0'){
         if(this.formCurso.grupoApoio){
           this.formCurso.valorFinal = '0'
 
         }else{
-          this.formCurso.valorFinal = (this.formCurso.tipoValor === 0) ? 0 : parseInt(this.formCurso.tipoValor) + parseInt(valor)
+          this.formCurso.valorFinal = ((this.formCurso.tipoValor === 0)) ? 0 : parseInt(this.formCurso.tipoValor) + parseInt(valor)
 
         }
       }else{
@@ -146,7 +171,8 @@ export default {
         }
       }    
     },
-    'formCurso.grupoApoio': function(){
+    'formCurso.grupoApoio': async function(){
+      //console.log("--",this.formCurso.tipoValor)
       if(this.formCurso.grupoApoio){
         this.formCurso.valorFinal = '0'
         this.isValidValor = true
@@ -154,12 +180,13 @@ export default {
       }else{
         this.formCurso.valorFinal = '0'
         this.formCurso.tipoValor = 0
-        this.formCurso.valorFinal = (this.formCurso.tipoValor === 0) ? 0 : parseInt(this.formCurso.tipoValor) + parseInt(this.formCurso.totalHoras)
+        //this.formCurso.valorFinal = parseInt(this.formCurso.tipoValor) + parseInt(this.formCurso.totalHoras)
         this.isValidValor = false
 
       }
     },
     'formCurso.tipoCurso': function(){
+      //console.log("tipo")
       if(this.formCurso.tipoCurso == "Aula"){
         this.formCurso.valores[0].item = 2
         this.formCurso.valores[0].name = 'Valor: 2'
@@ -204,6 +231,7 @@ export default {
 
     },
     'formCurso.tipoValor': function(valor){
+      //console.log(this.formCurso.valorFinal, valor, this.formCurso.totalHoras)
       this.formCurso.valorFinal = ((this.formCurso.totalHoras === null)||(this.formCurso.totalHoras == '')||(valor === 0)) ? valor : parseInt(this.formCurso.totalHoras) + parseInt(valor)
 
     }
@@ -216,18 +244,17 @@ export default {
     :mensagem="alerta.mensagem"
     :tipo="alerta.tipo"/>
   <b-modal
-    id="modal-scrollable-curso-lg"
+    id="modalEdicaoCurso"
     size="lg"
-    title="Cadastrar Curso">
-    <div id="cadastro-curso">
-      <b-form>
-        <div>
+    title="Editar Curso">
+    <div id="editar-curso">
+      <b-form id="formulario-editar-curso">
           <div class="form-floating">
             <b-form-input
               v-model="formCurso.nome"
               type="text"
               placeholder="*Titulo : "
-              @input="enableBotaoCadastrar()"
+              @input="enableBotaoSalvar()"
             ></b-form-input>
             <label for="floatingInput">*Titulo:</label>
           </div>
@@ -235,7 +262,7 @@ export default {
             <b-form-select
               v-model="formCurso.tipoCurso"
               :options="formCurso.opcoes"
-              @change="enableBotaoCadastrar()"
+              @change="enableBotaoSalvar()"
             >
               <template #first>
                 <b-form-select-option :value="null" disabled
@@ -259,7 +286,7 @@ export default {
               v-model="formCurso.totalHoras"
               type="number"
               placeholder="*Total de horas: "
-              @input="enableBotaoCadastrar()"
+              @input="enableBotaoSalvar()"
             ></b-form-input>
             <label for="floatingInput">*Total de horas: (Min. 1 hora)</label>
           </div>
@@ -281,7 +308,6 @@ export default {
                 v-model="formCurso.local"
                 type="text"
                 placeholder="Local : "
-                @input="enableBotaoCadastrar()"
                 ></b-form-input>
               <label for="floatingInput">Local:</label>
             </div>
@@ -290,7 +316,6 @@ export default {
                 v-model="formCurso.data"
                 type="date"
                 placeholder="Data : "
-                @input="enableBotaoCadastrar()"
                 ></b-form-input>
             </div>
             <div>
@@ -298,7 +323,6 @@ export default {
                 v-model="formCurso.horario"
                 type="time"
                 placeholder="Horario : "
-                @input="enableBotaoCadastrar()"
                 ></b-form-input>              
             </div>
           </div>
@@ -309,7 +333,7 @@ export default {
               rows="2"
               max-rows="5"
               placeholder="*Descrição: "
-              @input="enableBotaoCadastrar()"
+              @input="enableBotaoSalvar()"
             ></b-form-textarea>
             <label for="floatingInput">*Descrição:</label>
           </div>
@@ -318,7 +342,6 @@ export default {
               v-model="formCurso.linkMaterial"
               type="text"
               placeholder="Link material extra : "
-              @input="enableBotaoCadastrar()"
             ></b-form-input>
             <label for="floatingInput">Link material extra:</label>
           </div>
@@ -327,11 +350,10 @@ export default {
           </div>
           <div class="botao-cadastrar">
             <b-button
-              :disabled="!botaoCadastrar"
-              @click="cadastrarCurso()" variant="primary"
+              :disabled="!botaoSalvar"
+              @click="salvarEdicao(pk_curso)" variant="primary"
               >Salvar</b-button>
           </div>
-        </div>
       </b-form>
     </div>
   </b-modal>
@@ -384,157 +406,144 @@ export default {
 
   }
 }
-#cadastro-curso {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+#editar-curso{
   width: 100%;
 
-}
-#cadastro-curso form {
-  width: 100% !important;
-  padding: .2rem .5rem .5rem .5rem;
-  border-radius: 5px;
+  #formulario-editar-curso{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: .2rem .5rem .5rem .5rem;
 
-}
-#cadastro-curso form div {
-  width: 100% !important;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    div{
+      margin: .2rem 0;
 
-}
-#cadastro-curso form input {
-  margin: 5px 0px;
-  border: .5px solid black;
-  height: 3.5rem;
-  border-radius: 5px;
-  background-color: white;
-  box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.5);
-  color: black;
-}
-#cadastro-curso form input:disabled{
-  background-color: rgba(255, 255, 255, 0.8);
+      label{
+        font-family: 'Work Sans', sans-serif;
+        color: black;
 
-}
-#cadastro-curso .checkGrupoApoio{
-  display: flex !important;
-  flex-direction: row;
-  height: 2.5rem;
-  color: white;
-  font-weight: 500;
-  font-size: .9rem;
+      }
+      input{
+        background-color: white;
+        border: .5px solid black;
+        border-radius: 5px;
+        box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.5);
+        color: black;
+        height: 3.6rem;
+        
+      }
+      input:disabled{
+        background-color: rgba(255, 255, 255, 0.8);
+      
+      }
+      select{
+        width: 100%;
+        height: 2.5rem;
+        border: .5px solid black;
+        border-radius: 5px;
+        background-color: white;
+        box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.5);
+        color: black;
+        padding-left: 0.5rem;
 
-  .custom-control{
-    width: 1.5rem !important;
+        option:nth-child(1) {
+          background-color: black;
+          color: white;
+        }
+      }
+      textarea{
+        border: .5px solid black; 
+        border-radius: 5px;
+        background-color: white;
+        box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.5);
+        color: black;
 
-    input{
-      height: 100% !important;
-      box-shadow: none;
+      }
 
     }
-  }
-}
-#cadastro-curso .checks-valores{
-  padding: .5rem 0;
-
-  .bv-no-focus-ring{
-    width: 100% !important;
-    display: flex;
-    flex-direction: row;
-      justify-content: space-around;
-
-    .custom-control{
+    .checkGrupoApoio{
       display: flex;
       flex-direction: row;
-      width: 33% !important;
+      padding: 0 .2rem;
+      color: white;
+      font-weight: 500;
+      font-size: .9rem;
 
-      input{
-        height: 100% !important;
-        box-shadow: none;
+      .custom-control{
+        width: 1.5rem !important;
+
+        input{
+          height: 100% !important;
+          box-shadow: none;
+
+        }
+      }
+    }
+    .checks-valores div{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+
+      .custom-control{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 33% !important;
+
+        input{
+          height: 100% !important;
+          box-shadow: none;
+
+        }
+      }
+    }
+    .valor-curso{
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      
+      p{
+        color: white;
+        padding: .5rem 0 0 .5rem;
+      }
+    }
+    .data-horario{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      div{
+        width: 33% !important;
+        padding: .2rem 0;
 
       }
     }
+    .campos-obrigatorios{
+      display: flex;
+      justify-content: flex-end;
+      
+      p{
+        color: white;
+        font-size: .9rem;
+        padding: 0 .5rem;
+
+      }
+    }
+    .botao-cadastrar{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      button{
+        width: 90%;
+        height: 3rem;
+        font-family: 'Work Sans', sans-serif;
+        box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 1);
+        color: white;
+      }
+    }
   }
-}
-#cadastro-curso .valor-curso{
-  display: flex !important;
-  flex-direction: row;
-  color: white;
-  font-size: 1rem;
-
-}
-#cadastro-curso form .data-horario{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
-  div{
-    width: 33% !important;
-    padding: .2rem 0;
-
-  }
-
-
-}
-#cadastro-curso form textarea {
-  margin: 5px 0px;
-  border: .5px solid black; 
-  border-radius: 5px;
-  background-color: white;
-  box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.5);
-  color: black;
-}
-#cadastro-curso form label{
-  font-family: 'Work Sans', sans-serif;
-  color: black;
-  
-}
-#cadastro-curso form label::after{
-  background-color: transparent;
-
-}
-#cadastro-curso form select {
-  width: 100%;
-  margin: 5px 0px;
-  border: .5px solid black;
-  height: 2.5rem;
-  border-radius: 5px;
-  background-color: white;
-  box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.5);
-  color: black;
-  padding-left: 0.5rem;
-
-  option:nth-child(1) {
-    background-color: black;
-    color: white;
-  }
-}
-#cadastro-curso .campos-obrigatorios{
-  display: flex !important;
-  flex-direction: row;
-  justify-content: flex-end;
-  padding: .5rem;
-  color: white;
-  font-weight: bold;
-  font-size: .9rem;
-
-}
-#cadastro-curso div .botao-cadastrar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  padding: 10px;
-  width: 100%;
-}
-#cadastro-curso .botao-cadastrar button {
-  font-family: 'Work Sans', sans-serif;
-  box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 1);
-  width: 40%;
-  height: 3rem;
-  border-radius: 5px;
-  color: white;
 }
 /* Responsive */
 </style>

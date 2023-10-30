@@ -4,14 +4,17 @@ import CardCursos from "../components/CardCursos.vue";
 import ModalCadCurso from "../components/ModalCadCurso.vue";
 import LadoUsuario from '../components/LadoUsuario.vue'
 import ModalInfoCurso from '../components/ModalInfoCurso.vue'
+import ModalEdicaoCurso from '../components/ModalEdicaoCurso.vue'
 import Alerta from '../components/Alerta.vue'
 
 export default {
   name: "MeusCursos",
-  components: { CardCursos, Alerta, ModalCadCurso, LadoUsuario, ModalInfoCurso },
+  components: { CardCursos, Alerta, ModalCadCurso, ModalEdicaoCurso, LadoUsuario, ModalInfoCurso },
   data() {
     return {
       pk_usuario: null,
+      pk_curso: null,
+      dadosEdicaoCurso: null,
       imagemPerfil: null,
       nomeUsuario: "",
       graduacao: "",
@@ -30,7 +33,11 @@ export default {
         usuarioNome: "",
         totalHoras: null,
         valorCurso: null,
-        descricao: ""
+        dataCurso: "",
+        horario: "",
+        localCurso: "",
+        descricao: "",
+        linkMaterial: ""
 
       },
       alerta: {
@@ -75,13 +82,18 @@ export default {
 
       }else{
         const dados = await response.json()
+        //console.log(dados)
         this.dadosInfo.pk_curso = dados[0].pk_curso
         this.dadosInfo.cursoNome = dados[0].cursoNome
         this.dadosInfo.tipoCurso = dados[0].tipoCurso
         this.dadosInfo.usuarioNome = dados[0].usuarioNome
         this.dadosInfo.totalHoras = dados[0].totalHoras
         this.dadosInfo.valorCurso = dados[0].valorCurso
+        this.dadosInfo.dataCurso = dados[0].dataCurso
+        this.dadosInfo.localCurso = dados[0].localCurso
+        this.dadosInfo.horario = dados[0].horario
         this.dadosInfo.descricao = dados[0].cursoDescricao
+        this.dadosInfo.linkMaterial = dados[0].linkMaterial
         
       }
     },
@@ -113,6 +125,11 @@ export default {
 
         }        
       }
+    },
+    async editarCurso(pk_curso){
+      this.pk_curso = pk_curso
+      this.$root.$emit('bv::show::modal', 'modalEdicaoCurso')    
+
     },
     mensagemAlerta(id) {
       if(id == 1){
@@ -176,7 +193,13 @@ export default {
       :usuarioNome="dadosInfo.usuarioNome"
       :totalHoras="dadosInfo.totalHoras"
       :valorCurso="dadosInfo.valorCurso"
-      :descricao="dadosInfo.descricao" />
+      :dataCurso="dadosInfo.dataCurso"
+      :horario="dadosInfo.horario"
+      :localCurso="dadosInfo.localCurso"
+      :descricao="dadosInfo.descricao"
+      :linkMaterial="dadosInfo.linkMaterial" />
+    <ModalEdicaoCurso
+      :pk_curso="pk_curso" />
     <div class="lado-user-pagina-meus-cursos">
       <LadoUsuario
         :imagemPerfil="imagemPerfil"
@@ -211,9 +234,10 @@ export default {
             :ativarFavorito="false"
             :desativarBotao="true"
             :ativarDelete="true"
-            :tipo="2"
+            :tipo="4"
             @infoCurso="infoCurso"
-            @deletarCurso="deletarCurso" />
+            @deletarCurso="deletarCurso"
+            @editarCurso="editarCurso" />
         </div>
       </div>
     </div>

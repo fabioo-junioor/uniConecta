@@ -22,7 +22,11 @@ export default {
         usuarioNome: "",
         totalHoras: null,
         valorCurso: null,
+        dataCurso: "",
+        horario: "",
+        localCurso: "",
         descricao: "",
+        linkMaterial: "",
         totalFavoritos: null,
         pk_favorito: null
 
@@ -80,7 +84,11 @@ export default {
         this.dadosInfo.usuarioNome = dados[0].usuarioNome
         this.dadosInfo.totalHoras = dados[0].totalHoras
         this.dadosInfo.valorCurso = dados[0].valorCurso
+        this.dadosInfo.dataCurso = dados[0].dataCurso
+        this.dadosInfo.localCurso = dados[0].localCurso
+        this.dadosInfo.horario = dados[0].horario
         this.dadosInfo.descricao = dados[0].cursoDescricao
+        this.dadosInfo.linkMaterial = dados[0].linkMaterial
         this.dadosInfo.totalFavoritos = dados[0].totalFavorito
         this.dadosInfo.pk_favorito = dados[0].pk_favorito
         
@@ -208,10 +216,15 @@ export default {
   },
   computed: {
     filtrarLista(){
-      return this.todosCursos.filter(i => {
-        return i.cursoNome.toLowerCase().includes(this.search.toLocaleLowerCase())
+      if(this.todosCursos != null){
+        return this.todosCursos.filter(i => {
+          return i.cursoNome.toLowerCase().includes(this.search.toLocaleLowerCase())
+  
+        })
+      }else{
+        return null
 
-      })
+      }
     }
   }
 }
@@ -230,7 +243,11 @@ export default {
       :usuarioNome="dadosInfo.usuarioNome"
       :totalHoras="dadosInfo.totalHoras"
       :valorCurso="dadosInfo.valorCurso"
-      :descricao="dadosInfo.descricao" />
+      :dataCurso="dadosInfo.dataCurso"
+      :horario="dadosInfo.horario"
+      :localCurso="dadosInfo.localCurso"
+      :descricao="dadosInfo.descricao"
+      :linkMaterial="dadosInfo.linkMaterial" />
     <div class="titulo-pagina-cursos">
       <h3>Cursos</h3>
       <hr>
