@@ -1,5 +1,5 @@
 <script>
-import { dadosUsuarioPreview } from '../config/global.js'
+import { dadosUsuarioPreview, geradorSenha } from '../config/global.js'
 import { encryptSenha, decryptSenha } from '../config/auth.js'
 import Alerta from './Alerta.vue'
 
@@ -17,9 +17,13 @@ export default {
         mostrarSenha: false,
         tipoSenha: "password"
       },
-      logar: true,
+      tituloModal: "Login Usuário",
+      logar: 1,
+      esqueceuSenha: true,
       botaoAcessar: false,
       botaoSalvar: false,
+      botaoEnviarEmail: false,
+      mensagemRecuperacao: false,
       url: null
 
     };
@@ -80,6 +84,38 @@ export default {
         }
       }
     },
+    async recuperarSenha(){
+      this.mensagemRecuperacao = true/*
+      let novaSenha = await geradorSenha()
+      let hash = await encryptSenha(novaSenha)
+      const response = await fetch(this.url+'recuperarSenha.php', {
+        method: "POST",
+        body: JSON.stringify({
+          email: this.form.email,
+          novaSenha: novaSenha,
+          hash: hash
+
+        })
+      })
+      if(!response.ok){
+        console.log(response.status)
+
+      }else{
+        const dados = await response.json()
+        if(dados[0].email != null){
+          if(dados[0].email){
+            this.$emit('mensagemAlerta', 6)
+
+          }else{
+            this.$emit('mensagemAlerta', 7)
+            
+          }
+        }else{
+          this.$emit('mensagemAlerta', 2)
+
+        }
+      }*/
+    },
     handlePhone(event){
       event.value = this.maskPhone(event.value)
 
@@ -125,6 +161,15 @@ export default {
         this.botaoSalvar = false
 
       }
+    },
+    enableBotaoEnviarEmail(){
+      if(this.form.email != ""){
+          this.botaoEnviarEmail = true
+
+      }else{
+        this.botaoEnviarEmail = false
+
+      }
     }
   },
   mounted(){
@@ -150,13 +195,13 @@ export default {
       id="modal-scrollable-user-lg"
       size="lg"
       scrollable
-      title="Login Usuário">
+      :title="tituloModal">
       <div id="loginUser">
         <div>
           <img src="../assets/draw/login.svg" />
         </div>
         <b-form>
-          <div v-if="logar">
+          <div v-if="logar === 1">
             <div class="form-floating">
               <b-form-input
                 v-model="form.email"
@@ -187,12 +232,12 @@ export default {
                 @click="authUsuario()"
                 variant="primary"
                 :disabled="!botaoAcessar" >Acessar</b-button>
-              <b-button @click="(logar = !logar), reset()" variant="secondary"
+              <b-button @click="(logar = 2), tituloModal = 'Cadastre-se', esqueceuSenha = false, reset()" variant="secondary"
                 >Cadastre-se</b-button
               >
             </div>
           </div>
-          <div v-else>
+          <div v-if="logar === 2">
             <div class="form-floating">
               <b-form-input
                 v-model="form.nome"
@@ -252,13 +297,46 @@ export default {
                 :disabled="!botaoSalvar"
                 >Salvar</b-button
               >
-              <b-button @click="(logar = !logar), reset()" variant="secondary"
+              <b-button @click="(logar = 1), tituloModal = 'Login Usuário', esqueceuSenha = true, reset()" variant="secondary"
                 >Fazer login</b-button
               >
             </div>
           </div>
-          <div class="link-esqueceu-senha-user">
-            <b-button v-if="logar">Esqueceu sua senha?</b-button>
+          <div v-if="logar === 3">
+            <div class="form-floating">
+              <b-form-input
+                  v-model="form.email"
+                  type="email"
+                  placeholder="Email: (contato@mail) "
+                  @input="enableBotaoEnviarEmail()"
+                ></b-form-input>
+                <label for="floatingInput">Email: (contato@mail)</label>
+            </div>
+            <div v-if="mensagemRecuperacao">
+              <span class="mensagem-recuperacao">
+                <i class='bx bx-info-circle'></i>
+                  Nova senha será enviado por email!
+                </span>
+            </div>
+            <div class="buttons-login-user">
+              <b-button
+                @click="recuperarSenha()"
+                variant="primary"
+                :disabled="!botaoEnviarEmail"
+                >Enviar email</b-button>
+            </div>
+            <div class="link-esqueceu-senha-user">
+              <b-button
+                @click="logar = 1, esqueceuSenha = true, tituloModal = 'Login Usuário'"
+                >Voltar</b-button>
+            </div>
+          </div>
+          <div
+            v-if="esqueceuSenha"
+            class="link-esqueceu-senha-user">
+            <b-button
+              @click="logar = 3, esqueceuSenha = false, tituloModal = 'Recuperar senha'"
+              >Esqueceu sua senha?</b-button>
           </div>
         </b-form>
       </div>
@@ -427,6 +505,18 @@ export default {
 #loginUser .link-esqueceu-senha-user button:hover {
   color: rgba(255, 255, 255, .8);
   font-weight: bold;
+}
+#loginUser .mensagem-recuperacao{
+  font-family: 'Work Sans', sans-serif;
+  color: white;
+  font-size: .9rem;
+  padding: .7rem 0;
+
+  i{
+    font-size: 1.1rem;
+    padding: .1rem;
+
+  }
 }
 /* Responsive */
 @media only screen and (max-width: 1560px) {

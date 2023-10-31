@@ -32,22 +32,26 @@ export default {
       }
     },
     async buscarMaioresPontuacoes() {
-      const response = await fetch(
-        this.url + "buscaRanking.php?maioresPontuacoes=1",
-        {
+      const response = await fetch(this.url + "buscaRanking.php?maioresPontuacoes=1",{
           method: "POST",
           body: JSON.stringify(),
         }
-      ).catch((this.configRanking.responseRanking = true));
+      ).catch((
+        this.configRanking.responseRanking = true
+      
+      ))
       if (!response.ok) {
         console.log(response.status);
+
       } else {
         const dados = await response.json();
         if (dados[0].pk_usuario != null) {
           this.configRanking.rankingPontuacao = dados;
           this.configRanking.responseRanking = false;
+        
         } else {
           this.configRanking.responseRanking = false;
+        
         }
       }
     },
@@ -74,13 +78,13 @@ export default {
   },
   mounted() {
     this.url = import.meta.env.VITE_ROOT_API;
-    var tempoResponse = setInterval(() => {
+    var tempoResponse = setInterval( async () => {
       if (this.configRanking.responseRanking) {
-        console.log("buscando");
-        this.buscarMaioresPontuacoes();
+        this.buscarMaioresPontuacoes()
+
       } else {
         clearInterval(tempoResponse);
-        console.log("achou");
+        
       }
     }, 3000);
   },
@@ -135,15 +139,14 @@ export default {
 
 #inicio {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   padding: 0.5rem;
   margin: 5rem 0 1rem 0;
 
   .inicio-texto {
-    width: 45%;
+    width: 40%;
     font-family: 'Work Sans', sans-serif;
-    margin: 0 1rem;
 
     h2{
       color: #6c63ff;
@@ -164,8 +167,7 @@ export default {
 
   }
   .inicio-ranking {
-    width: 45%;
-    margin: 0 1rem;
+    width: 40%;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -209,7 +211,6 @@ export default {
     .inicio-texto {
       width: 100%;
       margin: 1rem 0;
-      background-color: red;
       padding: 0 1rem;
 
     }

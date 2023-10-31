@@ -36,4 +36,23 @@ export default {
   }
 }
 /* Responsive */
+@media only screen and (max-width: 1560px) {
+}
+@media only screen and (max-width: 1200px) {
+}
+@media only screen and (max-width: 992px) {
+}
+@media only screen and (max-width: 720px) {
+  #rodape {
+    h4{
+      font-size: .9rem;
+      font-weight: 500;
+
+    }
+  }
+}
+@media only screen and (max-width: 481px) {
+}
+@media only screen and (max-width: 360px) {
+}
 </style>

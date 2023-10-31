@@ -43,7 +43,21 @@ async function deleteDadosUsuario(){
     localStorage.removeItem('dadosUsuario')
 
 }
+async function geradorSenha(){
+  var chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ!@#$%^&*()+?><:{}[]"
+  var passwordLength = 8;
+  var password = ""
+
+  for(var i = 0; i < passwordLength; i++){
+    var randomNumber = Math.floor(Math.random()*chars.length)
+    password += chars.substring(randomNumber, randomNumber + 1)
+
+  }
+  return password
+
+}
 
 export {getDadosUsuarioLocal,
         dadosUsuarioPreview,
-        deleteDadosUsuario}
+        deleteDadosUsuario,
+        geradorSenha}

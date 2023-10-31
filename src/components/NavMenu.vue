@@ -46,6 +46,16 @@ export default {
         this.alerta.tipo = "info"
         this.alerta.isAlert = true
 
+      }else if(id == 6){
+        this.alerta.mensagem = "Senha enviada para email!"
+        this.alerta.tipo = "info"
+        this.alerta.isAlert = true
+
+      }else if(id == 7){
+        this.alerta.mensagem = "Ocorreu algum problema!"
+        this.alerta.tipo = "danger"
+        this.alerta.isAlert = true
+
       }
         this.resetaAlerta(id)
 
@@ -56,7 +66,7 @@ export default {
         this.alerta.tipo = ""
         this.alerta.isAlert = false
 
-        return ((id != 2)&&(id != 3)&&(id != 5)) ? location.reload() : false
+        return ((id != 2)&&(id != 3)&&(id != 5)&&(id != 7)) ? location.reload() : false
 
       }, 4050)
 
@@ -101,7 +111,7 @@ export default {
       <b-collapse id="nav-collapse" is-nav>
        <b-navbar-nav>
         <div class="menu-estatico">
-          <b-nav-item disabled>
+          <b-nav-item>
               <router-link to="/sobre">SOBRE</router-link>
           </b-nav-item>
           <b-nav-item>
@@ -263,8 +273,8 @@ export default {
               .img-icon-user{
                 border: 2px solid #6C63FF;
                 border-radius: 50%;
-                width: 3.1rem;
-                height: 3.1rem;
+                width: 2.5rem;
+                height: 2.5rem;
 
               }
               .img-icon-user:hover{
