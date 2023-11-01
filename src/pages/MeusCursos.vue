@@ -134,11 +134,11 @@ export default {
     mensagemAlerta(id) {
       if(id == 1){
         this.alerta.mensagem = "Curso apagado!"
-        this.alerta.tipo = "info"
+        this.alerta.tipo = "success"
         this.alerta.isAlert = true
 
       }else if(id == 2){
-        this.alerta.mensagem = "Avaliação pendente"
+        this.alerta.mensagem = "Avaliação pendente!"
         this.alerta.tipo = "info"
         this.alerta.isAlert = true
 

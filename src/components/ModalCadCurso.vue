@@ -96,7 +96,7 @@ export default {
     },
     mensagemAlerta(id) {
       if(id == 1){
-        this.alerta.mensagem = "Curso cadastrado"
+        this.alerta.mensagem = "Curso cadastrado!"
         this.alerta.tipo = "success"
         this.alerta.isAlert = true
 
@@ -517,7 +517,6 @@ export default {
   justify-content: flex-end;
   padding: .5rem;
   color: white;
-  font-weight: bold;
   font-size: .9rem;
 
 }

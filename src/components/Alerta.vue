@@ -39,7 +39,12 @@ export default {
       :variant=tipo
       @dismissed="dismissCountDown=0"
       @dismiss-count-down="countDownChanged">
-      <p>{{ mensagem }}</p>
+      <div class="mensagem-alerta">
+        <i v-if="tipo == 'danger'" class='bx bx-error'></i>
+        <i v-if="(tipo == 'info')||(tipo == 'warning')" class='bx bx-info-circle'></i>
+        <i v-if="tipo == 'success'" class='bx bx-check-circle'></i>
+        <p>{{ mensagem }}</p>
+      </div>
       <b-progress
         :variant=tipo
         :max="tempo"
@@ -58,18 +63,33 @@ export default {
   position: absolute;
   
   .alert{
-      width: 30%;
-      position: fixed;
-      top: 7%;
-      right: 2%;
-      z-index: 2000;
+    width: 30%;
+    position: fixed;
+    top: 5%;
+    right: 1%;
+    z-index: 2000;
 
-      p{
-          font-family: 'Work Sans', sans-serif;
-          font-size: .9rem;
-          color: black;
+    .mensagem-alerta{
+      padding: 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-start;
+
+      i{
+        padding: .3rem;
+        font-size: 1.2rem;
+        color: black;
 
       }
+      p{
+        font-family: 'Work Sans', sans-serif;
+        font-size: .9rem;
+        color: black;
+        padding: .3rem 0;
+
+      }
+    }
   }
 }
 /* Responsive */

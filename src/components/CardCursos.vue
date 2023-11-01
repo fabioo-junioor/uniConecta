@@ -287,4 +287,20 @@ export default {
   }  
 }
 /* Responsive */
+@media only screen and (max-width: 1560px) {
+}
+@media only screen and (max-width: 1200px) {
+}
+@media only screen and (max-width: 990px) {
+}
+@media only screen and (max-width: 720px) {
+}
+@media only screen and (max-width: 481px) {
+  #card-curso{
+    width: 95%;
+
+  }
+}
+@media only screen and (max-width: 360px) {
+}
 </style>

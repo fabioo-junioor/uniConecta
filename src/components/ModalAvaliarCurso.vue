@@ -1,5 +1,4 @@
 <script>
-import { getDadosUsuarioLocal } from "../config/global.js"
 import Alerta from '../components/Alerta.vue'
 
 export default {

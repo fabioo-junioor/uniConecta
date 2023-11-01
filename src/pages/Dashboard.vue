@@ -228,6 +228,7 @@ export default {
     },
     async atualizaDadosPreview(){
       let dadosUsuario = await getDadosUsuarioLocal()
+      //console.log(dadosUsuario)
       this.pk_usuario = dadosUsuario[0].pk_usuario
       this.nomeUsuario = dadosUsuario[0].nome
       this.graduacao = dadosUsuario[0].graduacao
@@ -258,12 +259,12 @@ export default {
 
       }else if(id == 4){
         this.alerta.mensagem = "Curso apagado!"
-        this.alerta.tipo = "info"
+        this.alerta.tipo = "success"
         this.alerta.isAlert = true
 
       }else if(id == 5){
-        this.alerta.mensagem = "Avaliação pendente"
-        this.alerta.tipo = "info"
+        this.alerta.mensagem = "Avaliação pendente!"
+        this.alerta.tipo = "warning"
         this.alerta.isAlert = true
 
       }

@@ -79,7 +79,6 @@ export default {
       }
     },
     async salvarEdicao(pk_curso){
-      console.log(pk_curso)
       const response = await fetch(this.url + "editarCurso.php", {
         method: "POST",
         body: JSON.stringify({
@@ -121,7 +120,7 @@ export default {
     },
     mensagemAlerta(id) {
       if(id == 1){
-        this.alerta.mensagem = "Curso Editado"
+        this.alerta.mensagem = "Curso Editado!"
         this.alerta.tipo = "success"
         this.alerta.isAlert = true
 

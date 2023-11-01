@@ -183,7 +183,7 @@ export default {
 
       }else if(id == 4){
         this.alerta.mensagem = "Moedas insuficientes!"
-        this.alerta.tipo = "info"
+        this.alerta.tipo = "warning"
         this.alerta.isAlert = true
 
       }

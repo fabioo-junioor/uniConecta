@@ -38,6 +38,7 @@ export default {
         senha: "",
       },
       botaoSalvar: false,
+      checkWhatsapp: true,
       url: null,
       alerta: {
         mensagem: "",
@@ -50,9 +51,7 @@ export default {
     enableBotaoSalvar() {
       if (this.formEdicao.nome != "" &&
         this.formEdicao.email != "" &&
-        this.formEdicao.telefone != "" &&
         this.formEdicao.graduacao != null &&
-        this.formEdicao.senha != "" &&
         this.formEdicao.senha.length >= 6 &&
         this.formEdicao.adicionouImagem == true) {
         this.botaoSalvar = true;
@@ -131,13 +130,19 @@ export default {
 
       }else{
         const dados = await response.json()
-        this.atualizaDadosEdicao(dados);
+        await this.atualizaDadosEdicao(dados);
 
       }
     },
     handlePhone(event){
       event.value = this.maskPhone(event.value)
+      if(event.value != ""){
+        this.checkWhatsapp = true
 
+      }else{
+        this.checkWhatsapp = false
+
+      }
     },
     maskPhone(value){
       if(!value){
@@ -173,11 +178,13 @@ export default {
       this.formEdicao.telefone = dadosUsuario[0].telefone
       this.formEdicao.graduacao = dadosUsuario[0].graduacao
       this.formEdicao.permissaoTelefone = dadosUsuario[0].permissaoTelefone
+
+      this.checkWhatsapp = ((dadosUsuario[0].telefone.length === 0)||(dadosUsuario[0].telefone === null)) ? false : true
       
     },
     mensagemAlerta(id) {
       if(id == 1){
-        this.alerta.mensagem = "Edição realizada";
+        this.alerta.mensagem = "Edição realizada!";
         this.alerta.tipo = "success";
         this.alerta.isAlert = true;
 
@@ -255,20 +262,20 @@ export default {
             <b-form-input
               v-model="formEdicao.nome"
               type="text"
-              placeholder="Seu nome:"
+              placeholder="*Seu nome:"
               @input="enableBotaoSalvar()"
             ></b-form-input>
-            <label for="floatingInput">Seu nome:</label>
+            <label for="floatingInput">*Seu nome:</label>
           </div>
           <div class="form-floating">
             <b-form-input
               disabled
               v-model="formEdicao.email"
               type="email"
-              placeholder="Email: (contato@mail) "
+              placeholder="*Email: (contato@mail.com) "
               @input="enableBotaoSalvar()"
             ></b-form-input>
-            <label for="floatingInput">Email: (contato@mail)</label>
+            <label for="floatingInput">*Email: (contato@mail.com)</label>
           </div>
           <div class="form-floating">
             <b-form-input
@@ -277,11 +284,12 @@ export default {
               placeholder="Telefone: (55 99999 9999) "
               maxlength="15"
               @keyup="handlePhone($event.target)"
-              @input="enableBotaoSalvar()"
             ></b-form-input>
             <label for="floatingInput">Telefone: (55 99999 9999)</label>
           </div>
-          <div class="checkWhatsapp">
+          <div
+            v-if="checkWhatsapp"
+            class="checkWhatsapp">
             <b-form-checkbox
               v-model="formEdicao.permissaoTelefone"
               value="1"
@@ -305,10 +313,10 @@ export default {
             <b-form-input
               v-model="formEdicao.senha"
               :type="formEdicao.tipoSenha"
-              placeholder="Senha: (Min. 6 caracteres) "
+              placeholder="*Senha: (Min. 6 caracteres) "
               @input="enableBotaoSalvar()"
             ></b-form-input>
-            <label for="floatingInput">Senha: (Min. 6 caracteres)</label>
+            <label for="floatingInput">*Senha: (Min. 6 caracteres)</label>
           </div>
           <div class="checkMostrarSenha">
             <b-form-checkbox
@@ -316,6 +324,9 @@ export default {
               :value="true"
               :unchecked-value="false"      
             ></b-form-checkbox>Mostrar senha
+          </div>
+          <div class="campos-obrigatorios">
+            <p>* Campos obrigatórios </p>
           </div>
           <div class="botao-salvar">
             <b-button
@@ -466,10 +477,10 @@ export default {
         }
       }
       .checkMostrarSenha{
-        margin: 0 0 1rem 0;
+        margin: 0 0 .2rem 0;
         display: flex !important;
         flex-direction: row;
-        height: 2.5rem;
+        height: 1.5rem;
         color: black;
         font-weight: 500;
         font-size: .9rem;
@@ -484,6 +495,14 @@ export default {
 
           }
         }
+      }
+      .campos-obrigatorios{
+        display: flex !important;
+        flex-direction: row;
+        justify-content: flex-end;
+        color: black;
+        font-size: .9rem;
+
       }
     }
     div {

@@ -11,7 +11,7 @@ export default {
       form: {
         nome: "",
         email: "",
-        telefone: "",
+        telefone: null,
         senha: "",
         permissaoTelefone: null,
         mostrarSenha: false,
@@ -24,6 +24,7 @@ export default {
       botaoSalvar: false,
       botaoEnviarEmail: false,
       mensagemRecuperacao: false,
+      checkWhatsapp: false,
       url: null
 
     };
@@ -85,7 +86,7 @@ export default {
       }
     },
     async recuperarSenha(){
-      this.mensagemRecuperacao = true/*
+      this.mensagemRecuperacao = true
       let novaSenha = await geradorSenha()
       let hash = await encryptSenha(novaSenha)
       const response = await fetch(this.url+'recuperarSenha.php', {
@@ -114,11 +115,17 @@ export default {
           this.$emit('mensagemAlerta', 2)
 
         }
-      }*/
+      }
     },
     handlePhone(event){
       event.value = this.maskPhone(event.value)
+      if(event.value != ""){
+        this.checkWhatsapp = true
 
+      }else{
+        this.checkWhatsapp = false
+
+      }
     },
     maskPhone(value){
       if(!value){
@@ -132,6 +139,12 @@ export default {
         
       }
     },
+    validarEmail(email){
+      var res = /\S+@\S+\.\S+/
+
+      return res.test(email)
+
+    },
     reset() {
       this.form.nome = "";
       this.form.email = "";
@@ -141,7 +154,7 @@ export default {
     
     },
     enableBotaoAcessar(){
-      if((this.form.email != "") &&
+      if((this.validarEmail(this.form.email)) &&
         (this.form.senha.length >= 6)){
         this.botaoAcessar = true
 
@@ -152,8 +165,7 @@ export default {
     },
     enableBotaoSalvar(){
       if((this.form.nome != "") &&
-        (this.form.email != "") &&
-        (this.form.telefone != "") &&
+        (this.validarEmail(this.form.email)) &&
         (this.form.senha.length >= 6)){
           this.botaoSalvar = true
 
@@ -163,7 +175,7 @@ export default {
       }
     },
     enableBotaoEnviarEmail(){
-      if(this.form.email != ""){
+      if(this.validarEmail(this.form.email)){
           this.botaoEnviarEmail = true
 
       }else{
@@ -194,7 +206,6 @@ export default {
     <b-modal
       id="modal-scrollable-user-lg"
       size="lg"
-      scrollable
       :title="tituloModal">
       <div id="loginUser">
         <div>
@@ -206,19 +217,19 @@ export default {
               <b-form-input
                 v-model="form.email"
                 type="email"
-                placeholder="Email: (contato@mail) "
+                placeholder="*Email: (contato@mail.com) "
                 @input="enableBotaoAcessar()"
               ></b-form-input>
-              <label for="floatingInput">Email: (contato@mail)</label>
+              <label for="floatingInput">*Email: (contato@mail.com)</label>
             </div>
             <div class="form-floating">
               <b-form-input
                 v-model="form.senha"
                 :type="form.tipoSenha"
-                placeholder="Senha: (Min. 6 caracteres) "
+                placeholder="*Senha: (Min. 6 caracteres) "
                 @input="enableBotaoAcessar()"
                 ></b-form-input>
-                <label for="floatingInput">Senha: (Min. 6 caracteres)</label>
+                <label for="floatingInput">*Senha: (Min. 6 caracteres)</label>
             </div>
             <div class="checkMostrarSenha">
               <b-form-checkbox
@@ -226,6 +237,9 @@ export default {
                 :value="true"
                 :unchecked-value="false"      
               ></b-form-checkbox>Mostrar senha
+            </div>
+            <div class="campos-obrigatorios">
+              <p>* Campos obrigatórios </p>
             </div>
             <div class="buttons-login-user">
               <b-button
@@ -242,19 +256,19 @@ export default {
               <b-form-input
                 v-model="form.nome"
                 type="text"
-                placeholder="Seu nome: "
+                placeholder="*Seu nome: "
                 @input="enableBotaoSalvar()"
               ></b-form-input>
-              <label for="floatingInput">Seu nome:</label>
+              <label for="floatingInput">*Seu nome:</label>
             </div>
             <div class="form-floating">
               <b-form-input
                 v-model="form.email"
                 type="email"
-                placeholder="Email: (contato@mail) "
+                placeholder="*Email: (contato@mail.com) "
                 @input="enableBotaoSalvar()"
               ></b-form-input>
-              <label for="floatingInput">Email: (contato@mail)</label>
+              <label for="floatingInput">*Email: (contato@mail.com)</label>
             </div>
             <div class="form-floating">
               <b-form-input
@@ -262,12 +276,13 @@ export default {
                 type="tel"
                 placeholder="Telefone: (55 99999 9999) "
                 maxlength="15"
-                @input="enableBotaoSalvar()"
                 @keyup="handlePhone($event.target)"
               ></b-form-input>
               <label for="floatingInput">Telefone: (55 99999 9999)</label>
             </div>
-            <div class="checkWhatsapp">
+            <div
+              v-if="checkWhatsapp" 
+              class="checkWhatsapp">
               <b-form-checkbox
                 v-model="form.permissaoTelefone"
                 value="1"
@@ -278,10 +293,10 @@ export default {
               <b-form-input
                 v-model="form.senha"
                 :type="form.tipoSenha"
-                placeholder="Senha: (Min. 6 caracteres) "
+                placeholder="*Senha: (Min. 6 caracteres) "
                 @input="enableBotaoSalvar()"
               ></b-form-input>
-              <label for="floatingInput">Senha: (Min. 6 caracteres)</label>
+              <label for="floatingInput">*Senha: (Min. 6 caracteres)</label>
             </div>
             <div class="checkMostrarSenha">
               <b-form-checkbox
@@ -289,6 +304,9 @@ export default {
                 :value="true"
                 :unchecked-value="false"      
               ></b-form-checkbox>Mostrar senha
+            </div>
+            <div class="campos-obrigatorios">
+              <p>* Campos obrigatórios </p>
             </div>
             <div class="buttons-login-user">
               <b-button
@@ -307,16 +325,19 @@ export default {
               <b-form-input
                   v-model="form.email"
                   type="email"
-                  placeholder="Email: (contato@mail) "
+                  placeholder="*Email: (contato@mail.com) "
                   @input="enableBotaoEnviarEmail()"
                 ></b-form-input>
-                <label for="floatingInput">Email: (contato@mail)</label>
+                <label for="floatingInput">*Email: (contato@mail.com)</label>
             </div>
             <div v-if="mensagemRecuperacao">
               <span class="mensagem-recuperacao">
                 <i class='bx bx-info-circle'></i>
                   Nova senha será enviado por email!
                 </span>
+            </div>
+            <div class="campos-obrigatorios">
+              <p>* Campos obrigatórios </p>
             </div>
             <div class="buttons-login-user">
               <b-button
@@ -471,6 +492,14 @@ export default {
 }
 #loginUser form label::after{
   background-color: transparent;
+
+}
+#loginUser .campos-obrigatorios{
+  display: flex !important;
+  flex-direction: row;
+  justify-content: flex-end;
+  color: white;
+  font-size: .9rem;
 
 }
 #loginUser div .buttons-login-user {

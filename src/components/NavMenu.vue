@@ -22,7 +22,7 @@ export default {
   methods: {
     mensagemAlerta(id) {
       if(id == 1){
-        this.alerta.mensagem = "Logando..."
+        this.alerta.mensagem = "Logando!"
         this.alerta.tipo = "success"
         this.alerta.isAlert = true
 
@@ -43,7 +43,7 @@ export default {
 
       }else if(id == 5){
         this.alerta.mensagem = "Email já existe!"
-        this.alerta.tipo = "info"
+        this.alerta.tipo = "warning"
         this.alerta.isAlert = true
 
       }else if(id == 6){
@@ -186,7 +186,7 @@ export default {
   }
   .navbar{
     width: 100%;
-    padding: 0 1rem;
+    padding: 0 1.5rem;
     background-color: #6C63FF;
     box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.5);
 

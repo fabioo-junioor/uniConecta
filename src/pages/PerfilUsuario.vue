@@ -215,7 +215,7 @@ export default {
 
       }else if(id == 4){
         this.alerta.mensagem = "Moedas insuficientes!"
-        this.alerta.tipo = "info"
+        this.alerta.tipo = "warning"
         this.alerta.isAlert = true
 
       }
@@ -238,7 +238,7 @@ export default {
     await this.atualizaDados()
     this.pk_usuarioPerfil = parseInt(this.$route.params.pk)
     this.buscaCursosUsuario(this.pk_usuarioPerfil)
-    this.buscaDadosUsuario(this.pk_usuarioPerfil)
+    await this.buscaDadosUsuario(this.pk_usuarioPerfil)
 
   }
 };
@@ -267,10 +267,10 @@ export default {
         :imagemPerfil="imagemPerfil"
         :nomeUsuario="nomeUsuario"
         :graduacao="graduacao"
-        :totalMoedas="totalMoedas"
+        :totalMoedas="((pk_usuarioLogado != mull)&&(pk_usuarioLogado == pk_usuarioPerfil)) ? totalMoedas : null"
         :totalPontos="totalPontos"
-        :telefone="telefone"
-        :email="emailUsuarioPerfil"
+        :telefone="(pk_usuarioLogado != mull) ? telefone : null"
+        :email="(pk_usuarioLogado != mull) ? emailUsuarioPerfil : null"
         :permissaoTelefone="permissaoTelefone"
         :mediaStars="mediaStars" />
     </div>

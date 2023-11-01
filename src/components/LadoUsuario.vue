@@ -38,11 +38,12 @@ export default {
             <h3 
               v-if="graduacao">{{ graduacao }}</h3>
             <h4
-              v-if="true">{{ email }}</h4>
+              v-if="email">{{ email }}</h4>
             <h4 
-            v-if="permissaoTelefone == 1" >
+            v-if="(permissaoTelefone == 1)&&(telefone)" >
             <a :href="urlWp+telefone+msgWp" target="_blank">Whatsapp</a></h4>
-            <div>
+            <div
+              v-if="totalMoedas">
                 <img src="../assets/gifs/coin.gif" />
                 {{ totalMoedas }} - Moedas
             </div>
