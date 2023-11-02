@@ -22,15 +22,16 @@ export default {
   font-family: 'Work Sans', sans-serif;
   background-color: #6C63FF;
   min-height: 3rem;
-  display: flex;
+  width: 100%;
   padding: 0;
+  display: flex;
   justify-content: center;
   align-items: flex-end;
   box-shadow: -1px -1px 10px 2px rgba(0, 0, 0, 0.3);
 
   h4{
-    font-size: 1rem;
-    font-weight: 600;
+    padding: .2rem;
+    font-size: .9rem;
     color: white;
 
   }
@@ -44,9 +45,11 @@ export default {
 }
 @media only screen and (max-width: 720px) {
   #rodape {
+    min-height: 2.5rem;
+    
     h4{
-      font-size: .9rem;
-      font-weight: 500;
+      font-size: .8rem;
+      padding: 0;
 
     }
   }

@@ -371,11 +371,11 @@ export default {
         width: 100%;
         height: auto;
         margin: 0 0 1rem 0;
-        padding: 0.2rem;
-        border: 1px solid #6c63ff;
+        padding: .3rem;
+        border: none;
         border-radius: 5px;
         background-color: white;
-        box-shadow: 1px 1px 0px 0px #6C63FF;
+        box-shadow: 1px 1px 1px 1px #6C63FF;
         color: black;
         font-weight: 500;
       }
@@ -390,10 +390,10 @@ export default {
       align-items: center;
       margin: 0 0 1rem 0;
       padding: 0.3rem;
-      border: 1px solid #6c63ff;
+      border: none;
       border-radius: 5px;
       background-color: rgb(240, 240, 240);
-      box-shadow: 1px 1px 0px 0px #6C63FF;
+      box-shadow: 1px 1px 1px 1px #6C63FF;
       color: black;
       font-weight: 500;
 
@@ -422,20 +422,24 @@ export default {
       }
       input {
         margin: 0 0 1rem 0;
-        border: 1px solid #6c63ff;
+        border: none;
         height: 4rem;
         border-radius: 5px;
         background-color: white;
-        box-shadow: 1px 1px 0px 0px #6C63FF;
+        box-shadow: 1px 1px 1px 1px #6C63FF;
         color: rgba(0, 0, 0, 0.8);
       }
       input:disabled{
         background-color: rgba(0, 0, 0, 0.05);
 
       }
+      input:focus{
+        border-bottom: 1px solid #6C63FF;
+
+      }
       label {
         font-family: "Work Sans", sans-serif;
-        font-size: 0.9rem;
+        font-size: .9rem;
         color: black;
       }
       label::after {
@@ -444,11 +448,11 @@ export default {
       select {
         width: 100%;
         margin: 0 0 1rem 0;
-        border: 1px solid #6c63ff;
+        border: none;
         height: 3rem;
         border-radius: 5px;
         background-color: white;
-        box-shadow: 1px 1px 0px 0px #6C63FF;
+        box-shadow: 1px 1px 1px 1px #6C63FF;
         color: black;
         padding-left: 0.5rem;
 
@@ -456,6 +460,10 @@ export default {
           background-color: #6c63ff;
           color: white;
         }
+      }
+      select:focus{
+        border-bottom: 1px solid #6C63FF;
+
       }
       .checkWhatsapp{
         margin: 0 0 1rem 0;
@@ -489,7 +497,6 @@ export default {
           width: 1.5rem !important;
 
           input{
-            color: red !important;
             height: 100% !important;
             box-shadow: none;
 
@@ -515,7 +522,7 @@ export default {
 
         button {
           font-family: "Work Sans", sans-serif;
-          box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 1);
+          box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
           width: 90%;
           height: 4rem;
           border-radius: 5px;

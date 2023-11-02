@@ -442,12 +442,16 @@ export default {
 }
 #loginUser form input {
   margin: 5px 0px;
-  border: .5px solid black;
+  border: none;
   height: 3.5rem;
   border-radius: 5px;
   background-color: white;
-  box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
   color: black;
+}
+#loginUser form input:focus{
+  border-bottom: 1px solid black;
+
 }
 #loginUser .checkWhatsapp{
   margin: 5px 0px;
@@ -488,6 +492,7 @@ export default {
 #loginUser form label{
   font-family: 'Work Sans', sans-serif;
   color: black;
+  font-size: .9rem;
   
 }
 #loginUser form label::after{
@@ -511,7 +516,7 @@ export default {
 }
 #loginUser .buttons-login-user button {
   font-family: 'Work Sans', sans-serif;
-  box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 1);
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
   width: 40%;
   height: 3rem;
   border-radius: 5px;

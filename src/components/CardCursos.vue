@@ -154,12 +154,13 @@ export default {
   display: flex !important;
   flex-direction: column !important;
   font-family: 'Work Sans', sans-serif;
-  border: 1px solid #6C63FF;
-  box-shadow: 2px 2px 0px 0px #6C63FF;
+  border-bottom: 2px solid white;
+  border-right: 2px solid white;
+  box-shadow: 1px 1px 1px 1px #6C63FF;
   border-radius: 5px;
   padding: 0 !important;
   width: 18rem;
-  margin: .3rem;
+  margin: .5rem;
   background-color: white !important;
 
   .header-status{
@@ -169,7 +170,7 @@ export default {
     padding: .3rem 0;
     border-bottom: 1px solid #6C63FF;
     margin: .2rem;
-    background-color: white;
+    background-color: transparent;
 
     .favorito{
       width: 70%;
@@ -228,7 +229,7 @@ export default {
         }
       }
       .btn:hover i{
-        color: rgba(0, 0, 0, 0.6);
+        color: rgba(0, 0, 0, .6);
       
       }
     }
@@ -240,6 +241,7 @@ export default {
     display: flex;
     flex-direction: column;
     height: 100%;
+    background-color: transparent;
 
     .card-body{
       display: flex !important;
@@ -285,6 +287,11 @@ export default {
       }
     }
   }  
+}
+#card-curso:hover{
+  border-bottom: 2px solid #6C63FF;
+  border-right: 2px solid #6C63FF;
+
 }
 /* Responsive */
 @media only screen and (max-width: 1560px) {

@@ -420,13 +420,14 @@ export default {
       label{
         font-family: 'Work Sans', sans-serif;
         color: black;
+        font-size: .9rem;
 
       }
       input{
         background-color: white;
-        border: .5px solid black;
+        border: none;
         border-radius: 5px;
-        box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
         color: black;
         height: 3.6rem;
         
@@ -435,14 +436,19 @@ export default {
         background-color: rgba(255, 255, 255, 0.8);
       
       }
+      input:focus{
+        border-bottom: 1px solid black;
+
+      }
       select{
         width: 100%;
         height: 2.5rem;
-        border: .5px solid black;
+        border: none;
         border-radius: 5px;
         background-color: white;
-        box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
         color: black;
+        font-size: .9rem;
         padding-left: 0.5rem;
 
         option:nth-child(1) {
@@ -450,15 +456,22 @@ export default {
           color: white;
         }
       }
+      select:focus{
+        border-bottom: 1px solid black;
+
+      }
       textarea{
-        border: .5px solid black; 
+        border: none; 
         border-radius: 5px;
         background-color: white;
-        box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
         color: black;
 
       }
+      textarea:focus{
+        border-bottom: 1px solid black;
 
+      }
     }
     .checkGrupoApoio{
       display: flex;
