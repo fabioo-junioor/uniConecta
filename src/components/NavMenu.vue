@@ -133,7 +133,7 @@ export default {
           <div 
             class="menu-user-logado"
             v-else>
-            <b-nav-item-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret right>
+            <b-nav-item-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret left>
               <template #button-content>
                 <img
                   id="imagemPerfil"
@@ -145,12 +145,12 @@ export default {
                   class="img-icon-user"
                   v-else
                   :src="imagemPerfil" />
-                  <b-tooltip
-                    target="imagemPerfil"
-                    variant="primary" 
-                    placement="bottomleft">
-                    {{nomeUsuario}}
-                  </b-tooltip>
+                <b-tooltip
+                  target="imagemPerfil"
+                  variant="primary" 
+                  placement="bottomleft">
+                  {{nomeUsuario}}
+                </b-tooltip>
               </template>
               <b-dropdown-item>
                 <router-link to="/dashboard">Dashboard</router-link>
@@ -178,6 +178,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap');
 
 #navmenu {
+  z-index: 0;
   a{
     font-family: 'Work Sans', sans-serif;
     color: white !important;
@@ -188,13 +189,14 @@ export default {
     width: 100%;
     padding: 0 1.5rem;
     background-color: #6C63FF;
-    box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.5);
-
+    box-shadow: 0px 1px 5px 2px rgba(0, 0, 0, 0.5);
+    
     .navbar-brand{
-      padding: 0;
-      margin: .2rem .1rem;
-      border: 1px solid white;
+      padding: .1rem .2rem;
+      margin: .3rem .1rem;
       border-radius: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 1);
 
       img{
         border-radius: 5px;
@@ -203,8 +205,7 @@ export default {
       }
     }
     .navbar-brand:hover{
-      background-color: white;
-      box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
+      border: 1px solid white;
 
     }
     .navbar-toggler{
@@ -221,40 +222,57 @@ export default {
         align-items: center;
 
         .menu-estatico{
+          width: 90%;
           display: flex;
           align-items: center;
           padding: 0 0 0 1rem;
 
           a{
+            border-radius: 5px;
             font-size: .9rem;
-            padding: .5rem;
-            font-weight: 600;
+            padding: .6rem 1rem;
+            border: 1px solid white;
 
           }
           a:hover{
-            color: white;
-            text-decoration: underline 3px;
-            text-underline-offset: 100%;
+            background-color: rgba(255, 255, 255, 1);
+            box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, .2);
+            color: #6C63FF !important;
+            font-weight: bold;
 
+          }
+          .vue-school-active-link{
+            background-color: rgba(255, 255, 255, 1);
+            box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, .2);
+            color: #6C63FF !important;
+            font-weight: bold;
+            
           }
         }
-        .menu-user{          
-          .menu-user-nao-logado{
+        .menu-user{
+          width: 10%;
+                 
+          .menu-user-nao-logado{            
             a{
-              color: white !important;
-              padding: 0;
-              font-weight: 600;
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              align-items: center;
+              border-radius: 5px;
               font-size: .9rem;
-  
+              padding: .3rem .5rem;              
+              border: 1px solid white;
+              
             }
             a:hover{
-              color: white;
-              text-decoration: underline 3px;
-              text-underline-offset: 100%;
+              background-color: rgba(255, 255, 255, 1);
+              box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, .2);
+              color: #6C63FF !important;
+              font-weight: bold;
 
             }
           }
-          .menu-user-logado{
+          .menu-user-logado{        
             li{
               color: white;
               font-weight: 600;
@@ -283,6 +301,14 @@ export default {
 
               }
             }
+            a:hover{
+              border-bottom: 2px solid #6C63FF;
+
+            }
+            .vue-school-active-link{              
+              color: #6C63FF !important;
+            
+            }
           }
         }
       }
@@ -306,26 +332,49 @@ export default {
         flex-direction: column;
 
         .menu-estatico{
+          width: 100%;
           display: flex;
           flex-direction: column;
-          align-items: flex-start;
+          align-items: center;
           padding: 0 0 0 .2rem;
 
-          a{
-            font-size: .9rem;
-            padding: .5rem;
+          .nav-item{
+            width: 100%;
 
-          }
-          a:hover{
-            text-decoration: none;
+            a{
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-size: .9rem;
+              padding: .5rem;
+              width: 100%;
+              height: 3rem;
 
-          }
-          a:active{
-            color: rgba(0, 0, 0, 0.7) !important;
-
+            }
           }
         }
         .menu-user{
+          width: 100%;
+          display: flex;
+          justify-content: center;
+
+          .menu-user-nao-logado{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+
+            .nav-item{
+              width: 80%;
+
+              a{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 2.5rem;
+
+              }
+            }
+          }
           .menu-user-logado{
             margin-bottom: .5rem;
             
