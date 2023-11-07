@@ -32,26 +32,22 @@ export default {
       }
     },
     async buscarMaioresPontuacoes() {
-      const response = await fetch(this.url + "buscaRanking.php?maioresPontuacoes=1",{
+      const response = await fetch(
+        this.url + "buscaRanking.php?maioresPontuacoes=1",
+        {
           method: "POST",
           body: JSON.stringify(),
         }
-      ).catch((
-        this.configRanking.responseRanking = true
-      
-      ))
+      ).catch((this.configRanking.responseRanking = true));
       if (!response.ok) {
         console.log(response.status);
-
       } else {
         const dados = await response.json();
         if (dados[0].pk_usuario != null) {
           this.configRanking.rankingPontuacao = dados;
           this.configRanking.responseRanking = false;
-        
         } else {
           this.configRanking.responseRanking = false;
-        
         }
       }
     },
@@ -78,13 +74,11 @@ export default {
   },
   mounted() {
     this.url = import.meta.env.VITE_ROOT_API;
-    var tempoResponse = setInterval( async () => {
+    var tempoResponse = setInterval(async () => {
       if (this.configRanking.responseRanking) {
-        this.buscarMaioresPontuacoes()
-
+        this.buscarMaioresPontuacoes();
       } else {
         clearInterval(tempoResponse);
-        
       }
     }, 3000);
   },
@@ -95,19 +89,29 @@ export default {
   <div id="inicio">
     <div class="inicio-texto">
       <h2>UniConecta</h2>
-      <hr>
+      <hr />
       <p>
-        There are many variations of passages of Lorem Ipsum available, but the
-        majority have suffered alteration in some form, by injected humour, or
-        randomised words which don't look even slightly believable. If you are
-        going to use a passage of Lorem Ipsum, you need to be sure there isn't
-        anything embarrassing hidden in the middle of text. All the Lorem Ipsum
-        generators on the Internet tend to repeat predefined chunks as
-        necessary, making this the first true generator on the Internet. It uses
-        a dictionary of over 200 Latin words, combined with a handful of model
-        sentence structures, to generate Lorem Ipsum which looks reasonable. The
-        generated Lorem Ipsum is therefore always free from repetition, injected
-        humour, or non-characteristic words etc.
+        Este projeto tem como objetivo ajudar na colaboração entre os estudantes
+        da UFSM, através da criação e divulgação de (cursos, aulas, oficinas,
+        etc), pois os mesmos estarão centralizados em um mesmo lugar. A
+        plataforma está baseada em um
+        <span class="text-bold">sistema de troca</span> que não envolve
+        <span class="text-bold">dinheiro real</span> e sim
+        <span class="text-bold">moedas virtuais</span>. A mesma também dispõe de
+        alguns elementos de gamificação (moedas virtuais, pontos, ranking) que
+        tem como intuito proporcionar uma maior motivação aos usuários. <br />O
+        usuário que quiser compartilhar algum conhecimento específico, poderá
+        cadastrar seu “curso” na plataforma para que outros possam comprá-lo, o
+        usuário definirá valor, duração descrição, título, etc. <br />
+        <span class="text-bold">Exemplo:</span>
+        O aluno João gostaria de vender uma aula de 2 horas de estatística
+        básica no valor de 10 moedas, o mesmo cadastra essa aula na plataforma e
+        quem se interessar efetuará a compra no valor pré definido. A cada venda
+        desta aula João irá ganhar 10 moedas, assim, poderá usá-las para comprar
+        o curso que desejar. <br />
+        <span class="text-bold">Observação importante:</span>
+        Toda a troca de conhecimento acontecerá de forma externa a plataforma, a
+        mesma é somente para divulgação e interação dos usuários.
       </p>
     </div>
     <div class="inicio-ranking">
@@ -135,7 +139,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu&family=Work+Sans&display=swap");
 
 #inicio {
   display: flex;
@@ -146,25 +150,26 @@ export default {
 
   .inicio-texto {
     width: 40%;
-    font-family: 'Work Sans', sans-serif;
+    font-family: "Work Sans", sans-serif;
 
-    h2{
+    h2 {
       color: #6c63ff;
       font-weight: bold;
-
     }
-    hr{
-      border: 2px solid #6C63FF;
+    hr {
+      border: 2px solid #6c63ff;
       width: 100%;
-      
     }
-    p{
+    p {
       text-align: justify;
       font-size: 1rem;
       color: black;
 
+      .text-bold {
+        font-weight: bold;
+        color: #6c63ff;
+      }
     }
-
   }
   .inicio-ranking {
     width: 40%;
@@ -212,7 +217,6 @@ export default {
       width: 100%;
       margin: 1rem 0;
       padding: 0 1rem;
-
     }
     .inicio-ranking {
       width: 90%;

@@ -167,7 +167,7 @@ export default {
     },
     mensagemAlerta(id) {
       if(id == 1){
-        this.alerta.mensagem = "Curso comprado!"
+        this.alerta.mensagem = "Compra realizada. Fale com o vendedor!"
         this.alerta.tipo = "success"
         this.alerta.isAlert = true
 
