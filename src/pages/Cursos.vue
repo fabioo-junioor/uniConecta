@@ -203,7 +203,7 @@ export default {
   },
   async mounted(){
     this.url = import.meta.env.VITE_ROOT_API
-    this.atualizaDados()
+    await this.atualizaDados()
     var tempoResponse = setInterval(() => {
       if(this.spinner){
         this.buscaTodosCursos()

@@ -237,7 +237,7 @@ export default {
     this.url = import.meta.env.VITE_ROOT_API
     await this.atualizaDados()
     this.pk_usuarioPerfil = parseInt(this.$route.params.pk)
-    this.buscaCursosUsuario(this.pk_usuarioPerfil)
+    await this.buscaCursosUsuario(this.pk_usuarioPerfil)
     await this.buscaDadosUsuario(this.pk_usuarioPerfil)
 
   }

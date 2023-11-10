@@ -46,8 +46,8 @@ export default {
         if(dados[0].email != null){
           let valid = await decryptSenha(this.form.senha, dados[0].senha)
           if(valid){
+            await dadosUsuarioPreview(dados[0].pk_usuario)
             this.$emit('mensagemAlerta', 1)
-            dadosUsuarioPreview(dados[0].pk_usuario)
 
           }else{
             this.$emit('mensagemAlerta', 3)

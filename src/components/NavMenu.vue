@@ -84,11 +84,11 @@ export default {
 
         return location.reload()
 
-      }, 1100)      
+      }, 1100)
     }
   },
   async mounted() {
-      this.atualizaDadosPreview()
+      await this.atualizaDadosPreview()
 
   }
 };
