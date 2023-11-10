@@ -8,17 +8,13 @@ async function dadosUsuarioPreview(pk_usuario){
       if(!response.ok){
         console.log(response.status)
 
-        return false
-
       }else{
         const dados = await response.json()
-        setDadosUsuarioLocal(dados)
-        
-        return true
+        await setDadosUsuarioLocal(dados)
 
       }
 }
-function setDadosUsuarioLocal(dados){
+async function setDadosUsuarioLocal(dados){
     localStorage.setItem('dadosUsuario', JSON.stringify(dados))
             
 }
@@ -31,7 +27,7 @@ async function getDadosUsuarioLocal(){
       let usuarioString = localStorage.getItem('dadosUsuario')
       let usuarioObj = JSON.parse(usuarioString)
       let pk_usuarioTemp = usuarioObj[0].pk_usuario
-      await dadosUsuarioPreview(pk_usuarioTemp)
+      dadosUsuarioPreview(pk_usuarioTemp)
       usuarioString = localStorage.getItem('dadosUsuario')
       usuarioObj = JSON.parse(usuarioString)
       

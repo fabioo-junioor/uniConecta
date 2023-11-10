@@ -190,7 +190,7 @@ export default {
       this.resetaAlerta(id)
 
     },
-    resetaAlerta(id){
+    async resetaAlerta(id){
       setTimeout(() => {
         this.alerta.mensagem = ""
         this.alerta.tipo = ""

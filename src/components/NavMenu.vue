@@ -68,7 +68,7 @@ export default {
 
         return ((id != 2)&&(id != 3)&&(id != 5)&&(id != 7)) ? location.reload() : false
 
-      }, 4050)
+      }, 4500)
 
     },
     async atualizaDadosPreview(){
@@ -81,7 +81,6 @@ export default {
     sair(){
       setTimeout(() => {
         deleteDadosUsuario()
-        console.log("saiu...")
 
         return location.reload()
 
