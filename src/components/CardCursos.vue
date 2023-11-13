@@ -22,7 +22,8 @@ export default {
     desativarBotao: Boolean,
     tipo: Number,
     ativarFavorito: Boolean,
-    ativarDelete: Boolean
+    ativarDelete: Boolean,
+    visibilidadeCurso: Boolean
 
   },
   methods: {
@@ -40,6 +41,10 @@ export default {
     },
     deletarCurso(pk_curso){
       this.$emit('deletarCurso', pk_curso)
+
+    },
+    restaurarCurso(pk_curso){
+      this.$emit('restaurarCurso', pk_curso)
 
     },
     avaliarCurso(pk_compra_venda, fk_comprador, cursoNome){
@@ -90,9 +95,15 @@ export default {
       <div
         v-if="ativarDelete"
         class="deletar-curso">
-        <b-button
+        <b-button v-b-tooltip.hover title="Deletar!"
+          v-if="visibilidadeCurso"
           @click="deletarCurso(pk_curso)" >
           <i class="bx bx-trash" />
+        </b-button>
+        <b-button v-b-tooltip.hover title="Restaurar!"
+          v-else
+          @click="restaurarCurso(pk_curso)" >
+          <i class='bx bx-reset'></i>
         </b-button>
       </div>
     </div>

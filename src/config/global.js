@@ -27,7 +27,7 @@ async function getDadosUsuarioLocal(){
       let usuarioString = localStorage.getItem('dadosUsuario')
       let usuarioObj = JSON.parse(usuarioString)
       let pk_usuarioTemp = usuarioObj[0].pk_usuario
-      dadosUsuarioPreview(pk_usuarioTemp)
+      await dadosUsuarioPreview(pk_usuarioTemp)
       usuarioString = localStorage.getItem('dadosUsuario')
       usuarioObj = JSON.parse(usuarioString)
       

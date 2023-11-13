@@ -114,7 +114,7 @@ export default {
               <router-link to="/sobre">SOBRE</router-link>
           </b-nav-item>
           <b-nav-item>
-            <router-link to="/cursos">CURSOS</router-link>
+            <router-link to="/cursos">UNIDADES DE ESTUDO</router-link>
           </b-nav-item>
         </div>
         <div class="menu-user">
@@ -155,7 +155,7 @@ export default {
                 <router-link to="/dashboard">Dashboard</router-link>
               </b-dropdown-item>
               <b-dropdown-item>
-                <router-link to="/meusCursos">Meus Cursos</router-link>
+                <router-link to="/meusCursos">Minhas Unidades</router-link>
               </b-dropdown-item>
               <b-dropdown-item>
                 <router-link to="/editarPerfil">Editar Perfil</router-link>

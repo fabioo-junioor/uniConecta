@@ -33,7 +33,7 @@ export default {
           { value: "Sistemas de informação", text: "Sistemas de informação" },
           { value: "Ciência da computação", text: "Ciência da computação" },
           { value: "Sistemas para internet", text: "Sistemas para internet" },
-          { value: "Engenharia da computação", text: "Engenharia da computação" }
+          { value: "Engenharia de computação", text: "Engenharia de computação" }
         ],
         senha: "",
       },

@@ -172,12 +172,12 @@ export default {
         this.alerta.isAlert = true
 
       }else if(id == 2){
-        this.alerta.mensagem = "Favoritou curso!"
+        this.alerta.mensagem = "Favoritou unidade!"
         this.alerta.tipo = "info"
         this.alerta.isAlert = true
 
       }else if(id == 3){
-        this.alerta.mensagem = "Desfavoritou curso!"
+        this.alerta.mensagem = "Desfavoritou unidade!"
         this.alerta.tipo = "info"
         this.alerta.isAlert = true
 
@@ -249,7 +249,7 @@ export default {
       :descricao="dadosInfo.descricao"
       :linkMaterial="dadosInfo.linkMaterial" />
     <div class="titulo-pagina-cursos">
-      <h3>Cursos</h3>
+      <h3>Unidades de estudo</h3>
       <hr>
       <div class="input-buscar-pagina-cursos">
         <b-form-input

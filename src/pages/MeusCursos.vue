@@ -82,7 +82,6 @@ export default {
 
       }else{
         const dados = await response.json()
-        //console.log(dados)
         this.dadosInfo.pk_curso = dados[0].pk_curso
         this.dadosInfo.cursoNome = dados[0].cursoNome
         this.dadosInfo.tipoCurso = dados[0].tipoCurso
@@ -120,8 +119,27 @@ export default {
           this.mensagemAlerta(2)
 
         }else{
-          await this.atualizaDadosPreview()
           this.mensagemAlerta(1)
+
+        }        
+      }
+    },
+    async restaurarCurso(pk_curso){
+      const response = await fetch(this.url+'restaurarCurso.php?restaurarCurso=1', {
+        method: 'POST',
+        body: JSON.stringify({
+          pk_curso: pk_curso,
+          pk_usuario: this.pk_usuario
+
+        })
+      })
+      if(!response.ok){
+        console.log(response.status)
+
+      }else{
+        const dados = await response.json()
+        if(dados[0].pk_curso != null){
+          this.mensagemAlerta(3)
 
         }        
       }
@@ -133,13 +151,18 @@ export default {
     },
     mensagemAlerta(id) {
       if(id == 1){
-        this.alerta.mensagem = "Curso apagado!"
+        this.alerta.mensagem = "Unidade apagada!"
         this.alerta.tipo = "success"
         this.alerta.isAlert = true
 
       }else if(id == 2){
         this.alerta.mensagem = "Avaliação pendente!"
         this.alerta.tipo = "info"
+        this.alerta.isAlert = true
+
+      }else if(id == 3){
+        this.alerta.mensagem = "Unidade restaurada!"
+        this.alerta.tipo = "success"
         this.alerta.isAlert = true
 
       }
@@ -214,9 +237,9 @@ export default {
     </div>
     <div class="lado-meus-cursos">
       <div class="meus-cursos-header">
-        <h4>Meus Cursos</h4>
+        <h4>Minhas Unidades</h4>
         <a v-b-modal.modal-scrollable-curso-lg>
-          <b-button> <ModalCadCurso />CADASTRAR CURSO </b-button>
+          <b-button> <ModalCadCurso />CADASTRAR UNIDADE</b-button>
         </a>
       </div>
       <div class="meus-cursos-body">
@@ -235,8 +258,10 @@ export default {
             :desativarBotao="true"
             :ativarDelete="true"
             :tipo="4"
+            :visibilidadeCurso="i.isVisivel === 1 ? true : false"
             @infoCurso="infoCurso"
             @deletarCurso="deletarCurso"
+            @restaurarCurso="restaurarCurso"
             @editarCurso="editarCurso" />
         </div>
       </div>

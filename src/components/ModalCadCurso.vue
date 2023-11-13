@@ -96,12 +96,12 @@ export default {
     },
     mensagemAlerta(id) {
       if(id == 1){
-        this.alerta.mensagem = "Curso cadastrado!"
+        this.alerta.mensagem = "Unidade cadastrada!"
         this.alerta.tipo = "success"
         this.alerta.isAlert = true
 
       }else if(id == 2){
-        this.alerta.mensagem = "Curso não cadastrado!"
+        this.alerta.mensagem = "Unidade não cadastrada!"
         this.alerta.tipo = "danger"
         this.alerta.isAlert = true
 
@@ -218,7 +218,7 @@ export default {
   <b-modal
     id="modal-scrollable-curso-lg"
     size="lg"
-    title="Cadastrar Curso">
+    title="Cadastrar Unidade">
     <div id="cadastro-curso">
       <b-form>
         <div>

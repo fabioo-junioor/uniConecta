@@ -70,7 +70,7 @@ export default {
     },
     mensagemAlerta(id) {
       if(id == 1){
-        this.alerta.mensagem = "Curso avaliado!"
+        this.alerta.mensagem = "Unidade avaliada!"
         this.alerta.tipo = "success"
         this.alerta.isAlert = true
 

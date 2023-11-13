@@ -156,7 +156,7 @@ export default {
       this.dadosAvaliacao.pk_comprador = fk_comprador
       this.dadosAvaliacao.cursoNome = cursoNome
 
-      this.$root.$emit('bv::show::modal', 'modalAvaliarCurso')    
+      this.$root.$emit('bv::show::modal', 'modalAvaliarCurso')
 
     },
     async infoCurso(pk_curso){
@@ -228,7 +228,6 @@ export default {
     },
     async atualizaDadosPreview(){
       let dadosUsuario = await getDadosUsuarioLocal()
-      //console.log(dadosUsuario)
       this.pk_usuario = dadosUsuario[0].pk_usuario
       this.nomeUsuario = dadosUsuario[0].nome
       this.graduacao = dadosUsuario[0].graduacao
@@ -243,22 +242,22 @@ export default {
     },
     mensagemAlerta(id) {
       if(id == 1){
-        this.alerta.mensagem = "Curso comprado!"
+        this.alerta.mensagem = "Unidade comprada!"
         this.alerta.tipo = "success"
         this.alerta.isAlert = true
 
       }else if(id == 2){
-        this.alerta.mensagem = "Favoritou curso!"
+        this.alerta.mensagem = "Favoritou unidade!"
         this.alerta.tipo = "info"
         this.alerta.isAlert = true
 
       }else if(id == 3){
-        this.alerta.mensagem = "Desfavoritou curso!"
+        this.alerta.mensagem = "Desfavoritou unidade!"
         this.alerta.tipo = "info"
         this.alerta.isAlert = true
 
       }else if(id == 4){
-        this.alerta.mensagem = "Curso apagado!"
+        this.alerta.mensagem = "Unidade apagada!"
         this.alerta.tipo = "success"
         this.alerta.isAlert = true
 
@@ -349,7 +348,7 @@ export default {
             :tipo="1"
             :desativarBotao="false"
             :ativarFavorito="false"
-            :ativarDelete="true"
+            :ativarDelete="false"
             @infoCurso="infoCurso"
             @deletarCurso="deletarCurso"
             @avaliarCurso="avaliarCurso" />
@@ -404,7 +403,7 @@ export default {
             :tipo="3"
             :desativarBotao="true"
             :ativarFavorito="i.fk_usuarioCurso != pk_usuario ? true : false"
-            :ativarDelete="i.fk_usuarioCurso === pk_usuario ? true : false"
+            :ativarDelete="false"
             @infoCurso="infoCurso"
             @adicionarFavorito="adicionarFavorito"
             @deletarFavorito="deletarFavorito"

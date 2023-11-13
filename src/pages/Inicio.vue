@@ -91,7 +91,28 @@ export default {
       <h2>UniConecta</h2>
       <hr />
       <p>
-        ??
+        Este projeto tem como objetivo ajudar na colaboração entre os estudantes
+        da UFSM, através da criação e divulgação de
+        <span class="text-bold">unidades de estudo</span>. Cada unidade de
+        estudo pode compreender diferentes formas de atividades como: cursos,
+        aulas, oficinas, etc, pois os mesmos estarão centralizados em um mesmo
+        lugar. A plataforma está baseada em um
+        <span class="text-bold">sistema de troca</span> que não envolve
+        <span class="text-bold">dinheiro real</span> e sim
+        <span class="text-bold">moedas virtuais</span>. A mesma também dispõe de
+        alguns elementos de gamificação como: moedas virtuais, pontos e ranking,
+        que têm como intuito proporcionar uma maior motivação aos usuários.<br />
+        O usuário que quiser compartilhar algum conhecimento específico, poderá
+        cadastrar sua “unidade” na plataforma para que outros possam adquiri-la,
+        o usuário definirá valor, duração descrição, título, etc. <br />
+        <span class="text-bold">Exemplo:</span> O aluno João gostaria de vender
+        uma aula de 2 horas de estatística básica no valor de 10 moedas, o mesmo
+        cadastra essa aula na plataforma e quem se interessar efetuará a compra
+        no valor pré definido. A cada venda desta aula João irá ganhar 10
+        moedas, assim, poderá usá-las para comprar o curso que desejar.<br />
+        <span class="text-bold">Observação importante:</span> toda a troca de
+        conhecimento acontecerá de forma externa a plataforma, a mesma é somente
+        para divulgação e interação dos usuários.
       </p>
     </div>
     <div class="inicio-ranking">

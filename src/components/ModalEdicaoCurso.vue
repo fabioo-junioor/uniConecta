@@ -120,7 +120,7 @@ export default {
     },
     mensagemAlerta(id) {
       if(id == 1){
-        this.alerta.mensagem = "Curso Editado!"
+        this.alerta.mensagem = "Unidade Editada!"
         this.alerta.tipo = "success"
         this.alerta.isAlert = true
 
@@ -245,7 +245,7 @@ export default {
   <b-modal
     id="modalEdicaoCurso"
     size="lg"
-    title="Editar Curso">
+    title="Editar Unidade">
     <div id="editar-curso">
       <b-form id="formulario-editar-curso">
           <div class="form-floating">

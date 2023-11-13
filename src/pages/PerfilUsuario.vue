@@ -204,12 +204,12 @@ export default {
         this.alerta.isAlert = true
 
       }else if(id == 2){
-        this.alerta.mensagem = "Favoritou curso!"
+        this.alerta.mensagem = "Favoritou unidade!"
         this.alerta.tipo = "info"
         this.alerta.isAlert = true
 
       }else if(id == 3){
-        this.alerta.mensagem = "Desfavoritou curso!"
+        this.alerta.mensagem = "Desfavoritou unidade!"
         this.alerta.tipo = "info"
         this.alerta.isAlert = true
 
@@ -276,7 +276,7 @@ export default {
     </div>
     <div class="lado-cursos-pagina-perfil">
       <div class="meus-cursos-header">
-        <h4>Cursos de: {{nomeUsuario}}</h4>
+        <h4>Unidades de: {{nomeUsuario}}</h4>
       </div>
       <div class="meus-cursos-body">
         <hr />
