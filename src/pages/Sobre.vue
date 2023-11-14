@@ -81,7 +81,7 @@ export default {
         uma aula de 2 horas de estatística básica no valor de 10 moedas, o mesmo
         cadastra essa aula na plataforma e quem se interessar efetuará a compra
         no valor pré definido. A cada venda desta aula João irá ganhar 10
-        moedas, assim, poderá usá-las para comprar o curso que desejar.<br />
+        moedas, assim, poderá usá-las para comprar a unidade que desejar.<br />
         <span class="text-bold">Observação importante:</span> toda a troca de
         conhecimento acontecerá de forma externa a plataforma, a mesma é somente
         para divulgação e interação dos usuários.
