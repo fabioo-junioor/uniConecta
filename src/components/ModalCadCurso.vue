@@ -251,7 +251,11 @@ export default {
                 v-model="formCurso.grupoApoio"
                 :value="true"
                 :unchecked-value="false"      
-              ></b-form-checkbox>Grupo de Apoio (Monitoria; Pet; etc)?
+              ></b-form-checkbox>Grupo de Apoio
+              <i class='bx bx-info-circle'
+                id="tooltip-button-variant"></i>
+              <b-tooltip target="tooltip-button-variant"
+                variant="danger">Marcar se for algum grupo de apoio como: monitoria, pet, etc.</b-tooltip>
             </div>
           <div class="form-floating">
             <b-form-input
@@ -438,6 +442,9 @@ export default {
       box-shadow: none;
 
     }
+  }
+  i{
+    padding: 0 .2rem;
   }
 }
 #cadastro-curso .checks-valores{

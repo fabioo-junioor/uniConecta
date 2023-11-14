@@ -9,8 +9,10 @@ export default {
   data() {
     return {
       logado: false,
+      btnLogin: false,
       nomeUsuario: "",
       imagemPerfil: null,
+      url: null,
       alerta:{
         mensagem: '',
         tipo: '',
@@ -20,6 +22,27 @@ export default {
     };
   },
   methods: {
+    async testeConexao(){
+      const response = await fetch(this.url+'testeConexao.php?testeConexao=1', {
+        method: 'POST',
+        body: JSON.stringify({})
+      }).catch(
+        this.btnLogin = false
+      )
+      if(!response.ok){
+        console.log(response.ok)
+
+      }else{
+        const dados = await response.json()
+        if(dados[0].connection == true){
+          this.btnLogin = true
+          
+        }else{ 
+          this.btnLogin = false
+
+        }
+      }
+    },
     mensagemAlerta(id) {
       if(id == 1){
         this.alerta.mensagem = "Logando!"
@@ -88,8 +111,17 @@ export default {
     }
   },
   async mounted() {
-      await this.atualizaDadosPreview()
+    this.url = import.meta.env.VITE_ROOT_API
+    await this.atualizaDadosPreview()
+    var tempoResponse = setInterval(async () => {
+      if (!this.btnLogin) {
+        await this.testeConexao()
+        
+      } else {
+        clearInterval(tempoResponse);
 
+      }
+    }, 2000);
   }
 };
 </script>
@@ -121,7 +153,8 @@ export default {
           <div
             class="menu-user-nao-logado"
             v-if="!logado">
-            <b-nav-item>
+            <b-nav-item
+              :disabled="!btnLogin">
                 <a v-b-modal.modal-scrollable-user-lg>
                   <ModalCadUser
                     @mensagemAlerta="mensagemAlerta" />

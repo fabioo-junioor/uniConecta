@@ -95,12 +95,14 @@ export default {
       <div
         v-if="ativarDelete"
         class="deletar-curso">
-        <b-button v-b-tooltip.hover title="Deletar!"
+        <b-button
+          v-b-tooltip.hover title="Deletar!"
           v-if="visibilidadeCurso"
           @click="deletarCurso(pk_curso)" >
           <i class="bx bx-trash" />
         </b-button>
-        <b-button v-b-tooltip.hover title="Restaurar!"
+        <b-button
+          v-b-tooltip.hover title="Restaurar!"
           v-else
           @click="restaurarCurso(pk_curso)" >
           <i class='bx bx-reset'></i>
