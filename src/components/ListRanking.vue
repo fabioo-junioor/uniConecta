@@ -26,7 +26,7 @@ export default {
     <h3>{{ tituloRanking }}</h3>
     <b-spinner v-if="responseRanking" variant="light"></b-spinner>
     <div v-if="!tipoRanking">
-      <v-table>
+      <v-table height="15rem">
         <thead>
           <tr>
             <th class="text-left">Posição</th>
@@ -48,7 +48,7 @@ export default {
       </v-table>
     </div>
     <div v-else>
-      <v-table>
+      <v-table height="15rem">
         <thead>
           <tr>
             <th class="text-left">Posição</th>
