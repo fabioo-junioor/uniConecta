@@ -113,15 +113,17 @@ export default {
   async mounted() {
     this.url = import.meta.env.VITE_ROOT_API
     await this.atualizaDadosPreview()
-    var tempoResponse = setInterval(async () => {
-      if (!this.btnLogin) {
-        await this.testeConexao()
-        
-      } else {
-        clearInterval(tempoResponse);
-
-      }
-    }, 2000);
+    if(!this.logado){
+      var tempoResponse = setInterval(async () => {
+        if (!this.btnLogin) {
+          await this.testeConexao()
+          
+        } else {
+          clearInterval(tempoResponse);
+  
+        }
+      }, 1500);
+    }
   }
 };
 </script>
