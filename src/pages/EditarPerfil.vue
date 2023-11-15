@@ -30,10 +30,11 @@ export default {
         mostrarSenha: false,
         tipoSenha: "password",
         opcoes: [
-          { value: "Sistemas de informação", text: "Sistemas de informação" },
           { value: "Ciência da computação", text: "Ciência da computação" },
-          { value: "Sistemas para internet", text: "Sistemas para internet" },
-          { value: "Engenharia de computação", text: "Engenharia de computação" }
+          { value: "Engenharia de computação", text: "Engenharia de computação" },
+          { value: "Redes de computadores", text: "Redes de computadores" },
+          { value: "Sistemas de informação", text: "Sistemas de informação" },
+          { value: "Sistemas para internet", text: "Sistemas para internet" }
         ],
         senha: "",
       },
