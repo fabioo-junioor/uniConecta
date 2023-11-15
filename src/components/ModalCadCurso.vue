@@ -255,7 +255,7 @@ export default {
               <i class='bx bx-info-circle'
                 id="tooltip-button-variant"></i>
               <b-tooltip target="tooltip-button-variant"
-                variant="danger">Marcar se for algum grupo de apoio como: monitoria, pet, etc.</b-tooltip>
+                variant="danger">Marcar opção se for algum grupo de apoio como: monitoria, pet, etc.</b-tooltip>
             </div>
           <div class="form-floating">
             <b-form-input

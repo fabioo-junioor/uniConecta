@@ -296,6 +296,10 @@ export default {
               value="1"
               unchecked-value="0"      
             ></b-form-checkbox>Permitir contato via whatsapp
+            <i class='bx bx-info-circle'
+                id="tooltip-button-variant"></i>
+              <b-tooltip target="tooltip-button-variant"
+                variant="danger">Marcar opção se quiser o link para whatsapp visível a outros usuários.</b-tooltip>
           </div>
           <div>
             <b-form-select
@@ -483,6 +487,10 @@ export default {
             box-shadow: none;
 
           }
+        }
+        i{
+          padding: 0 .2rem;
+          
         }
       }
       .checkMostrarSenha{
