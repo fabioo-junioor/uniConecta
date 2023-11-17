@@ -277,7 +277,11 @@ export default {
                 v-model="formCurso.grupoApoio"
                 :value="true"
                 :unchecked-value="false"      
-              ></b-form-checkbox>Grupo de Apoio (Monitoria; Pet; etc)?
+              ></b-form-checkbox>Grupo de Apoio
+              <i class='bx bx-info-circle'
+                id="tooltip-button-variant"></i>
+              <b-tooltip target="tooltip-button-variant"
+                variant="danger">Marcar opção se for algum grupo de apoio como: monitoria, pet, etc.</b-tooltip>
             </div>
           <div class="form-floating">
             <b-form-input
@@ -299,6 +303,10 @@ export default {
             </b-form-radio-group>
           </div>
           <div class="valor-curso">
+            <i class='bx bx-info-circle'
+                id="tooltip-button-variant2"></i>
+              <b-tooltip target="tooltip-button-variant2"
+                variant="danger">Valor final da unidade: valor definido acima + total de horas</b-tooltip>
             <p>Valor: {{formCurso.valorFinal}}</p>
           </div>
           <div class="data-horario">
@@ -476,6 +484,7 @@ export default {
     .checkGrupoApoio{
       display: flex;
       flex-direction: row;
+      align-items: center;
       padding: 0 .2rem;
       color: white;
       font-weight: 500;
@@ -489,6 +498,10 @@ export default {
           box-shadow: none;
 
         }
+      }
+      i{
+        padding: 0 .2rem;
+
       }
     }
     .checks-valores div{
@@ -512,12 +525,19 @@ export default {
     .valor-curso{
       padding: 0;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      flex-direction: row;
+      align-items: center;
+      height: 2rem;
       
       p{
+        margin: 0;
         color: white;
-        padding: .5rem 0 0 .5rem;
+        
+      }
+      i{
+        padding: 0 .2rem;
+        color: white;
+
       }
     }
     .data-horario{

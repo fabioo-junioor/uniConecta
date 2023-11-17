@@ -277,6 +277,10 @@ export default {
             </b-form-radio-group>
           </div>
           <div class="valor-curso">
+            <i class='bx bx-info-circle'
+                id="tooltip-button-variant2"></i>
+              <b-tooltip target="tooltip-button-variant2"
+                variant="danger">Valor final da unidade: valor definido acima + total de horas</b-tooltip>
             <p>Valor: {{formCurso.valorFinal}}</p>
           </div>
           <div class="data-horario">
@@ -471,10 +475,20 @@ export default {
 }
 #cadastro-curso .valor-curso{
   display: flex !important;
-  flex-direction: row;
+  flex-direction: row !important;
+  align-items: center !important;
   color: white;
   font-size: 1rem;
+  height: 2rem;
 
+  p{
+    margin: 0 !important;
+
+  }
+  i{
+    padding: 0 .2rem;
+
+  }
 }
 #cadastro-curso form .data-horario{
   display: flex;
