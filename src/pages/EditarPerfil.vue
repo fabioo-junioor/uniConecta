@@ -32,6 +32,7 @@ export default {
         opcoes: [
           { value: "Ciência da computação", text: "Ciência da computação" },
           { value: "Engenharia de computação", text: "Engenharia de computação" },
+          { value: "Licenciatura em Computação", text: "Licenciatura em Computação" },
           { value: "Redes de computadores", text: "Redes de computadores" },
           { value: "Sistemas de informação", text: "Sistemas de informação" },
           { value: "Sistemas para internet", text: "Sistemas para internet" }
