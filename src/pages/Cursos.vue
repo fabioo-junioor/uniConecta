@@ -343,6 +343,7 @@ export default {
     width: 100%;
 
     .cards-pagina-cursos{
+      margin: 0 1rem;
       padding: .5rem 0;
       display: flex;
       justify-content: flex-start;
@@ -359,6 +360,10 @@ export default {
 @media only screen and (max-width: 990px) {
   #cursos {
     .titulo-pagina-cursos{
+      hr{
+        width: 60%;
+        
+      }
       .input-buscar-pagina-cursos{
         width: 60%;
 
@@ -375,8 +380,17 @@ export default {
 @media only screen and (max-width: 720px) {
   #cursos {
     .titulo-pagina-cursos{
+      h3{
+        font-size: 2rem;
+
+      }
+      hr{
+        width: 90%;
+
+      }
       .input-buscar-pagina-cursos{
-        width: 70%;
+        width: 90%;
+        margin: 0;
 
       }
     }
@@ -385,5 +399,13 @@ export default {
 @media only screen and (max-width: 481px) {
 }
 @media only screen and (max-width: 360px) {
+  #cursos {
+    .titulo-pagina-cursos{
+      h3{
+        font-size: 1.7rem;
+
+      }
+    }
+  }
 }
 </style>
