@@ -346,7 +346,7 @@ export default {
       margin: 0 1rem;
       padding: .5rem 0;
       display: flex;
-      justify-content: flex-start;
+      justify-content: center;
       flex-wrap: wrap;
   
     }

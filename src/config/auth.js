@@ -2,9 +2,7 @@ import bcryptjs from 'bcryptjs'
 
 async function encryptSenha(senha){
     try{
-        //console.log(senha)
         const hash = await bcryptjs.hash(senha, 10)
-        //console.log(hash)
         
         return hash
 
