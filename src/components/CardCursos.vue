@@ -17,6 +17,7 @@ export default {
     usuarioNome: String,
     compradorNome: String,
     cursoDescricao: String,
+    cursoValor: Number,
     totalFavoritos: Number,
     favoritou: Boolean,
     desativarBotao: Boolean,
@@ -125,7 +126,7 @@ export default {
           :to="{name: 'perfilUsuario', params:{ pk: fk_comprador } }">{{compradorNome}}
         </router-link>
       </b-card-text>
-      <b-card-text>Descrição: {{cursoDescricao}}</b-card-text>
+      <b-card-text>Valor: {{cursoValor}}</b-card-text>
       <div>
         <b-button
           @click="infoCurso(pk_curso)"

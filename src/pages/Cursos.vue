@@ -272,7 +272,7 @@ export default {
           :cursoNome="i.cursoNome"
           :tipoCurso="i.tipoCurso"
           :usuarioNome="i.usuarioNome"
-          :cursoDescricao="i.cursoDescricao"
+          :cursoValor="i.cursoValor"
           :totalFavoritos="i.totalFavoritos"
           :ativarFavorito="((i.fk_usuarioCurso != pk_usuario)&&(pk_usuario != null)) ? true : false"
           :favoritou="i.favoritou != pk_usuario ? true : false"
