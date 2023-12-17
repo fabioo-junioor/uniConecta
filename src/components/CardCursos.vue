@@ -126,7 +126,7 @@ export default {
           :to="{name: 'perfilUsuario', params:{ pk: fk_comprador } }">{{compradorNome}}
         </router-link>
       </b-card-text>
-      <b-card-text>Valor: {{cursoValor}}</b-card-text>
+      <b-card-text>Valor: {{cursoValor}} moedas</b-card-text>
       <div>
         <b-button
           @click="infoCurso(pk_curso)"
