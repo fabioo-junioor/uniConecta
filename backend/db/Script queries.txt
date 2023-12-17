@@ -1,0 +1,115 @@
+/*Preview usuario*/
+select nome, telefone, graduacao, total_moedas, total_pontos
+from usuario, moedas, pontos
+where usuario.pk_usuario = 1
+and usuario.pk_usuario = moedas.fk_usuario
+and usuario.pk_usuario = pontos.fk_usuario;
+
+/*Maiores pontuadores*/
+select nome, total_pontos
+from usuario, pontos
+where usuario.pk_usuario = pontos.fk_usuario
+order by total_pontos desc;
+
+/*Mais comprador*/
+select curso.nome as nome_curso, usuario.nome, count(curso.nome) as total_compras
+from curso, usuario, compravenda, avaliacao
+where usuario.pk_usuario = curso.fk_usuario
+and curso.pk_curso = compravenda.fk_curso
+and usuario.pk_usuario = compravenda.fk_vendedor
+and compravenda.pk_compra_venda = avaliacao.fk_compra_venda
+and ((avaliacao.stars_vendedor > 0) and (avaliacao.stars_comprador > 0))
+group by nome_curso;
+
+/*Cursos vendidos e não avaliados*/
+select curso.fk_usuario, compravenda.pk_compra_venda, compravenda.fk_comprador, curso.pk_curso, curso.nome, curso.tipo_curso, curso.descricao, usuario.nome
+from curso, usuario, compravenda, avaliacao
+where curso.fk_usuario = usuario.pk_usuario
+and curso.pk_curso = compravenda.fk_curso
+and compravenda.fk_vendedor = 1
+and compravenda.pk_compra_venda = avaliacao.fk_compra_venda
+and avaliacao.stars_vendedor is null;
+
+/*Cursos comprados e não avaliados*/
+select curso.fk_usuario, compravenda.pk_compra_venda, curso.pk_curso, curso.nome, curso.tipo_curso, curso.descricao, usuario.nome
+from curso, usuario, compravenda, avaliacao
+where curso.fk_usuario = usuario.pk_usuario
+and curso.pk_curso = compravenda.fk_curso
+and compravenda.fk_comprador = 3
+and compravenda.pk_compra_venda = avaliacao.fk_compra_venda
+and avaliacao.stars_comprador is null;
+
+/*Cursos avaliados*/
+select curso.fk_usuario, curso.pk_curso, compravenda.pk_compra_venda, compravenda.fk_comprador, curso.nome, curso.tipo_curso, curso.descricao, usuario.nome
+from curso, usuario, compravenda, avaliacao
+where curso.fk_usuario = usuario.pk_usuario
+and curso.pk_curso = compravenda.fk_curso
+and compravenda.pk_compra_venda = avaliacao.fk_compra_venda
+and(((compravenda.fk_comprador = 1) and (avaliacao.stars_comprador is not null))or(compravenda.fk_vendedor = 1) and (avaliacao.stars_vendedor is not null));
+
+/*Meus cursos*/
+select curso.pk_curso, curso.nome, curso.descricao, usuario.nome, curso.total_horas, curso.valor_curso, (select count(*) from favorito where fk_curso = curso.pk_curso) as totalFavoritos
+from curso, usuario
+where curso.fk_usuario = usuario.pk_usuario
+and usuario.pk_usuario = 1
+group by curso.pk_curso;
+
+/*Deletar cursos ainda não avaliados*/
+select avaliacao.pk_avaliacao
+from curso, usuario, compravenda, avaliacao
+where curso.fk_usuario = usuario.pk_usuario
+and curso.pk_curso = 2
+and curso.pk_curso = compravenda.fk_curso
+and compravenda.fk_vendedor = 1
+and compravenda.pk_compra_venda = avaliacao.fk_compra_venda
+and ((avaliacao.stars_comprador is null) or (avaliacao.stars_vendedor is null));
+
+/*Inclui moedas no primeiro cadastro*/
+select pk_usuario
+from usuario
+where usuario.email = 'f';
+
+/*Total de moedas de usuario*/
+select total_moedas
+from moedas 
+where fk_usuario = (
+	select pk_usuario
+    from usuario 
+    where email = 'cleber@bol'
+);
+
+/*Insere na tabela avaliacao ultimo ID da tabela compravenda*/
+insert into avaliacao (fk_compra_venda)
+values ((select max(pk_compra_venda) from compravenda));
+
+/*Busca email usuario vendedor*/
+select email
+from compravenda, usuario
+where compravenda.pk_compra_venda = 10
+and compravenda.fk_vendedor = usuario.pk_usuario;
+
+/*Busca avaliacao usuario comprador*/
+select pk_usuario, sum(avaliacao.stars_comprador), count(avaliacao.pk_avaliacao)
+from usuario, compravenda, avaliacao
+where usuario.pk_usuario = compravenda.fk_comprador
+and compravenda.pk_compra_venda = avaliacao.fk_compra_venda
+and avaliacao.stars_comprador is not null
+and usuario.pk_usuario = 2;
+
+/*Busca avaliacao usuario vendedor*/
+select usuario.pk_usuario, sum(avaliacao.stars_vendedor), count(avaliacao.stars_vendedor)
+from usuario, compravenda, avaliacao
+where usuario.pk_usuario = compravenda.fk_vendedor
+and compravenda.pk_compra_venda = avaliacao.fk_compra_venda
+and avaliacao.stars_vendedor is not null
+and usuario.pk_usuario = 2;
+
+/*
+truncate table avaliacao;
+truncate table compravenda;
+truncate table curso;
+truncate table favorito;
+truncate table moedas;
+truncate table pontos;
+truncate table usuario;
+*/

@@ -1,0 +1,80 @@
+create table usuario(
+	pk_usuario int auto_increment,
+	nome varchar(255),
+	email varchar(255),
+	telefone varchar(255),
+	graduacao varchar(255),
+	img longtext,
+	senha varchar(255),
+	permissao_telefone tinyint,
+primary key(pk_usuario));
+
+create table curso(
+	pk_curso int auto_increment,
+	nome varchar(255),
+	total_horas float,
+	valor_curso int,
+	descricao varchar(255),
+	tipo_curso varchar(255),
+	fk_usuario int,
+primary key(pk_curso));
+
+create table favorito(
+	pk_favorito int auto_increment,
+	fk_curso int,
+	fk_usuario int,
+primary key(pk_favorito));
+
+create table moedas(
+	pk_moedas int auto_increment,
+	total_moedas int,
+	fk_usuario int,
+primary key(pk_moedas));
+
+create table pontos(
+	pk_pontos int auto_increment,
+	total_pontos int,
+	fk_usuario int,
+primary key(pk_pontos));
+
+create table compraVenda(
+	pk_compra_venda int auto_increment,
+	data_hora datetime,
+	fk_comprador int,
+	fk_vendedor int,
+	fk_curso int,
+primary key(pk_compra_venda));
+
+create table avaliacao(
+	pk_avaliacao int auto_increment,
+	stars_comprador int,
+	stars_vendedor int,
+	pk_compra_venda int,
+primary key(pk_avaliacao));
+
+alter table curso add constraint fk_usuario
+foreign key (fk_usuario) references usuario (pk_usuario);
+
+alter table favorito add constraint fk_curso
+foreign key (fk_curso) references curso (pk_curso);
+
+alter table favorito add constraint fk_usuario
+foreign key (fk_usuario) references usuario (pk_usuario);
+
+alter table moedas add constraint fk_usuario
+foreign key (fk_usuario) references usuario (pk_usuario);
+
+alter table pontos add constraint fk_usuario
+foreign key (fk_usuario) references usuario (pk_usuario);
+
+alter table compravenda add constraint fk_comprador
+foreign key (fk_comprador) references usuario (pk_usuario);
+
+alter table compravenda add constraint fk_vendedor
+foreign key (fk_vendedor) references usuario (pk_usuario);
+
+alter table compravenda add constraint fk_curso
+foreign key (fk_curso) references curso (pk_curso);
+
+alter table avaliacao add constraint fk_compra_venda
+foreign key (fk_compra_venda) references compravenda (pk_compra_venda);

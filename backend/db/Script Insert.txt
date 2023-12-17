@@ -1,0 +1,31 @@
+insert into usuario (nome, email, telefone, graduacao, senha)
+values ("fabio", "fabio@bol", "9879845", "sistemas", "65"),
+("jose", "jose@bol", "98547945", "medicina", "65asd"),
+("carlos", "carlos@bol", "98666845", "redes", "645a5"),
+("eduardo", "dudu@bol", "9879945", "sistemas", "657asdc");
+
+insert into curso (nome, total_horas, valor_curso, descricao, fk_usuario)
+values ("html", 5, 7, "top", 2),
+("java", 1, 5, "top", 2),
+("css", 2, 5, "iniciante", 4),
+("php", 10, 10, "avancado", 3);
+
+insert into moedas (total_moedas, fk_usuario)
+values (70, 2),
+(40, 1),
+(100, 3);
+
+insert into pontos (total_pontos, fk_usuario)
+values (700, 2),
+(400, 1),
+(120, 3);
+
+insert into compravenda (data_hora, valor_compra, fk_comprador, fk_vendedor, fk_curso)
+values (now(), 5, 1, 2, 1),
+(now(), 10, 2, 3, 4),
+(now(), 6, 4, 2, 1);
+
+insert into avaliacao (stars_comprador, stars_vendedor, fk_compra_venda)
+values (2, 5, 1),
+(5, 5, 2),
+(1, 3, 3);
